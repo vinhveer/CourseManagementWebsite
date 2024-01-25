@@ -30,16 +30,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="loadContent('student')">Học sinh</a>
+                        <a class="nav-link" href="#" onclick="loadContent('student'); hideNavbar()">Học sinh</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="loadContent('teacher')">Giáo viên</a>
+                        <a class="nav-link" href="#" onclick="loadContent('teacher'); hideNavbar()">Giáo viên</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="loadContent('admin')">Quản trị hệ thống</a>
+                        <a class="nav-link" href="#" onclick="loadContent('admin'); hideNavbar()">Quản trị hệ thống</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="loadContent('all')">Toàn bộ</a>
+                        <a class="nav-link" href="#" onclick="loadContent('all'); hideNavbar()">Toàn bộ</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -93,6 +93,13 @@
             link.href = `${page}.css`;
             head.appendChild(link);
         }
+
+        function hideNavbar() {
+      const navbar = document.querySelector('.navbar-collapse');
+      if (navbar.classList.contains('show')) {
+        navbar.classList.remove('show');
+      }
+  }
     </script>
 
 </body>
