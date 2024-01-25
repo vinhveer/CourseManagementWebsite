@@ -30,16 +30,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('home')">Trang chủ</a>
+            <a class="nav-link" href="#" onclick="loadContent('home'); hideNavbar()">Trang chủ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('courses')">Khóa học của tôi</a>
+            <a class="nav-link" href="#" onclick="loadContent('courses'); hideNavbar()">Khóa học của tôi</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('schedule')">Thời khóa biểu</a>
+            <a class="nav-link" href="#" onclick="loadContent('schedule'); hideNavbar()">Thời khóa biểu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('otherCourses')">Đăng ký khóa học</a>
+            <a class="nav-link" href="#" onclick="loadContent('otherCourses'); hideNavbar()">Đăng ký khóa học</a>
           </li>
         </ul>
       </div>
@@ -80,6 +80,13 @@
     link.href = `${page}.css`;
     head.appendChild(link);
   }
+
+  function hideNavbar() {
+      const navbar = document.querySelector('.navbar-collapse');
+      if (navbar.classList.contains('show')) {
+        navbar.classList.remove('show');
+      }
+    }
 </script>
 
 </body>
