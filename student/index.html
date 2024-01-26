@@ -45,7 +45,7 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <span>Nguyễn Quang Vinh</span>
-              <img src="/student/course1.jpg" alt="Avatar" class="rounded-circle" width="30" height="30">
+              <img src="/assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30" height="30">
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
@@ -66,25 +66,20 @@
   <!-- Bootstrap JavaScript dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Trong đoạn mã JavaScript của bạn -->
+  <!-- JavaScript for Content Loading -->
   <script>
-    // Load content for 'home' when the page is loaded
     document.addEventListener('DOMContentLoaded', function () {
       loadContent('home');
     });
 
     function loadContent(page) {
-      // Fetch and load content based on the clicked page
       fetch(`${page}.html`)
         .then(response => response.text())
         .then(html => {
           document.getElementById('content').innerHTML = html;
-
-          // Cập nhật tiêu đề trang
-          document.getElementById('pageTitle').innerText = page; // Sử dụng 'page' hoặc nội dung phù hợp
+          document.getElementById('pageTitle').innerText = page;
         });
 
-      // Load specific CSS for the clicked page
       const head = document.head;
       const link = document.createElement('link');
       link.type = 'text/css';
