@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown in HTML</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+<div id="markdown-container"></div>
+
+<script>
+  // Sử dụng XMLHttpRequest để đọc nội dung từ file Markdown
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'readme.md', true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      // Chuyển đổi nội dung từ Markdown sang HTML và hiển thị trong phần tử có id là "markdown-container"
+      document.getElementById('markdown-container').innerHTML = marked(xhr.responseText);
+    }
+  };
+  xhr.send();
+</script>
+
+</body>
+</html>
