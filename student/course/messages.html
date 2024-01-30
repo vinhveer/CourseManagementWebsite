@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="card mt-5">
+    <div class="card mt-3">
         <div class="card-header">
             <div class="row">
                 <div class="col-6">
@@ -22,11 +22,13 @@
         </div>
         <div class="card-body" style="height: 70vh; overflow-y: auto;">
             <!-- Hiển thị tin nhắn ở đây -->
-            <div class="incoming-message">
-                <strong>Người gửi:</strong> Nội dung tin nhắn...
+            <div class="incoming-message flex ">
+                <span class="rounded-5 bg-info pr-2 pl-2"><strong>Người gửi:</strong> Nội dung tin nhắn...</span>
+                <div></div>
             </div>
-            <div class="outgoing-message text-right">
-                <strong>Bạn:</strong> Nội dung tin nhắn...
+            <div class="outgoing-message text-right flex ">
+                <span class="rounded-5 bg-info pr-2 pl-2"><strong>Bạn:</strong> Nội dung tin nhắn...</span>
+                <div></div>
             </div>
             <!-- Thêm các tin nhắn khác tương tự ở đây -->
         </div>
@@ -36,7 +38,7 @@
                     <button class="btn btn-outline-secondary" type="button"><i class="fas fa-image"></i></button>
                     <button class="btn btn-outline-secondary" type="button"><i class="fas fa-paperclip"></i></button>
                 </div>
-                <textarea class="form-control" placeholder="Nhập tin nhắn..." rows="2"></textarea>
+                <textarea class="form-control" placeholder="Nhập tin nhắn..." rows="1"></textarea>
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button">Gửi</button>
                 </div>
