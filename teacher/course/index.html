@@ -32,22 +32,22 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('post')">Bài đăng</a>
+            <a class="nav-link" href="#" onclick="loadContent('post'); hideNavbar()">Bài đăng</a>
           </li>
           <li>
-            <a href="#" class="nav-link" onclick="loadContent('content')">Học liệu</a>
+            <a href="#" class="nav-link" onclick="loadContent('content'); hideNavbar()">Học liệu</a>
           </li>
           <li>
-            <a href="#" class="nav-link" onclick="loadContent('exam')">Bài tập và kiểm tra</a>
+            <a href="#" class="nav-link" onclick="loadContent('exam'); hideNavbar()">Bài tập và kiểm tra</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('messages')">Nhắn tin</a>
+            <a class="nav-link" href="#" onclick="loadContent('messages'); hideNavbar()">Nhắn tin</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('grade')">Điểm số</a>
+            <a class="nav-link" href="#" onclick="loadContent('grade'); hideNavbar()">Điểm số</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('member')">Thành viên</a>
+            <a class="nav-link" href="#" onclick="loadContent('member'); hideNavbar()">Thành viên</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -115,6 +115,14 @@
       link.rel = 'stylesheet';
       link.href = `${page}.css`;
       head.appendChild(link);
+    }
+
+    function hideNavbar() {
+      // Ẩn navbar khi click vào một li trong navbar
+      const navbar = document.querySelector('.navbar-collapse');
+      if (navbar.classList.contains('show')) {
+        navbar.classList.remove('show');
+      }
     }
   </script>
 
