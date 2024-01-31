@@ -83,6 +83,11 @@
         .then(response => response.text())
         .then(html => {
           document.getElementById('content').innerHTML = html;
+
+          const newTitle = new DOMParser().parseFromString(html, 'text/html').title;
+          document.title = newTitle;
+          document.getElementById('pageTitle').innerText = newTitle;
+          window.history.pushState({page: page}, "", `/${page}`);
         });
 
       // Load specific CSS for the clicked page

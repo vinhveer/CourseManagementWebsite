@@ -13,7 +13,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-6">
-                    <h5 class="mb-0">Tên khóa học</h5>
+                    <h3>Tên khóa học</h3>
                 </div>
                 <div class="col-6 text-right">
                     <button type="button" class="btn btn-primary">Vào cuộc họp online</button>
@@ -22,12 +22,13 @@
         </div>
         <div class="card-body" style="height: 70vh; overflow-y: auto;">
             <!-- Hiển thị tin nhắn ở đây -->
-            <div class="incoming-message flex ">
-                <span class="rounded-5 bg-info pr-2 pl-2"><strong>Người gửi:</strong> Nội dung tin nhắn...</span>
+            <div class="incoming-message d-flex align-items-center">
+                <img class="rounded-circle mr-2" width="35" src="../../assets/images/course1.jpg" alt="avatar">
+                <span class="rounded-5 p-2" style="background-color: #f0f0f0;">Nội dung tin nhắn...</span>
                 <div></div>
             </div>
             <div class="outgoing-message text-right flex ">
-                <span class="rounded-5 bg-info pr-2 pl-2"><strong>Bạn:</strong> Nội dung tin nhắn...</span>
+                <span class="rounded-5 p-2" style="background-color: #f0f0f0;">Nội dung tin nhắn...</span>
                 <div></div>
             </div>
             <!-- Thêm các tin nhắn khác tương tự ở đây -->
@@ -35,12 +36,12 @@
         <div class="card-footer">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-image"></i></button>
-                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-paperclip"></i></button>
+                    <button class="btn btn-outline-secondary rounded-circle border-0" type="button"><i class="fas fa-image"></i></button>
+                    <button class="btn btn-outline-secondary rounded-circle border-0 mr-2" type="button"><i class="fas fa-paperclip"></i></button>
                 </div>
-                <textarea class="form-control" placeholder="Nhập tin nhắn..." rows="1"></textarea>
+                <textarea class="form-control rounded-pill" style="resize: none;" placeholder="Nhập tin nhắn..." rows="1"></textarea>
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button">Gửi</button>
+                    <button class="btn btn-primary rounded-pill ml-2 d-flex align-items-center" type="button">Gửi</button>
                 </div>
             </div>
         </div>
