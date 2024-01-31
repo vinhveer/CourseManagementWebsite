@@ -17,12 +17,10 @@
 
         <div class="row mt-3">
             <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm...">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" type="button">Tìm kiếm</button>
-                    </div>
-                </div>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm">
+                    <button class="btn btn-outline-primary" type="submit">Tìm</button>
+                </form>
             </div>
             <div class="col-md-6 text-right">
                 <button class="btn btn-primary" type="button" onclick="loadContent('tc_create_acc')">Tạo Tài Khoản Mới</button>
