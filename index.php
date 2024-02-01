@@ -58,7 +58,7 @@
 
     function loadContent(page) {
       // Fetch and load content based on the clicked page
-      fetch(`${page}.html`)
+      fetch(`${page}.php`)
         .then(response => response.text())
         .then(html => {
           document.getElementById('content').innerHTML = html;

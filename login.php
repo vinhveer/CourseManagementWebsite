@@ -60,7 +60,7 @@ if (isset($_POST['submit']))
       {
         setcookie($cookie_name, 'usr='.$f_user.'&hash='. $f_pass, time() + $cookie_time);
       }
-      header('location:index.php'); //chuyền qua trang đăng nhập thành công
+      header('location:success.php'); //chuyền qua trang đăng nhập thành công
       exit;
     }
     else{
