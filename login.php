@@ -4,13 +4,15 @@ include_once ('config/connect.php');
 //kiem tra cookie xem da tôn tai chua
 //neu chua thi minh ha dang nhap;
 try{
-if (empty($_SESSION['username']))
+if (empty($_SESSION['mySession']))
 {
   if (isset($cookie_name))
   {
-    if (isset($_COOKIE[$cookie_name]))
+    if (empty($_COOKIE[$cookie_name]))
     {
-      parse_str($_COOKIE[$cookie_name],"");
+      parse_str($_COOKIE[$cookie_name],$res);
+      $usr = $res['usr'];
+      $hash = $res['hash'];
       $sql2 = "SELECT * from user_account where username='$usr' and password='$hash'";
       $result2 = mysqli_query( $dbconect,$sql2);
       if ($result2)
@@ -26,11 +28,7 @@ else
   header('location:index.php'); //chuyển qua trang đăng nhập thành công
   exit;
 }
-}catch(Exception $exp){
-  echo $exp->getMessage() . '<br>';
-  echo 'File: ' . $exp->getFile() . '<br>';
-  echo 'Line: ' . $exp->getLine() . '<br>';
-}
+
 if (isset($_POST['submit']))
 {
   $username = $_POST['username'];
@@ -38,7 +36,7 @@ if (isset($_POST['submit']))
   $a_check = ((isset($_POST['remember']) != 0) ? 1 : "");
   if ($username == "" || $password == "")
   {
-    echo "vui long dien day du thong tin";
+    echo "vui lòng điền đầy đủ thông tin";
     exit;
   }
   else
@@ -59,12 +57,21 @@ if (isset($_POST['submit']))
       $_SESSION['password'] = $f_pass;
       if ($a_check == 1)
       {
-        setcookie($cookie_name, '$usr=' . $f_user . '&hash=' . $f_pass, time() + $cookie_time);
+        setcookie($cookie_name, 'usr='.$f_user.'&hash='. $f_pass, time() + $cookie_time);
       }
       header('location:index.php'); //chuyền qua trang đăng nhập thành công
       exit;
     }
+    else{
+       echo "Tên tài khoản hoặc mật khẩu không chính xác";
+       header('location:login.php');
+    }
   }
+}
+}catch(Exception $exp){
+  echo $exp->getMessage() . '<br>';
+  echo 'File: ' . $exp->getFile() . '<br>';
+  echo 'Line: ' . $exp->getLine() . '<br>';
 }
 ?>
 <!DOCTYPE html>
