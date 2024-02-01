@@ -8,18 +8,19 @@ if (empty($_SESSION['mySession']))
 {
   if (isset($cookie_name))
   {
-    if (empty($_COOKIE[$cookie_name]))
+    if (isset($_COOKIE[$cookie_name])==1)
     {
-      parse_str($_COOKIE[$cookie_name],$res);
-      $usr = $res['usr'];
-      $hash = $res['hash'];
-      $sql2 = "SELECT * from user_account where username='$usr' and password='$hash'";
-      $result2 = mysqli_query( $dbconect,$sql2);
+      $a=$_COOKIE[$cookie_name];
+      parse_str($a,$res);
+       $usr = $res['usr'];
+       $hash = $res['hash'];
+      /*$sql2 = "SELECT * from user_account where username='$usr' and password='$hash'";
+      $result2 = mysqli_query($dbconect,$sql2);
       if ($result2)
-      {
+      {*/
         header('location:index.php');
         exit;
-      }
+      // }
     }
   }
 }
