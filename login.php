@@ -11,7 +11,7 @@ if (empty($_SESSION['username']))
     if (isset($_COOKIE[$cookie_name]))
     {
       parse_str($_COOKIE[$cookie_name],"");
-      $sql2 = "SELECT * from user where username='$usr' and password='$hash'";
+      $sql2 = "SELECT * from user_account where username='$usr' and password='$hash'";
       $result2 = mysqli_query( $dbconect,$sql2);
       if ($result2)
       {
