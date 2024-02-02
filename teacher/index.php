@@ -1,6 +1,7 @@
 <?php
-session_start();
 include_once('../config/connect.php');
+
+session_start();
 
 // Check if the user is logged in using the session variable
 if (isset($_SESSION['username'])) {

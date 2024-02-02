@@ -1,6 +1,8 @@
 <?php
 include_once('config/connect.php');
 
+session_start();
+
 try {
     if (empty($_SESSION['mySession'])) {
         if (isset($cookie_name)) {
