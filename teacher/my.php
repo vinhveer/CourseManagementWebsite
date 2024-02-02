@@ -1,40 +1,69 @@
+<?php
+include_once('../config/connect.php');
+
+session_start();
+
+if (isset($_SESSION['username'])) 
+{
+    $username = $_SESSION['username'];
+
+    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
+    $result = mysqli_query($dbconnect, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $user_id = $row['user_id'];
+
+    $sql = "SELECT * FROM user WHERE user_id = $user_id";
+    $result = mysqli_query($dbconnect, $sql);
+} 
+else 
+{
+    $username_now = "User not logged in";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
-    <!-- Bootstrap CSS -->
+    <title>Trang cá nhân</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Add your custom styles here */
         .profile-image {
             border-radius: 50%;
-            width: 100px;
-            /* Adjust the size as needed */
-            height: 100px;
-            /* Adjust the size as needed */
+            width: 150px;
+            height: 150px;
+        }
+        .info-divider {
+            border: 0;
+            height: 1px;
+            background-color: #ccc; /* Màu của đường kẻ */
+            margin: 10px 0; /* Khoảng cách trên và dưới đường kẻ */
         }
     </style>
 </head>
 
 <body>
+    <?php
+        // Đặt con trỏ kết quả về đầu để có thể duyệt lại từ đầu
+        mysqli_data_seek($result, 0);
 
-    <!-- Header Section -->
+        $row = mysqli_fetch_assoc($result)
+    ?>
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <!-- Profile Image -->
                 <img src="/assets/images/course1.jpg" alt="Profile Image" class="profile-image">
             </div>
             <div class="col-md-10">
-                <!-- Heading 2 - Họ và tên -->
-                <h2>Họ và tên của bạn</h2>
-                <!-- Paragraph - Giới thiệu bản thân -->
-                <p>Giới thiệu bản thân của bạn</p>
+                <h2><?php echo $row['full_name'];?></h2>
+                <h5>Giáo viên</h5> <br>
+                <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
             </div>
+            
         </div>
+
     </header>
 
     <!-- Body Section -->
@@ -45,7 +74,27 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>Thông tin cá nhân</h4>
-                        <!-- Bạn tự nghĩ và thêm nội dung của bạn ở đây -->
+                        <hr class="info-divider">
+                        <p>
+                            <b>Ngày sinh</b>
+                            <br> <?php echo date('d/m/Y', strtotime($row['date_of_birth'])); ?>
+                        </p>
+                        <p>
+                            <b>Giới tính</b>
+                            <br> <?php echo ($row['gender'] == "M" ? "Nam":"Nữ");?>
+                        </p>
+                        <p>
+                            <b>Email</b>
+                            <br> <?php echo $row['email'];?>
+                        </p>
+                        <p>
+                            <b>Số điện thoại</b>
+                            <br> <?php echo $row['phone'];?>
+                        </p>
+                        <p>
+                            <b>Mã số CCCD/CMND</b>
+                            <br> <?php echo $row['citizen_id'];?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -55,13 +104,23 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>Các khóa học đang tham gia</h4>
-                        <!-- Bạn tự nghĩ và thêm nội dung của bạn ở đây -->
+                        <hr class="info-divider">
+                        <?php
+                        $sql = "SELECT * FROM course WHERE teacher_id = $user_id";
+                        $result = mysqli_query($dbconnect, $sql);
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo $row['course_code'] . " - " . $row['course_name'];
+                            echo "<br>";
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <?php
+    ?>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>

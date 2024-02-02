@@ -1,3 +1,26 @@
+<?php
+include_once('../config/connect.php');
+
+session_start();
+
+if (isset($_SESSION['username'])) 
+{
+    $username = $_SESSION['username'];
+
+    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
+    $result = mysqli_query($dbconnect, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $user_id = $row['user_id'];
+
+    $sql = "SELECT * FROM course WHERE teacher_id = $user_id";
+    $result = mysqli_query($dbconnect, $sql);
+} 
+else 
+{
+    $username_now = "User not logged in";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,28 +66,38 @@
         </div>
       </div>
   </header>
+
   <div class="container mt-5">
     <!-- Course Cards -->
     <div class="row">
-      <!-- Your course cards go here -->
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <div class="custom-card">
-            <img src="/assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Tên khóa học 1</h5>
-            <p class="card-text">Tên giảng viên: Giảng viên 1</p>
-            <a class="btn btn-primary" href="course/index.html">Xem</a>
-          </div>
-        </div>
-      </div>
+        <?php
+        // Đặt con trỏ kết quả về đầu để có thể duyệt lại từ đầu
+        mysqli_data_seek($result, 0);
 
-      <!-- Add more course cards as needed -->
-
+        while ($row = mysqli_fetch_array($result)) {
+        ?>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="custom-card">
+                        <img src="/assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $row['course_name'];?></h5>
+                        <p class="card-text">
+                          Mã khóa học: <?php echo $row['course_code'];?> <br>
+                          Trạng thái: <?php echo ($row['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt";?>
+                        </p>
+                        
+                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Truy cập</a>
+                    </div>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
     </div>
   </div>
-
+  
   <!-- Bootstrap JavaScript dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

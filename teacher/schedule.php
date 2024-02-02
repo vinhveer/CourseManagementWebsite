@@ -1,3 +1,29 @@
+<?php
+include_once('../config/connect.php');
+
+session_start();
+
+if (isset($_SESSION['username'])) 
+{
+    $username = $_SESSION['username'];
+
+    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
+    $result = mysqli_query($dbconnect, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $user_id = $row['user_id'];
+
+    $sql = "SELECT course.course_code, course.course_name, course_schedule.* 
+    FROM course_schedule
+    INNER JOIN course ON course_schedule.course_id = course.course_id
+    WHERE teacher_id = $user_id";
+    $result = mysqli_query($dbconnect, $sql);
+} 
+else 
+{
+    $username_now = "User not logged in";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,21 +38,27 @@
         <table class="table table-bordered mt-5">
             <thead>
                 <tr>
-                    <th scope="col">Mã khóa học</th>
+                    <th scope="col">Mã</th>
+                    <th scope="col">Tên khóa học</th>
                     <th scope="col">Thứ</th>
-                    <th scope="col">Thời gian học</th>
-                    <th scope="col">Thời lượng tiết học</th>
+                    <th scope="col">Thời gian</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Your table rows go here -->
+            <?php
+            mysqli_data_seek($result, 0);
+
+            while ($row = mysqli_fetch_array($result)) {
+            ?>
                 <tr>
-                    <td>KH001</td>
-                    <td>Thứ 2</td>
-                    <td>8:00 - 10:00</td>
-                    <td>2 tiết</td>
+                    <td><?php echo $row['course_code']; ?></td>
+                    <td><?php echo $row['course_name']; ?></td>
+                    <td>Thứ <?php echo $row['day_of_week']; ?></td>
+                    <td><?php echo $row['start_time']; ?> - <?php echo $row['end_time']; ?></td>
                 </tr>
-                <!-- Add more rows as needed -->
+            <?php
+            }
+            ?>
             </tbody>
         </table>
     </div>

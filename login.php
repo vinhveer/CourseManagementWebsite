@@ -133,7 +133,7 @@ try {
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="login.php" class="nav-link">Đăng nhập</a>
+                            <a href="index.php" class="nav-link">Trang chủ</a>
                         </li>
                     </ul>
                 </div>
