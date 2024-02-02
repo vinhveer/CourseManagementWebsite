@@ -31,10 +31,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('login')">Đăng nhập</a>
+            <a class="nav-link" href="#" onclick="loadContent('home')">Trang chủ</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" onclick="loadContent('demo')">Truy cập phiên demo</a>
+            <a href="login.php" class="nav-link">Đăng nhập</a>
           </li>
         </ul>
       </div>
