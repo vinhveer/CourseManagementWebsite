@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Thời khóa biểu</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Thời khóa biểu</h2>
+        <table class="table table-bordered mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">Mã khóa học</th>
+                    <th scope="col">Thứ</th>
+                    <th scope="col">Thời gian học</th>
+                    <th scope="col">Thời lượng tiết học</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Your table rows go here -->
+                <tr>
+                    <td>KH001</td>
+                    <td>Thứ 2</td>
+                    <td>8:00 - 10:00</td>
+                    <td>2 tiết</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
