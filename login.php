@@ -1,80 +1,94 @@
 <?php
 session_start();
 include_once ('config/connect.php');
-//kiem tra cookie xem da tôn tai chua
-//neu chua thi minh ha dang nhap;
-try{
-if (empty($_SESSION['mySession']))
-{
-  if (isset($cookie_name))
-  {
-    if (isset($_COOKIE[$cookie_name])==1)
-    {
-      $a=$_COOKIE[$cookie_name];
-      parse_str($a,$res);
-       $usr = $res['usr'];
-       $hash = $res['hash'];
-      /*$sql2 = "SELECT * from user_account where username='$usr' and password='$hash'";
-      $result2 = mysqli_query($dbconect,$sql2);
-      if ($result2)
-      {*/
+
+try {
+    if (empty($_SESSION['mySession'])) {
+        if (isset($cookie_name)) {
+            if (isset($_COOKIE[$cookie_name]) == 1) {
+                $a = $_COOKIE[$cookie_name];
+                parse_str($a, $res);
+                $usr = $res['usr'];
+                $hash = $res['hash'];
+
+                header('location:index.php');
+                exit;
+            }
+        }
+    } else {
         header('location:index.php');
         exit;
-      // }
     }
-  }
-}
-else
-{
-  header('location:index.php'); //chuyển qua trang đăng nhập thành công
-  exit;
-}
 
-if (isset($_POST['submit']))
-{
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  $a_check = ((isset($_POST['remember']) != 0) ? 1 : "");
-  if ($username == "" || $password == "")
-  {
-    echo "vui lòng điền đầy đủ thông tin";
-    exit;
-  }
-  else
-  {
-    $sql = "SELECT * from user_account where username='$username' and password='$password'";
-    $result = mysqli_query($dbconnect,$sql);
-    if (!$result)
-    {
-      echo "loi cau truy van" . mysqli_error($dbconnect);
-      exit;
+    if (isset($_POST['submit'])) {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $a_check = ((isset($_POST['remember']) != 0) ? 1 : "");
+
+        if ($username == "" || $password == "") {
+            echo "Vui lòng điền đầy đủ thông tin";
+            exit;
+        } else {
+            $sql = "SELECT * FROM user_account WHERE username='$username' AND password='$password'";
+            $result = mysqli_query($dbconnect, $sql);
+
+            if (!$result) {
+                echo "Lỗi câu truy vấn" . mysqli_error($dbconnect);
+                exit;
+            }
+
+            $row = mysqli_fetch_array($result);
+            $f_user = $row['username'];
+            $f_pass = $row['password'];
+
+            if ($f_user == $username && $f_pass == $password) {
+                $_SESSION['username'] = $f_user;
+                $_SESSION['password'] = $f_pass;
+
+                if ($a_check == 1) {
+                    setcookie($cookie_name, 'usr=' . $f_user . '&hash=' . $f_pass, time() + $cookie_time);
+                }
+                
+                $sql_role = "SELECT r.role_name FROM user_account ua
+                INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                INNER JOIN role r ON ur.role_id = r.role_id 
+                WHERE ua.username = '$username'";
+
+                $result = mysqli_query($dbconnect, $sql_role);
+
+                if (!$result) {
+                    echo "Lỗi câu truy vấn: " . mysqli_error($dbconnect);
+                    exit;
+                }
+
+                $row = mysqli_fetch_assoc($result);
+
+                if ($row) {
+                    if ($row['role_name'] == "student")
+                      header('location:student/index.php');
+                    else if ($row['role_name'] == "teacher")
+                      header('location:teacher/index.php');
+                    else
+                      header('location:admin/index.php');
+                } else {
+                    echo "Không tìm thấy thông tin vai trò cho người dùng.";
+                }
+                
+                
+                // header('location:success.php');
+                exit;
+            } else {
+                $login_error_message = "Tên tài khoản hoặc mật khẩu không chính xác";
+            }
+        }
     }
-    $row = mysqli_fetch_array($result);
-    $f_user = $row['username'];
-    $f_pass = $row['password'];
-    if ($f_user == $username && $f_pass == $password)
-    {
-      $_SESSION['username'] = $f_user;
-      $_SESSION['password'] = $f_pass;
-      if ($a_check == 1)
-      {
-        setcookie($cookie_name, 'usr='.$f_user.'&hash='. $f_pass, time() + $cookie_time);
-      }
-      header('location:success.php'); //chuyền qua trang đăng nhập thành công
-      exit;
-    }
-    else{
-       echo "Tên tài khoản hoặc mật khẩu không chính xác";
-       header('location:login.php');
-    }
-  }
-}
-}catch(Exception $exp){
-  echo $exp->getMessage() . '<br>';
-  echo 'File: ' . $exp->getFile() . '<br>';
-  echo 'Line: ' . $exp->getLine() . '<br>';
+} catch (Exception $exp) {
+    echo $exp->getMessage() . '<br>';
+    echo 'File: ' . $exp->getFile() . '<br>';
+    echo 'Line: ' . $exp->getLine() . '<br>';
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,12 +124,21 @@ if (isset($_POST['submit']))
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary" name="submit">Đăng nhập</button>
                             </div>
+
+                            <?php
+                            if (!empty($login_error_message)) {
+                                echo '<div class="alert alert-danger mt-3" role="alert">' . $login_error_message . '</div>';
+                            }
+                            ?>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

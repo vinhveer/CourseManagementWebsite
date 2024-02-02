@@ -8,7 +8,6 @@
 </head>
 <body>
     <header class="container mt-4">
-        <h2>Hãy đăng nhập để truy cập tính năng</h2>
     </header>
 </body>
 </html>

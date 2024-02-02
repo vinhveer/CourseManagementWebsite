@@ -54,7 +54,7 @@
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/index.html">Đăng xuất</a>
+              <a class="dropdown-item" href="/index.php">Đăng xuất</a>
             </div>
           </li>
         </ul>
@@ -79,7 +79,7 @@
 
     function loadContent(page) {
       // Fetch and load content based on the clicked page
-      fetch(`${page}.html`)
+      fetch(`${page}.php`)
         .then(response => response.text())
         .then(html => {
           document.getElementById('content').innerHTML = html;
