@@ -10,10 +10,10 @@ if (empty($_SESSION['mySession']))
   {
     if (isset($_COOKIE[$cookie_name])==1)
     {
-      $a=$_COOKIE[$cookie_name];
-      parse_str($a,$res);
-       $usr = $res['usr'];
-       $hash = $res['hash'];
+      // $a=$_COOKIE[$cookie_name];
+      // parse_str($a,$res);
+      //  $usr = $res['usr'];
+      //  $hash = $res['hash'];
       /*$sql2 = "SELECT * from user_account where username='$usr' and password='$hash'";
       $result2 = mysqli_query($dbconect,$sql2);
       if ($result2)
