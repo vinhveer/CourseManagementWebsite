@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once('config/connect.php');
 
 try {
@@ -81,7 +80,7 @@ try {
                         exit;
                     }
                 } else {
-                    $login_error_message = "Tên tài khoản hoặc mật khẩu không chính xác";
+                    $login_error_message = "Tên đăng nhập hoặc mật khẩu không chính xác";
                 }
             } else {
                 echo "Lỗi câu truy vấn: " . mysqli_error($dbconnect);
@@ -145,7 +144,7 @@ try {
 
         <div class="container mt-5 login-container">
             <div class="row justify-content-center">
-                <div class="col-md-12">
+                <div class="col-md-14">
                     <div class="card">
                         <div class="card-body">
                             <form action="login.php" method="post">
