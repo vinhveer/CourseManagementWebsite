@@ -1,15 +1,67 @@
 <?php
 include_once('config/connect.php');
-
 session_start();
 
 try {
     if (empty($_SESSION['mySession'])) {
         if (isset($cookie_name)) {
             if (isset($_COOKIE[$cookie_name]) == 1) {
+                $cookie_data = $_COOKIE[$cookie_name];
+                parse_str($cookie_data, $cookie_values);
 
-                header('location:index.php');
-                exit;
+                // Kiểm tra xem 'usr' và 'hash' có được đặt trong dữ liệu cookie không
+                if (isset($cookie_values['usr']) && isset($cookie_values['hash'])) {
+                    $stored_username = $cookie_values['usr'];
+                    $stored_password = $cookie_values['hash'];
+
+                    // Kiểm tra thông tin đăng nhập từ cơ sở dữ liệu
+                    $sql = "SELECT * FROM user_account WHERE username='$stored_username' AND password='$stored_password'";
+                    $result = mysqli_query($dbconnect, $sql);
+
+                    if ($result) {
+                        if ($row = mysqli_fetch_array($result)) {
+                            $f_user = $row['username'];
+                            $f_pass = $row['password'];
+
+                            $_SESSION['username'] = $f_user;
+                            $_SESSION['password'] = $f_pass;
+
+                            // Lấy vai trò từ cơ sở dữ liệu
+                            $sql_role = "SELECT r.role_name FROM user_account ua
+                                INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                                INNER JOIN role r ON ur.role_id = r.role_id
+                                WHERE ua.username = '$stored_username'";
+
+                            $result_role = mysqli_query($dbconnect, $sql_role);
+
+                            if ($result_role) {
+                                if ($row_role = mysqli_fetch_assoc($result_role)) {
+                                    // Chuyển hướng người dùng dựa trên vai trò
+                                    switch ($row_role['role_name']) {
+                                        case "student":
+                                            header('location:student/index.php');
+                                            exit;
+                                        case "teacher":
+                                            header('location:teacher/index.php');
+                                            exit;
+                                        case "admin":
+                                            header('location:admin/index.php');
+                                            exit;
+                                        default:
+                                            echo "Vai trò không hợp lệ.";
+                                            exit;
+                                    }
+                                } else {
+                                    echo "Không tìm thấy thông tin vai trò cho người dùng.";
+                                    exit;
+                                }
+                            } else {
+                                echo "Lỗi câu truy vấn vai trò: " . mysqli_error($dbconnect);
+                                exit;
+                            }
+                        }
+                    }
+                }
             }
         }
     } else {
