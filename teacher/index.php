@@ -97,7 +97,7 @@ if (isset($_SESSION['username'])) {
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="/index.php">Đăng xuất</a>
+                              <a class="dropdown-item" href="/logout.php">Đăng xuất</a>
                           </div>
                       <?php endif; ?>
                   </li>
