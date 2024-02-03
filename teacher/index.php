@@ -72,13 +72,13 @@ else
                               <span>
                                   <?php echo $username_now; ?>
                               </span>
-                              <img src="/assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
+                              <img src="../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
                                   height="30">
                           </a>
                           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
                               <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="/index.php">Đăng xuất</a>
+                              <a class="dropdown-item" href="../logout.php">Đăng xuất</a>
                           </div>
                       <?php endif; ?>
                   </li>

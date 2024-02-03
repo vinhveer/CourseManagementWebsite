@@ -54,7 +54,7 @@ else
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <img src="/assets/images/course1.jpg" alt="Profile Image" class="profile-image">
+                <img src="../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
             </div>
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>

@@ -1,3 +1,42 @@
+<?php
+include_once('../../config/connect.php');
+
+session_start();
+
+// Mặc định, người dùng chưa đăng nhập
+$username_now = "User not logged in";
+
+// Kiểm tra nếu người dùng đã đăng nhập
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    // Truy vấn để lấy tên đầy đủ của người dùng đang đăng nhập
+    $sql = "SELECT us.full_name FROM user_account ua
+            INNER JOIN user us ON ua.user_id = us.user_id 
+            WHERE username = '$username'";
+    $result = mysqli_query($dbconnect, $sql);
+
+    // Kiểm tra xem truy vấn có thành công không
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $username_now = $row['full_name'];
+    }
+
+    // Lấy thông tin khóa học nếu có
+    if (isset($_GET['id'])) {
+        $course_id = $_GET['id'];
+        $_SESSION['course_id'] = $course_id;
+        $sql = "SELECT * FROM course WHERE course_id = $course_id";
+        $result = mysqli_query($dbconnect, $sql);
+
+        // Kiểm tra xem truy vấn có thành công không
+        if ($result) {
+            $row = mysqli_fetch_assoc($result);
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +63,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"></a>
+      <a class="navbar-brand" href="#"><?php echo $row['course_code'] . " - " . $row['course_name']?></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -44,21 +83,27 @@
             <a class="nav-link" href="#" onclick="loadContent('messages'); hideNavbar()">Nhắn tin</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('grade'); hideNavbar()">Điểm số</a>
+            <a class="nav-link" href="./grade/grade.php">Điểm số</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="loadContent('member'); hideNavbar()">Thành viên</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              <span>Nguyễn Quang Vinh</span>
-              <img src="/assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30" height="30">
-            </a>
+                  <?php if (isset($username_now)) : ?>
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span>
+                                  <?php echo $username_now; ?>
+                              </span>
+                              <img src="../../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
+                                  height="30">
+                          </a>
+                      <?php endif; ?>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
+              <a class="dropdown-item" href="../index.php">Trang chủ</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/index.html">Đăng xuất</a>
+              <a class="dropdown-item" href="../../logout.php">Đăng xuất</a>
             </div>
           </li>
         </ul>
@@ -76,22 +121,6 @@
 
   <!-- Trong đoạn mã JavaScript của bạn -->
   <script>
-    fetch('hello.md')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch 'hello.md': ${response.status} ${response.statusText}`);
-        }
-        return response.text();
-      })
-      .then(text => {
-        const converter = new showdown.Converter();
-        const html = converter.makeHtml(text);
-        document.getElementById('markdown-content').innerHTML = html;
-      })
-      .catch(error => {
-        console.error('Có lỗi xảy ra khi fetch tệp Markdown:', error);
-      });
-
     // Load content for 'home' when the page is loaded
     document.addEventListener('DOMContentLoaded', function () {
       loadContent('post');
@@ -99,7 +128,7 @@
 
     function loadContent(page) {
       // Fetch and load content based on the clicked page
-      fetch(`${page}.html`)
+      fetch(`${page}.php`)
         .then(response => response.text())
         .then(html => {
           document.getElementById('content').innerHTML = html;

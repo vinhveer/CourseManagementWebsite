@@ -4,23 +4,6 @@ include_once('config/connect.php');
 session_start();
 
 try {
-    if (empty($_SESSION['mySession'])) {
-        if (isset($cookie_name)) {
-            if (isset($_COOKIE[$cookie_name]) == 1) {
-                $a = $_COOKIE[$cookie_name];
-                parse_str($a, $res);
-                $usr = $res['usr'];
-                $hash = $res['hash'];
-
-                header('location:index.php');
-                exit;
-            }
-        }
-    } else {
-        header('location:index.php');
-        exit;
-    }
-
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -64,12 +47,15 @@ try {
 
                         if ($row_role) {
                             if ($row_role['role_name'] == "student") {
+                                $_SESSION['role_name'] = $row_role['role_name'];
                                 header('location:student/index.php');
                                 exit;
                             } else if ($row_role['role_name'] == "teacher") {
+                                $_SESSION['role_name'] = $row_role['role_name'];
                                 header('location:teacher/index.php');
                                 exit;
                             } else {
+                                $_SESSION['role_name'] = $row_role['role_name'];
                                 header('location:admin/index.php');
                                 exit;
                             }

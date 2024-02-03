@@ -1,39 +1,22 @@
 <?php
-session_start();
 include_once('../config/connect.php');
 
-// Check if the user is logged in using the session variable
-if (isset($_SESSION['username'])) {
-    // Get the username from the session
+session_start();
+
+if (isset($_SESSION['username'])) 
+{
     $username = $_SESSION['username'];
 
-    // Build the SQL query to fetch user information
-    $sql_login = "SELECT us.full_name FROM user_account ua
-                  INNER JOIN user us ON ua.user_id = us.user_id 
-                  WHERE username = '$username'";
+    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
+    $result = mysqli_query($dbconnect, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $user_id = $row['user_id'];
 
-    // Execute the query
-    $result_login = mysqli_query($dbconnect, $sql_login);
-
-    // Check if the query was successful
-    if ($result_login) {
-        // Fetch the row associated with the user
-        $row_login = mysqli_fetch_assoc($result_login);
-
-        // Check if a valid row was fetched
-        if ($row_login) {
-            // Assign the full name to $username_now
-            $username_now = $row_login['full_name'];
-        } else {
-            // Handle the case where no valid row is found
-            $username_now = "Unknown User";
-        }
-    } else {
-        // Handle the case where the query fails
-        $username_now = "Error retrieving user information";
-    }
-} else {
-    // Handle the case where the user is not logged in
+    $sql = "SELECT * FROM user WHERE user_id = $user_id";
+    $result = mysqli_query($dbconnect, $sql);
+} 
+else 
+{
     $username_now = "User not logged in";
 }
 ?>
@@ -45,11 +28,81 @@ if (isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Trang chủ</title>
+    <style>
+        .custom-card {
+            width: 100%;
+            height: 0;
+            padding-top: 50%;
+            position: relative;
+        }
+
+        .custom-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
+    <?php
+        $row = mysqli_fetch_assoc($result)
+    ?>
     <header class="container mt-4">
-        <h2>
-        </h2>
+        <h3>Xin chào, <?php echo $row['full_name'];?></h3>
     </header>
+    
+    <div class="container mt-5">
+        <h5>Khóa học hôm nay</h5>
+        
+        <?php
+        $dayOfWeekNumber = date("N");
+
+        // Query to check if there are courses for the current day
+        $sql = "SELECT * FROM course co
+                INNER JOIN course_schedule cs ON co.course_id = cs.course_id
+                WHERE day_of_week = $dayOfWeekNumber AND teacher_id = $user_id";
+        
+        $result = mysqli_query($dbconnect, $sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows > 0) {
+            // Display courses
+        ?>
+            <div class="row">
+                <?php
+                mysqli_data_seek($result, 0);
+                while ($row = mysqli_fetch_array($result)) {
+                ?>
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="custom-card">
+                                <img src="../assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $row['course_name'];?></h5>
+                                <p class="card-text">
+                                  Mã khóa học: <?php echo $row['course_code'];?> <br>
+                                  Thời gian: Từ <?php echo $row['start_time'] . " đến " . $row['end_time']?>
+                                </p>
+                                
+                                <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Truy cập</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
+        <?php
+        } else {
+            // Display message if no courses
+        ?>
+            <p>Không có khóa học nào trong hôm nay.</p>
+        <?php
+        }
+        ?>
+    </div>
 </body>
 </html>
