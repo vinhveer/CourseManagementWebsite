@@ -1,13 +1,14 @@
 <?php
-include_once('config/connect.php');
+include_once ('config/connect.php');
 session_start();
 try {
-    if (empty($_SESSION['username'])) {
+    //if (empty($_SESSION['username'])) {
         // C1: sử dụng cookie để tự động đăng nhập có thể giới hạn thời gian
         if (isset($cookie_name)) {
             if (isset($_COOKIE[$cookie_name]) == 1) {
                 $cookie_data = $_COOKIE[$cookie_name];
                 parse_str($cookie_data, $cookie_values);
+
                 if (isset($cookie_values['usr']) && isset($cookie_values['hash'])) {
                     $stored_username = $cookie_values['usr'];
                     $stored_password = $cookie_values['hash'];
@@ -48,7 +49,7 @@ try {
                 }
             }
         }
-    } else {
+    /*} else {
         $name = $_SESSION['username'];
         // C2: Sử dụng session tự động login
         $sql = "SELECT * FROM user_account WHERE username='$name'";
@@ -84,7 +85,7 @@ try {
                             }
                         }
                     }
-    }
+    }*/
 
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
@@ -108,10 +109,9 @@ try {
                     $f_user = $row['username'];
                     $f_pass = $row['password'];
 
-                    $_SESSION['username'] = $f_user;
-                    $_SESSION['password'] = $f_pass;
-
                     if ($a_check == 1) {
+                        $_SESSION['username'] = $f_user;
+                        $_SESSION['password'] = $f_pass;
                         setcookie($cookie_name, 'usr=' . $f_user . '&hash=' . $f_pass, time() + $cookie_time);
                     }
 
