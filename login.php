@@ -1,42 +1,29 @@
 <?php
 include_once('config/connect.php');
 session_start();
-
 try {
-    if (empty($_SESSION['mySession'])) {
+    if (empty($_SESSION['username'])) {
+        // C1: sử dụng cookie để tự động đăng nhập có thể giới hạn thời gian
         if (isset($cookie_name)) {
             if (isset($_COOKIE[$cookie_name]) == 1) {
                 $cookie_data = $_COOKIE[$cookie_name];
                 parse_str($cookie_data, $cookie_values);
-
-                // Kiểm tra xem 'usr' và 'hash' có được đặt trong dữ liệu cookie không
                 if (isset($cookie_values['usr']) && isset($cookie_values['hash'])) {
                     $stored_username = $cookie_values['usr'];
                     $stored_password = $cookie_values['hash'];
 
-                    // Kiểm tra thông tin đăng nhập từ cơ sở dữ liệu
                     $sql = "SELECT * FROM user_account WHERE username='$stored_username' AND password='$stored_password'";
                     $result = mysqli_query($dbconnect, $sql);
-
                     if ($result) {
                         if ($row = mysqli_fetch_array($result)) {
-                            $f_user = $row['username'];
-                            $f_pass = $row['password'];
-
-                            $_SESSION['username'] = $f_user;
-                            $_SESSION['password'] = $f_pass;
-
-                            // Lấy vai trò từ cơ sở dữ liệu
                             $sql_role = "SELECT r.role_name FROM user_account ua
                                 INNER JOIN user_role ur ON ua.user_id = ur.user_id
                                 INNER JOIN role r ON ur.role_id = r.role_id
                                 WHERE ua.username = '$stored_username'";
 
-                            $result_role = mysqli_query($dbconnect, $sql_role);
-
-                            if ($result_role) {
-                                if ($row_role = mysqli_fetch_assoc($result_role)) {
-                                    // Chuyển hướng người dùng dựa trên vai trò
+                            $result_r = mysqli_query($dbconnect, $sql_role);
+                            if ($result_r) {
+                                if ($row_role = mysqli_fetch_assoc($result_r)) {
                                     switch ($row_role['role_name']) {
                                         case "student":
                                             header('location:student/index.php');
@@ -51,9 +38,6 @@ try {
                                             echo "Vai trò không hợp lệ.";
                                             exit;
                                     }
-                                } else {
-                                    echo "Không tìm thấy thông tin vai trò cho người dùng.";
-                                    exit;
                                 }
                             } else {
                                 echo "Lỗi câu truy vấn vai trò: " . mysqli_error($dbconnect);
@@ -65,8 +49,41 @@ try {
             }
         }
     } else {
-        header('location:index.php');
-        exit;
+        $name = $_SESSION['username'];
+        // C2: Sử dụng session tự động login
+        $sql = "SELECT * FROM user_account WHERE username='$name'";
+                    $result = mysqli_query($dbconnect, $sql);
+                    if ($result) {
+                        if ($row = mysqli_fetch_array($result)) {
+                            $sql_role = "SELECT r.role_name FROM user_account ua
+                                INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                                INNER JOIN role r ON ur.role_id = r.role_id
+                                WHERE ua.username = '$name'";
+
+                            $result_r = mysqli_query($dbconnect, $sql_role);
+                            if ($result_r) {
+                                if ($row_role = mysqli_fetch_assoc($result_r)) {
+                                    switch ($row_role['role_name']) {
+                                        case "student":
+                                            header('location:student/index.php');
+                                            exit;
+                                        case "teacher":
+                                            header('location:teacher/index.php');
+                                            exit;
+                                        case "admin":
+                                            header('location:admin/index.php');
+                                            exit;
+                                        default:
+                                            echo "Vai trò không hợp lệ.";
+                                            exit;
+                                    }
+                                }
+                            } else {
+                                echo "Lỗi câu truy vấn vai trò: " . mysqli_error($dbconnect);
+                                exit;
+                            }
+                        }
+                    }
     }
 
     if (isset($_POST['submit'])) {
@@ -170,14 +187,13 @@ try {
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#" onclick="loadContent('home')">LMS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="login.php" class="nav-link">Đăng nhập</a>
+                            <a href="login.php" class="nav-link"> Đăng nhập</a>
                         </li>
                     </ul>
                 </div>
@@ -185,7 +201,7 @@ try {
         </nav>
 
         <header class="text-center">
-            <h3>Đăng nhập</h3>
+            <h1>Đăng nhập</h1>
         </header>
 
         <div class="container mt-5 login-container">
