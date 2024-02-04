@@ -97,7 +97,6 @@ else
             </div>
         <?php
         } else {
-            // Display message if no courses
         ?>
             <p>Không có khóa học nào trong hôm nay.</p>
         <?php

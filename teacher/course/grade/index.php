@@ -1,5 +1,5 @@
 <?php
-include_once('../../config/connect.php');
+include_once('../../../config/connect.php');
 
 session_start();
 
@@ -9,19 +9,6 @@ $username_now = "User not logged in";
 // Kiểm tra nếu người dùng đã đăng nhập
 if (isset($_SESSION['username'])) {
     $username_now = $_SESSION['full_name'];
-
-    // Lấy thông tin khóa học nếu có
-    if (isset($_GET['id'])) {
-        $course_id = $_GET['id'];
-        $_SESSION['course_id'] = $course_id;
-        $sql = "SELECT * FROM course WHERE course_id = $course_id";
-        $result = mysqli_query($dbconnect, $sql);
-
-        // Kiểm tra xem truy vấn có thành công không
-        if ($result) {
-            $row = mysqli_fetch_assoc($result);
-        }
-    }
 }
 else 
 {
@@ -38,6 +25,7 @@ else
   <script type="module" src="https://md-block.verou.me/md-block.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-b5H77Uo08fR+55Ar//Tw9c5n5k+K1a4H6Ou2EsPAd+pM6J6/wb18qv3Zlrse8lf+9GyCo62Gc9DD4egQe+T9Rg==" crossorigin="anonymous" />
   <title>Xem khóa học chi tiết</title>
   <style>
     .navbar {
@@ -51,11 +39,10 @@ else
 </head>
 
 <body>
-  
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><?php echo $row['course_code'] . " - " . $row['course_name']?></a>
+      <a class="navbar-brand" href="#">Điểm số</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -63,22 +50,13 @@ else
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('post'); hideNavbar()">Bài đăng</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" onclick="loadContent('content'); hideNavbar()">Nội dung</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" onclick="loadContent('exam'); hideNavbar()">Bài tập và kiểm tra</a>
+            <a class="nav-link" href="#" onclick="loadContent('summary'); hideNavbar()">Tổng quan</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('messages'); hideNavbar()">Nhắn tin</a>
+            <a class="nav-link" href="#" onclick="loadContent('grade_column'); hideNavbar()">Cột điểm</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./grade/index.php">Điểm số</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('member'); hideNavbar()">Thành viên</a>
+            <a class="nav-link" href="#" onclick="loadContent('grade_member'); hideNavbar()">Điểm số</a>
           </li>
           <li class="nav-item dropdown">
                   <?php if (isset($username_now)) : ?>
@@ -87,15 +65,16 @@ else
                               <span>
                                   <?php echo $username_now; ?>
                               </span>
-                              <img src="../../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
+                              <img src="../../../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
                                   height="30">
                           </a>
                       <?php endif; ?>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
-              <a class="dropdown-item" href="../index.php">Trang chủ</a>
+              <a class="dropdown-item" href="../index.php?id=<?php echo $_SESSION['course_id']; ?>">Trang khóa học</a>
+              <a class="dropdown-item" href="../../index.php">Trang chủ</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="../../logout.php">Đăng xuất</a>
+              <a class="dropdown-item" href="../../../logout.php">Đăng xuất</a>
             </div>
           </li>
         </ul>
@@ -115,7 +94,7 @@ else
   <script>
     // Load content for 'home' when the page is loaded
     document.addEventListener('DOMContentLoaded', function () {
-      loadContent('post');
+      loadContent('summary');
     });
 
     function loadContent(page) {
@@ -126,7 +105,7 @@ else
           document.getElementById('content').innerHTML = html;
 
           // Cập nhật tiêu đề trang
-          document.getElementById('pageTitle').innerText = page; // Sử dụng 'page' hoặc nội dung phù hợp
+          document.getElementById('pageTitle').innerText = page;
         });
 
       // Load specific CSS for the clicked page
@@ -139,6 +118,7 @@ else
     }
 
     function hideNavbar() {
+      // Ẩn navbar khi click vào một li trong navbar
       const navbar = document.querySelector('.navbar-collapse');
       if (navbar.classList.contains('show')) {
         navbar.classList.remove('show');

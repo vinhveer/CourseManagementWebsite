@@ -14,7 +14,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <h2>SOT313 - 64.CNTT-3</h2>
+          <h2>Bài đăng</h2>
         </div>
         <div class="col-md-6">
           <div class="input-group">
@@ -33,12 +33,6 @@
     <div class="row justify-content-center">
       <!-- Các thông báo mới -->
       <div class="col-md-8">
-        <div class="alert alert-info" role="alert">
-          Thông báo mới 1
-        </div>
-        <div class="alert alert-warning" role="alert">
-          Thông báo mới 2
-        </div>
         <!-- Các card -->
         <div class="card">
           <div class="card-header">

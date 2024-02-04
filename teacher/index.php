@@ -13,6 +13,7 @@ if (isset($_SESSION['username']))
     $result = mysqli_query($dbconnect, $sql);
     $row = mysqli_fetch_assoc($result);
     $username_now = $row['full_name'];
+    $_SESSION["full_name"] = $username_now;
 } 
 else 
 {
