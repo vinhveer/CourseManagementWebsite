@@ -1,7 +1,11 @@
 <?php
+include('layout.php');
 include_once('../../../config/connect.php');
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 if (isset($_SESSION['course_id'])) {
     $course_id = $_SESSION['course_id'];

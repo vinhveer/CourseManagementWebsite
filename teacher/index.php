@@ -1,19 +1,17 @@
 <?php
+include_once('layout.php');
 include_once('../config/connect.php');
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (isset($_SESSION['username'])) 
 {
-    $username = $_SESSION['username'];
+    $user_id = $_SESSION['user_id'];
 
-    $sql = "SELECT us.full_name FROM user_account ua
-                  INNER JOIN user us ON ua.user_id = us.user_id 
-                  WHERE username = '$username'";
+    $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $username_now = $row['full_name'];
-    $_SESSION["full_name"] = $username_now;
 } 
 else 
 {
@@ -25,103 +23,87 @@ else
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <title>Learning Management System</title>
-  <style>
-    .navbar {
-      z-index: 1000;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Trang chủ</title>
+    <style>
+    .custom-card {
+        width: 100%;
+        height: 0;
+        padding-top: 50%;
+        position: relative;
     }
 
-    #content {
-      padding-top: 30px;
-      /* Adjust as needed based on the height of your navbar */
+    .custom-card img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
-  </style>
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container-fluid">
-          <a class="navbar-brand" href="#">LMS</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                      <a class="nav-link" href="#" onclick="loadContent('home'); hideNavbar()">Trang chủ</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#" onclick="loadContent('courses'); hideNavbar()">Khóa học của tôi</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#" onclick="loadContent('othercourses')">Các khóa học khác</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#" onclick="loadContent('schedule')">Lịch giảng dạy</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#" onclick="loadContent('other'); hideNavbar()">Tính năng khác</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                      <?php if (isset($username_now)) : ?>
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span>
-                                  <?php echo $username_now; ?>
-                              </span>
-                              <img src="../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
-                                  height="30">
-                          </a>
-                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="../logout.php">Đăng xuất</a>
-                          </div>
-                      <?php endif; ?>
-                  </li>
-              </ul>
-          </div>
-      </div>
-  </nav>
+    <?php
+        $row = mysqli_fetch_assoc($result)
+    ?>
+    <header class="container mt-4">
+        <h3>Xin chào, <?php echo $row['full_name'];?></h3>
+    </header>
 
+    <div class="container mt-5">
+        <h5>Khóa học hôm nay</h5>
 
-  <!-- Page content -->
-  <div class="container-fluid mt-5" id="content">
-    <!-- Content will be loaded here -->
-  </div>
+        <?php
+        $dayOfWeekNumber = date("N");
 
-  <!-- Bootstrap JavaScript dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        // Query to check if there are courses for the current day
+        $sql = "SELECT * FROM course co
+                INNER JOIN course_schedule cs ON co.course_id = cs.course_id
+                WHERE day_of_week = $dayOfWeekNumber AND teacher_id = $user_id";
+        
+        $result = mysqli_query($dbconnect, $sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows > 0) {
+            // Display courses
+        ?>
+        <div class="row">
+            <?php
+                mysqli_data_seek($result, 0);
+                while ($row = mysqli_fetch_array($result)) {
+                ?>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="custom-card">
+                        <img src="../assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo $row['course_name'];?></h5>
+                        <p class="card-text">
+                            Mã khóa học: <?php echo $row['course_code'];?> <br>
+                            Thời gian: Từ <?php echo $row['start_time'] . " đến " . $row['end_time']?>
+                        </p>
 
-  <!-- Custom JavaScript to handle content loading -->
-  <script>
-    // Load content for 'home' when the page is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      loadContent('home');
-    });
-
-    function loadContent(page) {
-      // Fetch and load content based on the clicked page
-      fetch(`${page}.php`)
-        .then(response => response.text())
-        .then(html => {
-          document.getElementById('content').innerHTML = html;
-        });
-
-      // Load specific CSS for the clicked page
-      const head = document.head;
-      const link = document.createElement('link');
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.href = `${page}.css`;
-      head.appendChild(link);
-    }
-  </script>
-
+                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Truy
+                            cập</a>
+                    </div>
+                </div>
+            </div>
+            <?php
+                }
+                ?>
+        </div>
+        <?php
+        } else {
+        ?>
+        <p>Không có khóa học nào trong hôm nay.</p>
+        <?php
+        }
+        ?>
+    </div>
 </body>
 
 </html>

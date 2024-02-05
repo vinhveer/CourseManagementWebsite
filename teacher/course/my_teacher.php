@@ -1,22 +1,19 @@
 <?php
 include_once('layout.php');
-include_once('../config/connect.php');
+include_once('../../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['username'])) 
-{
-    $username = $_SESSION['username'];
-
-    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
-    $result = mysqli_query($dbconnect, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $user_id = $row['user_id'];
-
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
+
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+    }
 } 
 else 
 {
@@ -57,7 +54,7 @@ else
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <img src="../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
+                <img src="../../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
             </div>
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>

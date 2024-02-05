@@ -1,25 +1,19 @@
 <?php
+include('layout.php');
 include_once('../config/connect.php');
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 
 if (isset($_SESSION['username'])) 
 {
-    $username = $_SESSION['username'];
-
-    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
-    $result = mysqli_query($dbconnect, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $user_id = $row['user_id'];
+    $user_id = $_SESSION['user_id'];
 
     $sql = "SELECT c.* FROM course c 
     LEFT JOIN course_member cm ON c.course_id = cm.course_id 
     AND c.teacher_id = $user_id WHERE cm.member_id IS NULL";
     $result = mysqli_query($dbconnect, $sql);
-} 
-else 
-{
-    $username_now = "User not logged in";
 }
 ?>
 
@@ -98,11 +92,7 @@ else
         }
         ?>
     </div>
-  </div>
-  
-  <!-- Bootstrap JavaScript dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+  </div>  
 </body>
 
 </html>

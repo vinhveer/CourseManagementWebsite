@@ -1,3 +1,6 @@
+<?php
+include_once('layout.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +16,7 @@
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-6">
-                <h2>Học liệu</h2>
+                <h3>Nội dung khóa học</h3>
             </div>
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <div class="input-group">

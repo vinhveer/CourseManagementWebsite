@@ -1,151 +1,90 @@
 <?php
+include_once('layout.php');
 include_once('../../config/connect.php');
 
-session_start();
-
-// Mặc định, người dùng chưa đăng nhập
-$username_now = "User not logged in";
-
-// Kiểm tra nếu người dùng đã đăng nhập
-if (isset($_SESSION['username'])) {
-    $username_now = $_SESSION['full_name'];
-
-    // Lấy thông tin khóa học nếu có
-    if (isset($_GET['id'])) {
-        $course_id = $_GET['id'];
-        $_SESSION['course_id'] = $course_id;
-        $sql = "SELECT * FROM course WHERE course_id = $course_id";
-        $result = mysqli_query($dbconnect, $sql);
-
-        // Kiểm tra xem truy vấn có thành công không
-        if ($result) {
-            $row = mysqli_fetch_assoc($result);
-        }
-    }
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
-else 
-{
-    $username_now = "User not logged in";
+
+$teacher_id = $row_layout['teacher_id'];
+$sql_user = "SELECT * FROM user WHERE user_id = $teacher_id";
+$result_user = mysqli_query($dbconnect, $sql_user);
+if ($result_user) {
+    $row_user = mysqli_fetch_assoc($result_user);
 }
+
+$sql_count_member = "SELECT COUNT(*) AS member_count FROM course_member WHERE course_id = $course_id";
+$result_count_member = mysqli_query($dbconnect, $sql_count_member);
+$row_count_member = mysqli_fetch_assoc($result_count_member);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script type="module" src="https://md-block.verou.me/md-block.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
-  <title>Xem khóa học chi tiết</title>
-  <style>
-    .navbar {
-      z-index: 1000;
-    }
-
-    #content {
-      padding-top: 30px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ khóa học</title>
 </head>
 
 <body>
-  
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><?php echo $row['course_code'] . " - " . $row['course_name']?></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('post'); hideNavbar()">Bài đăng</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" onclick="loadContent('content'); hideNavbar()">Nội dung</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" onclick="loadContent('exam'); hideNavbar()">Bài tập và kiểm tra</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('messages'); hideNavbar()">Nhắn tin</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./grade/index.php">Điểm số</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadContent('member'); hideNavbar()">Thành viên</a>
-          </li>
-          <li class="nav-item dropdown">
-                  <?php if (isset($username_now)) : ?>
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <span>
-                                  <?php echo $username_now; ?>
-                              </span>
-                              <img src="../../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
-                                  height="30">
-                          </a>
-                      <?php endif; ?>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
-              <a class="dropdown-item" href="../index.php">Trang chủ</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="../../logout.php">Đăng xuất</a>
-            </div>
-          </li>
-        </ul>
-      </div>
+    <div class="container mt-4">
+        <h3><?php echo $row_layout['course_code'] . " - " . $row_layout['course_name']?></h3>
+        <p><?php echo $row_layout['course_description']?></p>
     </div>
-  </nav>
+    <!-- Body Section -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Thông tin cá nhân -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Thông tin khóa học</h5>
+                        <hr class="info-divider">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>Giáo viên giảng dạy</b>
+                                        <br><?php echo $row_user['full_name'] ?>
+                                    </td>
+                                    <td><a type="button" class="btn btn-primary" href="my_teacher.php?user_id=<?php echo $teacher_id?>">Xem chi tiết thông tin</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Số lượng thành viên</b>
+                                    <br><?php echo $row_count_member['member_count']?>
+                                    </td>
+                                    <td><a type="button" class="btn btn-primary" href="member.php?id=<?php echo $course_id?>">Xem danh sách thành viên</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Ngày bắt đầu</b></td>
+                                    <td><?php echo date('d/m/Y', strtotime($row_layout['start_date']))?></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Ngày kết thúc</b></td>
+                                    <td><?php echo date('d/m/Y', strtotime($row_layout['end_date']))?></td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-  <!-- Page content -->
-  <div class="container-fluid mt-5" id="content">
-    <!-- Content will be loaded here -->
-  </div>
-
-  <!-- Bootstrap JavaScript dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Trong đoạn mã JavaScript của bạn -->
-  <script>
-    // Load content for 'home' when the page is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      loadContent('post');
-    });
-
-    function loadContent(page) {
-      // Fetch and load content based on the clicked page
-      fetch(`${page}.php`)
-        .then(response => response.text())
-        .then(html => {
-          document.getElementById('content').innerHTML = html;
-
-          // Cập nhật tiêu đề trang
-          document.getElementById('pageTitle').innerText = page; // Sử dụng 'page' hoặc nội dung phù hợp
-        });
-
-      // Load specific CSS for the clicked page
-      const head = document.head;
-      const link = document.createElement('link');
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-      link.href = `${page}.css`;
-      head.appendChild(link);
-    }
-
-    function hideNavbar() {
-      const navbar = document.querySelector('.navbar-collapse');
-      if (navbar.classList.contains('show')) {
-        navbar.classList.remove('show');
-      }
-    }
-  </script>
-
+            <!-- Các khóa học đang tham gia -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Thông báo</h5>
+                        <hr class="info-divider">
+                        <h6>Thông báo mới</h6>
+                        <p>Không có thông báo!</p>
+                        <h6>Tin nhắn mới</h6>
+                        <p>Không có tin nhắn chưa đọc!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
