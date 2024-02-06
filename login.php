@@ -10,7 +10,7 @@ try {
         $a_check = ((isset($_POST['remember']) != 0) ? 1 : "");
 
         if ($username == "" || $password == "") {
-            echo "Vui lòng điền đầy đủ thông tin";
+            $login_error_message = "Vui lòng điền đầy đủ thông tin";
             exit;
         } else {
             $sql = "SELECT * FROM user_account WHERE username='$username' AND password='$password'";
@@ -149,18 +149,16 @@ try {
                     <div class="card">
                         <div class="card-body">
                             <form action="login.php" method="post">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Tên đăng nhập</label>
-                                    <input type="text" class="form-control" id="username" name="username" required>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="username" name="username"
+                                        placeholder="username">
+                                    <label for="username">Tên đăng nhập</label>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Mật khẩu</label>
-                                    <input type="password" class="form-control" id="password" name="password" required>
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="password">
+                                    <label for="password">Mật khẩu</label>
                                 </div>
-                                <!-- <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember" value="1">
-                                    <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
-                                </div> -->
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary" name="submit">Đăng nhập</button>
                                 </div>
