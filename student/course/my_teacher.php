@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
 

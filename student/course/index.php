@@ -11,7 +11,6 @@ $sql_user = "SELECT * FROM user WHERE user_id = $teacher_id";
 $result_user = mysqli_query($dbconnect, $sql_user);
 if ($result_user) {
     $row_user = mysqli_fetch_assoc($result_user);
-    $_SESSION['user_id'] = $row_user['user_id'];
 }
 
 $sql_count_member = "SELECT COUNT(*) AS member_count FROM course_member WHERE course_id = $course_id";
@@ -48,7 +47,7 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
                                         <b>Giáo viên giảng dạy</b>
                                         <br><?php echo $row_user['full_name'] ?>
                                     </td>
-                                    <td><a type="button" class="btn btn-primary" href="my_teacher.php">Xem chi tiết thông tin</td>
+                                    <td><a type="button" class="btn btn-primary" href="my_teacher.php?user_id=<?php echo $teacher_id?>">Xem chi tiết thông tin</td>
                                 </tr>
                                 <tr>
                                     <td><b>Số lượng thành viên</b>

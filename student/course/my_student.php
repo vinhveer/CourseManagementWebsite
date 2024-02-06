@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
 
@@ -32,8 +32,8 @@ else
     <style>
         .profile-image {
             border-radius: 50%;
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 100px;
         }
         .info-divider {
             border: 0;
@@ -58,8 +58,7 @@ else
             </div>
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
-                <h5>Giáo viên</h5> <br>
-                <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
+                <h5>Học sinh</h5> <br>
             </div>
             
         </div>
@@ -106,7 +105,9 @@ else
                         <h4>Các khóa học đang tham gia</h4>
                         <hr class="info-divider">
                         <?php
-                        $sql = "SELECT * FROM course WHERE teacher_id = $user_id";
+                        $sql = "SELECT * FROM course co
+                        INNER JOIN course_member cm ON co.course_id = cm.course_id
+                        WHERE student_id = $user_id";
                         $result = mysqli_query($dbconnect, $sql);
                         while ($row = mysqli_fetch_array($result)) {
                             echo $row['course_code'] . " - " . $row['course_name'];

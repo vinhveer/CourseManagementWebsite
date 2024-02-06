@@ -45,9 +45,9 @@ else
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body {
-            padding-top: 70px;
-        }
+    body {
+        padding-top: 70px;
+    }
     </style>
 </head>
 
@@ -77,7 +77,7 @@ else
                         <a class="nav-link" href="messages.php">Nhắn tin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./grade/index.php">Điểm số</a>
+                        <a class="nav-link" href="grade.php">Điểm số</a>
                     </li>
                     <li class="nav-item dropdown">
                         <?php if (isset($username_now)) : ?>

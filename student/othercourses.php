@@ -10,9 +10,10 @@ if (isset($_SESSION['username']))
 {
     $user_id = $_SESSION['user_id'];
 
-    $sql = "SELECT * FROM course c
-    LEFT JOIN user u ON c.teacher_id = u.user_id
-    WHERE u.user_id IS NULL OR u.user_id <> $user_id";
+    $sql = "SELECT c.course_id, c.course_code, c.course_name, c.status
+    FROM course c
+    LEFT JOIN course_member cm ON c.course_id = cm.course_id AND cm.student_id = $user_id
+    WHERE cm.member_id IS NULL";
     $result = mysqli_query($dbconnect, $sql);
 }
 ?>

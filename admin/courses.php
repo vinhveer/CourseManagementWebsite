@@ -1,32 +1,21 @@
-<?php
-include('layout.php');
+<?php 
+include("layout.php");
 include_once('../config/connect.php');
 
-if (session_status() == PHP_SESSION_NONE) {
-  session_start();
-}
-
-if (isset($_SESSION['username'])) 
-{
-    $user_id = $_SESSION['user_id'];
-
-    $sql = "SELECT * FROM course WHERE teacher_id = $user_id";
-    $result = mysqli_query($dbconnect, $sql);
-} 
-else 
-{
-    $username_now = "User not logged in";
-}
+$sql_course_n = "SELECT * FROM course
+INNER JOIN user ON course.teacher_id = user.user_id
+WHERE status = 'N'";
+$result_course_n = mysqli_query($dbconnect, $sql_course_n);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <title>Khóa học của tôi</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <title>Khóa học chưa duyệt</title>
     <style>
     .custom-card {
         width: 100%;
@@ -52,7 +41,7 @@ else
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-5">
-                <h3>Khóa học của tôi</h3>
+                <h3>Khóa học chưa duyệt</h3>
             </div>
             <div class="col-md-5">
                 <div class="input-group">
@@ -68,35 +57,33 @@ else
 
 
     <div class="container mt-5">
-        <!-- Course Cards -->
-        <div class="row">
-            <?php
-        // Đặt con trỏ kết quả về đầu để có thể duyệt lại từ đầu
-        mysqli_data_seek($result, 0);
-
-        while ($row = mysqli_fetch_array($result)) {
+        <?php 
+        while ($row_course_n = mysqli_fetch_array($result_course_n))
+        {
         ?>
+        <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="custom-card">
                         <img src="../assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $row['course_name'];?></h5>
+                        <h5 class="card-title"><?php echo $row_course_n['course_name']?></h5>
                         <p class="card-text">
-                            Mã khóa học: <?php echo $row['course_code'];?> <br>
-                            Trạng thái: <?php echo ($row['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt";?>
+                            Mã khóa học: <?php echo $row_course_n['course_code'];?> <br>
+                            Trạng thái: <?php echo ($row_course_n['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt";?>
                         </p>
+                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Duyệt</a>
+                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Không duyệt</a>
+                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Chi tiết</a>
 
-                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Truy
-                            cập</a>
                     </div>
                 </div>
             </div>
-            <?php
+        </div>
+        <?php
         }
         ?>
-        </div>
     </div>
 </body>
 

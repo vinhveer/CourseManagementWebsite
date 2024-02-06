@@ -1,16 +1,18 @@
 <?php
-include_once('layout.php');
+include('layout.php');
 include_once('../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 if (isset($_SESSION['username'])) 
 {
     $user_id = $_SESSION['user_id'];
 
-    $sql = "SELECT * FROM user WHERE user_id = $user_id";
+    $sql = "SELECT * FROM course co
+    INNER JOIN course_member cm ON co.course_id = cm.course_id
+    WHERE student_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
 } 
 else 
@@ -25,13 +27,14 @@ else
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Trang chủ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Khóa học của tôi</title>
     <style>
     .custom-card {
         width: 100%;
         height: 0;
         padding-top: 50%;
+        /* 4:5 aspect ratio (5/4 * 100) */
         position: relative;
     }
 
@@ -42,40 +45,39 @@ else
         width: 100%;
         height: 100%;
         object-fit: cover;
+        /* Đảm bảo ảnh không bị biến dạng */
     }
     </style>
 </head>
 
 <body>
-    <?php
-        $row = mysqli_fetch_assoc($result)
-    ?>
     <header class="container mt-4">
-        <h3>Xin chào, <?php echo $row['full_name'];?></h3>
+        <div class="row">
+            <div class="col-md-5">
+                <h3>Khóa học của tôi</h3>
+            </div>
+            <div class="col-md-5">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                    <button class="btn btn-secondary rounded-end" type="button">Tìm kiếm</button>
+                </div>
+            </div>
+            <div class="col-md-2 text-right">
+                <button class="btn btn-primary rounded-end rounded-start" type="button">Thêm khóa học mới</button>
+            </div>
+        </div>
     </header>
 
+
     <div class="container mt-5">
-        <h5>Khóa học hôm nay</h5>
-
-        <?php
-        $dayOfWeekNumber = date("N");
-
-        // Query to check if there are courses for the current day
-        $sql = "SELECT * FROM course co
-        INNER JOIN course_member cm ON co.course_id = cm.course_id
-        INNER JOIN course_schedule cs ON co.course_id = cs.course_id
-        WHERE student_id = $user_id AND day_of_week = $dayOfWeekNumber";
-        
-        $result = mysqli_query($dbconnect, $sql);
-        $num_rows = mysqli_num_rows($result);
-        if ($num_rows > 0) {
-            // Display courses
-        ?>
+        <!-- Course Cards -->
         <div class="row">
             <?php
-                mysqli_data_seek($result, 0);
-                while ($row = mysqli_fetch_array($result)) {
-                ?>
+        // Đặt con trỏ kết quả về đầu để có thể duyệt lại từ đầu
+        mysqli_data_seek($result, 0);
+
+        while ($row = mysqli_fetch_array($result)) {
+        ?>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="custom-card">
@@ -85,7 +87,7 @@ else
                         <h5 class="card-title"><?php echo $row['course_name'];?></h5>
                         <p class="card-text">
                             Mã khóa học: <?php echo $row['course_code'];?> <br>
-                            Thời gian: Từ <?php echo $row['start_time'] . " đến " . $row['end_time']?>
+                            Trạng thái: <?php echo ($row['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt";?>
                         </p>
 
                         <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Truy
@@ -94,16 +96,9 @@ else
                 </div>
             </div>
             <?php
-                }
-                ?>
-        </div>
-        <?php
-        } else {
-        ?>
-        <p>Không có khóa học nào trong hôm nay.</p>
-        <?php
         }
         ?>
+        </div>
     </div>
 </body>
 

@@ -1,19 +1,22 @@
 <?php
 include_once('layout.php');
-include_once('../../config/connect.php');
+include_once('../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
+if (isset($_SESSION['username'])) 
+{
+    $username = $_SESSION['username'];
+
+    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
+    $result = mysqli_query($dbconnect, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $user_id = $row['user_id'];
+
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
-
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-    }
 } 
 else 
 {
@@ -54,11 +57,11 @@ else
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <img src="../../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
+                <img src="../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
             </div>
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
-                <h5>Giáo viên</h5> <br>
+                <h5>Học sinh</h5> <br>
                 <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
             </div>
             
@@ -106,7 +109,9 @@ else
                         <h4>Các khóa học đang tham gia</h4>
                         <hr class="info-divider">
                         <?php
-                        $sql = "SELECT * FROM course WHERE teacher_id = $user_id";
+                        $sql = "SELECT * FROM course co
+                        INNER JOIN course_member cm ON co.course_id = cm.course_id
+                        WHERE student_id = $user_id";
                         $result = mysqli_query($dbconnect, $sql);
                         while ($row = mysqli_fetch_array($result)) {
                             echo $row['course_code'] . " - " . $row['course_name'];
