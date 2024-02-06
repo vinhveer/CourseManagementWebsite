@@ -12,9 +12,9 @@ $result_course_n = mysqli_query($dbconnect, $sql_course_n);
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>Khóa học chưa duyệt</title>
     <style>
     .custom-card {
@@ -55,13 +55,12 @@ $result_course_n = mysqli_query($dbconnect, $sql_course_n);
         </div>
     </header>
 
-
     <div class="container mt-5">
+        <div class="row">
         <?php 
         while ($row_course_n = mysqli_fetch_array($result_course_n))
         {
         ?>
-        <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="custom-card">
@@ -76,14 +75,13 @@ $result_course_n = mysqli_query($dbconnect, $sql_course_n);
                         <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Duyệt</a>
                         <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Không duyệt</a>
                         <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Chi tiết</a>
-
                     </div>
                 </div>
             </div>
-        </div>
         <?php
         }
         ?>
+        </div>
     </div>
 </body>
 
