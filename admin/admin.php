@@ -1,10 +1,11 @@
-<?php
+<?php 
 include("layout.php");
 include_once('../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
 
 $sql_admin_account = "SELECT * FROM user_account ua
 INNER JOIN user us ON ua.user_id = us.user_id
@@ -31,6 +32,7 @@ mysqli_close($dbconnect);
                 <h3>Danh sách tài khoản (Quản trị hệ thống)</h3>
             </div>
             <div class="col-md-4">
+
             <form class="d-flex" action="acc_find.php" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
                 <input type="hidden" name="id" value="3">
@@ -59,6 +61,7 @@ mysqli_close($dbconnect);
                     <tbody>
                         <?php
                         $i = 0;
+
                         while ($row_admin_account = mysqli_fetch_array($result_admin_account)) {
                         ?>
                             <tr>
@@ -74,6 +77,7 @@ mysqli_close($dbconnect);
                                     <a class="btn btn-info btn-sm" href="acc_view.php?user_id=<?php echo $row_admin_account['user_id'];?>&role_id=3&role_name=admin">Thông tin</a>
                                 </td>
                             </tr>
+
                         <?php
                         }
                         ?>
@@ -82,6 +86,7 @@ mysqli_close($dbconnect);
             </div>
         </div>
     </div>
+
     <script>
     function Del(name){
         return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name +  " ?");

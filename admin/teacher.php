@@ -1,4 +1,4 @@
-<?php
+<?php 
 include("layout.php");
 include_once('../config/connect.php');
 
@@ -30,6 +30,7 @@ mysqli_close($dbconnect);
                 <h3>Danh sách tài khoản (Giáo viên)</h3>
             </div>
             <div class="col-md-4">
+
             <form class="d-flex" action="acc_find.php" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
                 <input type="hidden" name="id" value="2">
@@ -58,6 +59,7 @@ mysqli_close($dbconnect);
                     <tbody>
                         <?php
                         $i = 0;
+
                         while ($row_teacher_account = mysqli_fetch_array($result_teacher_account))
                         {
                         ?>
@@ -81,6 +83,7 @@ mysqli_close($dbconnect);
             </div>
         </div>
     </div>
+
     <script>
     function Del(name){
         return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name +  " ?");

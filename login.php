@@ -1,5 +1,6 @@
 <?php
 include_once('config/connect.php');
+
 session_start();
 try {
     if (isset($cookie_name)) {
@@ -47,6 +48,7 @@ try {
             }
         }
     }
+
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -97,6 +99,35 @@ try {
                     if ($result_role) {
                         $row_role = mysqli_fetch_assoc($result_role);
 
+            
+                if ($row) {
+                    $f_user = $row['username'];
+                    $f_pass = $row['password'];
+            
+                    $_SESSION['username'] = $f_user;
+                    $_SESSION['password'] = $f_pass;
+            
+                    $sql_user = "SELECT us.full_name, us.user_id FROM user us
+                    INNER JOIN user_account ua ON us.user_id = ua.user_id
+                    WHERE username = '$username'";
+            
+                    $result_user = mysqli_query($dbconnect, $sql_user);
+            
+                    $row_user = mysqli_fetch_assoc($result_user);
+            
+                    $_SESSION['full_name'] = $row_user['full_name'];
+                    $_SESSION['user_id'] = $row_user['user_id'];
+            
+                    $sql_role = "SELECT r.role_name FROM user_account ua
+                        INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                        INNER JOIN role r ON ur.role_id = r.role_id 
+                        WHERE ua.username = '$username'";
+            
+                    $result_role = mysqli_query($dbconnect, $sql_role);
+            
+                    if ($result_role) {
+                        $row_role = mysqli_fetch_assoc($result_role);
+            
                         if ($row_role) {
                             if ($row_role['role_name'] == "student") {
                                 $_SESSION['role_name'] = $row_role['role_name'];
@@ -204,10 +235,12 @@ try {
                                         placeholder="password">
                                     <label for="password">Mật khẩu</label>
                                 </div>
+
                                  <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="remember" name="remember" value="1">
                                     <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                                 </div>
+
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary" name="submit">Đăng nhập</button>
                                 </div>

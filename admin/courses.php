@@ -1,4 +1,4 @@
-<?php
+<?php 
 include("layout.php");
 include_once('../config/connect.php');
 
@@ -61,7 +61,7 @@ mysqli_close($dbconnect);
 
     <div class="container mt-5">
         <div class="row">
-        <?php
+        <?php 
         while ($row_course_n = mysqli_fetch_array($result_course_n))
         {
         ?>

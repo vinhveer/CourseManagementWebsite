@@ -29,8 +29,12 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
 
 <body>
     <div class="container mt-4">
-        <h3><?php echo $row_layout['course_code'] . " - " . $row_layout['course_name']?></h3>
-        <p><?php echo $row_layout['course_description']?></p>
+        <div class="d-flex align-items-center">
+            <div>
+                <h3><?php echo $row_layout['course_code'] . " - " . $row_layout['course_name']?></h3>
+                <p><?php echo $row_layout['course_description']?></p>
+            </div>
+        </div>
     </div>
     <!-- Body Section -->
     <div class="container mt-4">
@@ -48,13 +52,15 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
                                         <b>Giáo viên giảng dạy</b>
                                         <br><?php echo $row_user['full_name'] ?>
                                     </td>
-                                    <td><a type="button" class="btn btn-primary" href="my_teacher.php">Xem chi tiết thông tin</td>
+                                    <td><a type="button" class="btn btn-primary" href="my_teacher.php">Xem chi tiết
+                                            thông tin</td>
                                 </tr>
                                 <tr>
                                     <td><b>Số lượng thành viên</b>
-                                    <br><?php echo $row_count_member['member_count']?>
+                                        <br><?php echo $row_count_member['member_count']?>
                                     </td>
-                                    <td><a type="button" class="btn btn-primary" href="member.php">Xem danh sách thành viên</td>
+                                    <td><a type="button" class="btn btn-primary" href="member.php">Xem danh sách thành
+                                            viên</td>
                                 </tr>
                                 <tr>
                                     <td><b>Ngày bắt đầu</b></td>

@@ -3,11 +3,11 @@ include_once('../config/connect.php');
 
 session_start();
 
-if (isset($_SESSION['username']))
+if (isset($_SESSION['username'])) 
 {
     $username_now = $_SESSION['full_name'];
 }
-else
+else 
 {
     $username_now = "User not logged in";
 }
@@ -78,5 +78,5 @@ else
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
+

@@ -1,4 +1,4 @@
-<?php
+<?php 
 include("layout.php");
 include_once('../config/connect.php');
 
@@ -30,6 +30,7 @@ mysqli_close($dbconnect);
                 <h3>Danh sách tài khoản (Học sinh)</h3>
             </div>
             <div class="col-md-4">
+
             <form class="d-flex" action="acc_find.php" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
                 <input type="hidden" name="id" value="1">
@@ -68,9 +69,11 @@ mysqli_close($dbconnect);
                             <td><?php echo $row_student_account['username'] ?></td>
                             <td><?php echo $row_student_account['password'] ?></td>
                             <td>
+
                                 <a class="btn btn-info btn-sm" href="acc_edit.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1&role_name=student">Sửa</a>
                                 <a class="btn btn-danger btn-sm" onclick="return Del('<?php echo $row_student_account['full_name']; ?>')" href="pross/delete.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1">Xóa</a>
                                 <a class="btn btn-info btn-sm" href="acc_view.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1&role_name=student">Thông tin</a>
+
                             </td>
                         </tr>
                         <?php
@@ -81,6 +84,7 @@ mysqli_close($dbconnect);
             </div>
         </div>
     </div>
+
     <script>
     function Del(name){
         return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name +  " ?");

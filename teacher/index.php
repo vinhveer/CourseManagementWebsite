@@ -78,7 +78,9 @@ else
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="custom-card">
-                        <img src="../assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
+
+                        <img src=<?php echo "../assets/file/course_background/" . $row['course_background']?> class="card-img-top" alt="Course 1 Image">
+
                     </div>
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $row['course_name'];?></h5>

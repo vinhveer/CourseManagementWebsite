@@ -49,9 +49,6 @@ else
                     <li class="nav-item">
                         <a class="nav-link" href="schedule.php">Lịch giảng dạy</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="other.php">Tính năng khác</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <?php if (isset($username_now)) : ?>
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
