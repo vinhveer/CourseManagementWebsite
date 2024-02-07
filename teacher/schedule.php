@@ -29,8 +29,8 @@ if (isset($_SESSION['username']))
 <body>
     <div class="container mt-4">
         <h2>Thời khóa biểu</h2>
-        <table class="table table-bordered mt-5">
-            <thead>
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
                 <tr>
                     <th scope="col">Mã</th>
                     <th scope="col">Tên khóa học</th>
