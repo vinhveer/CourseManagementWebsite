@@ -6,6 +6,8 @@ $sql_course_n = "SELECT * FROM course
 INNER JOIN user ON course.teacher_id = user.user_id
 WHERE status = 'N'";
 $result_course_n = mysqli_query($dbconnect, $sql_course_n);
+mysqli_close($dbconnect);
+
 ?>
 
 <!DOCTYPE html>
@@ -41,16 +43,18 @@ $result_course_n = mysqli_query($dbconnect, $sql_course_n);
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-5">
-                <h3>Khóa học chưa duyệt</h3>
+                <h3>Khóa học (Chưa duyệt)</h3>
             </div>
             <div class="col-md-5">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm...">
-                    <button class="btn btn-secondary rounded-end" type="button">Tìm kiếm</button>
-                </div>
+               <form action="course_find.php" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="tukhoa">
+                        <button class="btn btn-secondary rounded-end" type="submit" name="timkiem" value="find">Tìm kiếm</button>
+                    </div>
+               </form>
             </div>
             <div class="col-md-2 text-right">
-                <button class="btn btn-primary rounded-end rounded-start" type="button">Thêm khóa học mới</button>
+                <a class="btn btn-primary rounded-end rounded-start" type="button" href="course_add.php">Thêm khóa học mới</a>
             </div>
         </div>
     </header>
@@ -72,9 +76,9 @@ $result_course_n = mysqli_query($dbconnect, $sql_course_n);
                             Mã khóa học: <?php echo $row_course_n['course_code'];?> <br>
                             Trạng thái: <?php echo ($row_course_n['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt";?>
                         </p>
-                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Duyệt</a>
-                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Không duyệt</a>
-                        <a class="btn btn-primary" href="course/index.php?id=<?php echo $row['course_id']; ?>">Chi tiết</a>
+                        <a class="btn btn-info btn-sm" onclick="return Apo('<?php echo $row_course_n['course_name']; ?>')" href="pross/c_approve.php?id=<?php echo $row_course_n['course_id'];?>">Duyệt</a>
+                        <a class="btn btn-danger btn-sm" onclick="return Del('<?php echo $row_course_n['course_name']; ?>')" href="pross/c_not_approve.php?id=<?php echo $row_course_n['course_id'];?>">Không duyệt</a>
+                        <a class="btn btn-info btn-sm" href="course_show.php?id=<?php echo $row_course_n['course_id']; ?>&teacher_id=<?php echo $row_course_n['teacher_id']; ?>">Chi tiết</a>
                     </div>
                 </div>
             </div>
@@ -83,6 +87,16 @@ $result_course_n = mysqli_query($dbconnect, $sql_course_n);
         ?>
         </div>
     </div>
+    <script>
+    function Del(name){
+        return confirm("Bạn có chắc chắn muốn từ bỏ khóa học: " + name +  " ?");
+    }
+    </script>
+    <script>
+    function Apo(name){
+        return confirm("Bạn có chắc chắn muốn duyệt khóa học: " + name +  " ?");
+    }
+    </script>
 </body>
 
 </html>

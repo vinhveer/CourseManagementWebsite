@@ -23,6 +23,7 @@ if (isset($_SESSION['course_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -32,7 +33,6 @@ if (isset($_SESSION['course_id'])) {
 </head>
 
 <body>
-
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-6">
@@ -97,6 +97,14 @@ if (isset($_SESSION['course_id'])) {
                     $index = 0;
                     while ($row = mysqli_fetch_array($result)) {
                     ?>
+                        <tr>
+                            <td><?php echo ++$index; ?></td>
+                            <td><?php echo $row['column_id']; ?></td>
+                            <td><?php echo $row['grade_column_name']; ?></td>
+                            <td><?php echo $row['proportion']; ?></td>
+                            <td><button class="btn btn-primary">Sửa thuộc tính</button></td>
+                            <td><button class="btn btn-primary">Nhập điểm cho cột này</button></td>
+                        </tr>
                     <tr>
                         <td><?php echo ++$index; ?></td>
                         <td><?php echo $row['column_id']; ?></td>

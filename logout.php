@@ -6,6 +6,8 @@ $_SESSION = array();
 
 // Destroy the session
 session_destroy();
+// Delete cookie
+setcookie("abc", "", time() -3600);
 ?>
 
 <!DOCTYPE html>
