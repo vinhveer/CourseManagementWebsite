@@ -102,11 +102,27 @@ mysqli_close($dbconnect);
                             <br> <?php echo $row['phone'];?>
                         </p>
                         <p>
+                            <b>Địa chỉ</b>
+                            <br> <?php echo $row['address'];?>
+                        </p>
+                        <p>
                             <b>Mã số CCCD/CMND</b>
                             <br> <?php echo $row['citizen_id'];?>
                         </p>
+                        <p>
+                            <b>Tài khoản</b>
+                            <br> <?php echo $row['username'];?>
+                        </p>
+                        <p>
+                            <b>Mật khẩu</b>
+                            <br> <?php echo $row['password'];?>
+                        </p>
                     </div>
                 </div>
+            </div>
+            <div class="mb-3">
+                <br>
+                <a type="button" class="btn btn-secondary" href="<?php echo $role_name;?>.php">Thoát</a>
             </div>
         </div>
     </div>
