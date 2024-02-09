@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 
-if (isset($_SESSION['username'])) {
+if (isset($_SESSION['user_id'])) {
     $username_now = $_SESSION['full_name'];
 } else {
     $username_now = "User not logged in";

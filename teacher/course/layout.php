@@ -3,7 +3,12 @@ include_once('../../config/connect.php');
 
 session_start();
 
-if (isset($_SESSION['username'])) {
+if (isset($_GET['id']))
+{
+    $_SESSION['course_id'] = $_GET['id'];
+}
+
+if (isset($_SESSION['user_id'])) {
     $username_now = $_SESSION['full_name'];
 } else {
     $username_now = "User not logged in";

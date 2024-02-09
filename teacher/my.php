@@ -6,14 +6,9 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['username'])) 
+if (isset($_SESSION['user_id'])) 
 {
-    $username = $_SESSION['username'];
-
-    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
-    $result = mysqli_query($dbconnect, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $user_id = $row['user_id'];
+    $user_id = $_SESSION['user_id'];
 
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);

@@ -1,6 +1,6 @@
 <?php
     //cau hinh ket noi
-    $db_localhost="localhost";
+    $db_localhost="localhost:3307";
     $db_user="root";
     $db_pass="";
     $db_data="course_management";

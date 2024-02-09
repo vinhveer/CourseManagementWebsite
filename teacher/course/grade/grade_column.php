@@ -56,8 +56,9 @@ if (isset($_SESSION['course_id'])) {
                     <h1 class="modal-title fs-5" id="editGradeColumnModalLabel">Chỉnh sửa cột điểm</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form>
+                <form action="process.php" method="post" return false;">
+                    <div class="modal-body">
+
                         <div class="mb-3">
                             <label for="editColumnName" class="col-form-label">Tên cột điểm</label>
                             <input type="text" class="form-control" id="editColumnName">
@@ -66,12 +67,14 @@ if (isset($_SESSION['course_id'])) {
                             <label for="editProportion" class="col-form-label">Tỉ lệ tích lũy</label>
                             <input type="text" class="form-control" id="editProportion">
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" onclick="saveChanges()">Lưu thay đổi</button>
-                </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary" id="editColumnId" name="editColumnId">Lưu thay
+                            đổi</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -96,23 +99,16 @@ if (isset($_SESSION['course_id'])) {
 
                     $index = 0;
                     while ($row = mysqli_fetch_array($result)) {
-                    ?>
-                        <tr>
-                            <td><?php echo ++$index; ?></td>
-                            <td><?php echo $row['column_id']; ?></td>
-                            <td><?php echo $row['grade_column_name']; ?></td>
-                            <td><?php echo $row['proportion']; ?></td>
-                            <td><button class="btn btn-primary">Sửa thuộc tính</button></td>
-                            <td><button class="btn btn-primary">Nhập điểm cho cột này</button></td>
-                        </tr>
-                    <tr>
+                        ?>
+                    <tr data-column-id="<?php echo $row['column_id']; ?>">
                         <td><?php echo ++$index; ?></td>
                         <td><?php echo $row['column_id']; ?></td>
-                        <td><?php echo $row['grade_column_name']; ?></td>
-                        <td><?php echo $row['proportion']; ?></td>
+                        <td class="editColumnName"><?php echo $row['grade_column_name']; ?></td>
+                        <td class="editProportion"><?php echo $row['proportion']; ?></td>
                         <td>
                             <button type="button" class="btn btn-primary"
-                                onclick="editGradeColumn('<?php echo $row['column_id']; ?>', '<?php echo $row['grade_column_name']; ?>', '<?php echo $row['proportion']; ?>')">Sửa</button>
+                                onclick="editGradeColumn('<?php echo $row['column_id']; ?>', '<?php echo $row['grade_column_name']; ?>', '<?php echo $row['proportion']; ?>')">Sửa
+                                thuộc tính</button>
                         </td>
                         <td><button class="btn btn-primary">Nhập điểm cho cột này</button></td>
                     </tr>
@@ -132,21 +128,15 @@ if (isset($_SESSION['course_id'])) {
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
     <script>
-        function editGradeColumn(columnId, columnName, proportion) {
-            // Set values in modal
-            document.getElementById('editColumnName').value = columnName;
-            document.getElementById('editProportion').value = proportion;
+    function editGradeColumn(columnId, columnName, proportion) {
+        // Set values in modal
+        document.getElementById('editColumnName').value = columnName;
+        document.getElementById('editProportion').value = proportion;
+        document.getElementById('editColumnId').value = columnId;
 
-            // Show the modal
-            $('#editGradeColumnModal').modal('show');
-        }
-
-        function saveChanges() {
-            // Add logic to save changes here
-            // You can use JavaScript or AJAX to send the updated data to the server
-            // After saving, you may want to close the modal
-            $('#editGradeColumnModal').modal('hide');
-        }
+        // Show the modal
+        $('#editGradeColumnModal').modal('show');
+    }
     </script>
 
 </body>

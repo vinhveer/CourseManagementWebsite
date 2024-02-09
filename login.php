@@ -1,164 +1,85 @@
 <?php
+session_start();
 include_once('config/connect.php');
 
-session_start();
 try {
-    if (isset($cookie_name)) {
-        if (isset($_COOKIE[$cookie_name]) == 1) {
-            $cookie_data = $_COOKIE[$cookie_name];
-            parse_str($cookie_data, $cookie_values);
-
-            if (isset($cookie_values['usr']) && isset($cookie_values['hash'])) {
-                $stored_username = $cookie_values['usr'];
-                $stored_password = $cookie_values['hash'];
-
-                $sql = "SELECT * FROM user_account WHERE username='$stored_username' AND password='$stored_password'";
-                $result = mysqli_query($dbconnect, $sql);
-                if ($result) {
-                    if ($row = mysqli_fetch_array($result)) {
-                        $sql_role = "SELECT r.role_name FROM user_account ua
-                                INNER JOIN user_role ur ON ua.user_id = ur.user_id
-                                INNER JOIN role r ON ur.role_id = r.role_id
-                                WHERE ua.username = '$stored_username'";
-
-                        $result_r = mysqli_query($dbconnect, $sql_role);
-                        if ($result_r) {
-                            if ($row_role = mysqli_fetch_assoc($result_r)) {
-                                switch ($row_role['role_name']) {
-                                    case "student":
-                                        header('location:student/index.php');
-                                        exit;
-                                    case "teacher":
-                                        header('location:teacher/index.php');
-                                        exit;
-                                    case "admin":
-                                        header('location:admin/index.php');
-                                        exit;
-                                    default:
-                                        echo "Vai trò không hợp lệ.";
-                                        exit;
-                                }
-                            }
-                        } else {
-                            echo "Lỗi câu truy vấn vai trò: " . mysqli_error($dbconnect);
-                            exit;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $a_check = ((isset($_POST['remember']) != 0) ? 1 : "");
+        $remember = (isset($_POST['remember']) && $_POST['remember'] == 1) ? true : false;
 
-        if ($username == "" || $password == "") {
-            $login_error_message = "Thông tin chưa đầy đủ. <br>  Vui lòng nhập đầy đủ thông tin.";
+        if (empty($username) || empty($password)) {
+            $login_error_message = "Thông tin chưa đầy đủ. Vui lòng nhập đầy đủ thông tin.";
         } else {
-            $sql = "SELECT * FROM user_account WHERE username='$username' AND password='$password'";
-            $result = mysqli_query($dbconnect, $sql);
+            $sql = "SELECT * FROM user_account WHERE username=? AND password=?";
+            $stmt = mysqli_prepare($dbconnect, $sql);
+            mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
 
             if (!$result) {
-                echo "Lỗi câu truy vấn" . mysqli_error($dbconnect);
-                exit;
+                throw new Exception("Lỗi câu truy vấn: " . mysqli_error($dbconnect));
             }
 
-            if ($result) {
-                $row = mysqli_fetch_array($result);
+            $row = mysqli_fetch_array($result);
 
-                if ($row) {
-                    $f_user = $row['username'];
-                    $f_pass = $row['password'];
+            if ($row) {
+                // Store user information in session
+                $sql_user = "SELECT us.full_name, us.user_id FROM user us
+                              INNER JOIN user_account ua ON us.user_id = ua.user_id
+                              WHERE username = ?";
 
-                    if ($a_check == 1) {
-                        $_SESSION['username'] = $f_user;
-                        $_SESSION['password'] = $f_pass;
-                        setcookie($cookie_name, 'usr=' . $f_user . '&hash=' . $f_pass, time() + $cookie_time);
-                    }
+                $stmt_user = mysqli_prepare($dbconnect, $sql_user);
+                mysqli_stmt_bind_param($stmt_user, "s", $username);
+                mysqli_stmt_execute($stmt_user);
+                $result_user = mysqli_stmt_get_result($stmt_user);
 
-                    $sql_user = "SELECT us.full_name, us.user_id FROM user us
-                    INNER JOIN user_account ua ON us.user_id = ua.user_id
-                    WHERE username = '$username'";
+                $row_user = mysqli_fetch_assoc($result_user);
 
-                    $result_user = mysqli_query($dbconnect, $sql_user);
+                $_SESSION['full_name'] = $row_user['full_name'];
+                $_SESSION['user_id'] = $row_user['user_id'];
 
-                    $row_user = mysqli_fetch_assoc($result_user);
+                // Fetch user role
+                $sql_role = "SELECT r.role_name FROM user_account ua
+                                INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                                INNER JOIN role r ON ur.role_id = r.role_id
+                                WHERE ua.username = ?";
 
-                    $_SESSION['full_name'] = $row_user['full_name'];
-                    $_SESSION['user_id'] = $row_user['user_id'];
+                $stmt_role = mysqli_prepare($dbconnect, $sql_role);
+                mysqli_stmt_bind_param($stmt_role, "s", $username);
+                mysqli_stmt_execute($stmt_role);
+                $result_role = mysqli_stmt_get_result($stmt_role);
 
-                    $sql_role = "SELECT r.role_name FROM user_account ua
-                        INNER JOIN user_role ur ON ua.user_id = ur.user_id
-                        INNER JOIN role r ON ur.role_id = r.role_id
-                        WHERE ua.username = '$username'";
+                $row_role = mysqli_fetch_assoc($result_role);
 
-                    $result_role = mysqli_query($dbconnect, $sql_role);
+                if ($row_role) {
+                    $_SESSION['role_name'] = $row_role['role_name'];
 
-                    if ($result_role) {
-                        $row_role = mysqli_fetch_assoc($result_role);
-
-            
-                if ($row) {
-                    $f_user = $row['username'];
-                    $f_pass = $row['password'];
-            
-                    $_SESSION['username'] = $f_user;
-                    $_SESSION['password'] = $f_pass;
-            
-                    $sql_user = "SELECT us.full_name, us.user_id FROM user us
-                    INNER JOIN user_account ua ON us.user_id = ua.user_id
-                    WHERE username = '$username'";
-            
-                    $result_user = mysqli_query($dbconnect, $sql_user);
-            
-                    $row_user = mysqli_fetch_assoc($result_user);
-            
-                    $_SESSION['full_name'] = $row_user['full_name'];
-                    $_SESSION['user_id'] = $row_user['user_id'];
-            
-                    $sql_role = "SELECT r.role_name FROM user_account ua
-                        INNER JOIN user_role ur ON ua.user_id = ur.user_id
-                        INNER JOIN role r ON ur.role_id = r.role_id 
-                        WHERE ua.username = '$username'";
-            
-                    $result_role = mysqli_query($dbconnect, $sql_role);
-            
-                    if ($result_role) {
-                        $row_role = mysqli_fetch_assoc($result_role);
-            
-                        if ($row_role) {
-                            if ($row_role['role_name'] == "student") {
-                                $_SESSION['role_name'] = $row_role['role_name'];
-                                header('location:student/index.php');
-                                exit;
-                            } else if ($row_role['role_name'] == "teacher") {
-                                $_SESSION['role_name'] = $row_role['role_name'];
-                                header('location:teacher/index.php');
-                                exit;
-                            } else {
-                                $_SESSION['role_name'] = $row_role['role_name'];
-                                header('location:admin/index.php');
-                                exit;
-                            }
-                        } else {
-                            echo "Không tìm thấy thông tin vai trò cho người dùng.";
+                    // Redirect based on user role
+                    switch ($row_role['role_name']) {
+                        case "student":
+                            header('location: student/index.php');
                             exit;
-                        }
-                    } else {
-                        echo "Lỗi câu truy vấn vai trò: " . mysqli_error($dbconnect);
-                        exit;
+                        case "teacher":
+                            header('location: teacher/index.php');
+                            exit;
+                        case "admin":
+                            header('location: admin/index.php');
+                            exit;
+                        default:
+                            echo "Vai trò không hợp lệ.";
+                            exit;
                     }
                 } else {
-                    $login_error_message = "Tên đăng nhập hoặc mật khẩu không chính xác";
+                    echo "Không tìm thấy thông tin vai trò cho người dùng.";
+                    exit;
                 }
             } else {
-                echo "Lỗi câu truy vấn: " . mysqli_error($dbconnect);
-                exit;
+                $login_error_message = "Tên đăng nhập hoặc mật khẩu không chính xác";
             }
         }
     }
+
 } catch (Exception $exp) {
     echo $exp->getMessage() . '<br>';
     echo 'File: ' . $exp->getFile() . '<br>';
