@@ -7,7 +7,7 @@ $_SESSION = array();
 // Destroy the session
 session_destroy();
 // Delete cookie
-setcookie("abc", "", time() -3600);
+setcookie("abc", "", time() - 3600);
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,8 @@ setcookie("abc", "", time() -3600);
         }
 
         #content {
-            padding-top: 100px; /* Adjust the padding-top as needed */
+            padding-top: 100px;
+            /* Adjust the padding-top as needed */
         }
 
         header.container {
@@ -38,8 +39,7 @@ setcookie("abc", "", time() -3600);
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#" onclick="loadContent('home')">LMS</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">

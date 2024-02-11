@@ -79,7 +79,6 @@ try {
             }
         }
     }
-
 } catch (Exception $exp) {
     echo $exp->getMessage() . '<br>';
     echo 'File: ' . $exp->getFile() . '<br>';
@@ -96,17 +95,17 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>Đăng nhập</title>
     <style>
-    body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-    }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
 
-    .login-container {
-        max-width: 400px;
-    }
+        .login-container {
+            max-width: 400px;
+        }
     </style>
 </head>
 
@@ -116,8 +115,7 @@ try {
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container-fluid ">
                 <a class="navbar-brand" href="#" onclick="loadContent('home')">LMS - Đăng nhập</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -147,17 +145,15 @@ try {
                         <div class="card-body">
                             <form action="login.php" method="post">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="username">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="username">
                                     <label for="username">Tên đăng nhập</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="password">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="password">
                                     <label for="password">Mật khẩu</label>
                                 </div>
 
-                                 <div class="mb-3 form-check">
+                                <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="remember" name="remember" value="1">
                                     <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                                 </div>
