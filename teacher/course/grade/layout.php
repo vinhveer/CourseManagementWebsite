@@ -61,9 +61,6 @@ if (isset($_SESSION['course_id'])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Tổng quan</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="grade_column.php">Cột điểm</a>
                     </li>
                     <li class="nav-item">

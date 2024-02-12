@@ -30,7 +30,7 @@ if (isset($_SESSION['course_id'])) {
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-6">
-                <h2>Điểm số</h2>
+                <h3>Điểm số</h3>
             </div>
             <div class="col-md-6">
                 <form class="d-flex">

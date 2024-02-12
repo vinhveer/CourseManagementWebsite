@@ -77,7 +77,7 @@ CREATE TABLE grade
   grade_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   column_id INT NOT NULL,
   member_id INT NOT NULL,
-  score DECIMAL NOT NULL
+  score DECIMAL
 );
 
 ALTER TABLE user_account

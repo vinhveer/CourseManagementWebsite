@@ -79,10 +79,7 @@ else
                         <a class="nav-link" href="exam.php">Bài tập và kiểm tra</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="messages.php">Nhắn tin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./grade/index.php">Điểm số</a>
+                        <a class="nav-link" href="./grade/grade_column.php">Điểm số</a>
                     </li>
                     <li class="nav-item dropdown">
                         <?php if (isset($username_now)) : ?>
