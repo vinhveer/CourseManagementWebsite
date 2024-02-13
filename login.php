@@ -38,6 +38,7 @@ try {
                 $row_user = mysqli_fetch_assoc($result_user);
 
                 $_SESSION['full_name'] = $row_user['full_name'];
+                $_SESSION['username'] = $username;
                 $_SESSION['user_id'] = $row_user['user_id'];
 
                 // Fetch user role

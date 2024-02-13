@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['username'])) 
+if (isset($_SESSION['full_name'])) 
 {
     $username = $_SESSION['username'];
 

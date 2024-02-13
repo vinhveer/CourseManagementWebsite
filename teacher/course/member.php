@@ -59,26 +59,34 @@ if (isset($_SESSION['course_id'])) {
                             <th>Ngày sinh</th>
                             <th>Giới tính</th>
                             <th>Email</th>
-                            <th>Trang cá nhân</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         if ($result && mysqli_num_rows($result) > 0) {
-                            
+
                             mysqli_data_seek($result, 0);
                             $index = 0;
                             while ($row = mysqli_fetch_array($result)) {
                                 $student_id = $row['student_id'];
                         ?>
-                        <tr>
-                            <td><?php $index++; echo $index;?></td>
-                            <td><?php echo $row['full_name'];?></td>
-                            <td><?php echo date('d/m/Y', strtotime($row['date_of_birth'])); ?></td>
-                            <td><?php echo ($row['gender'] == "M" ? "Nam" : "Nữ");?></td>
-                            <td><?php echo $row['email'];?></td>
-                            <td><a type="button" class="btn btn-primary" href="my_student.php?user_id=<?php echo $student_id?>">Xem chi tiết thông tin</td>
-                        </tr>
+                                <tr>
+                                    <td><?php $index++;
+                                        echo $index; ?></td>
+                                    <td><?php echo $row['full_name']; ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($row['date_of_birth'])); ?></td>
+                                    <td><?php echo ($row['gender'] == "M" ? "Nam" : "Nữ"); ?></td>
+                                    <td><?php echo $row['email']; ?></td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <a role="button" class="btn btn-primary" href="my_student.php?user_id=<?php echo $student_id ?>">Xem chi tiết thông tin</a>
+                                            <form action="process.php" method="post" class="">
+                                                <button type="submit" class="btn btn-danger ml-auto">Loại khỏi khóa học</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
                         <?php
                             }
                         } else {
