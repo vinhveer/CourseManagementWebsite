@@ -51,4 +51,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
 
 }
 mysqli_close($dbconnect);
+header("location: sign_up.php");
 ?>
