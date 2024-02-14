@@ -1,3 +1,6 @@
+<?php
+include("layout.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
