@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['portrait'] = $_FILES['portrait']['name'];
     $image = $_SESSION['portrait'];
     $image_tmp = $_FILES['portrait']['tmp_name'];
-    if (move_uploaded_file($image_tmp,'assets/images'.$image)) {
+    if (move_uploaded_file($image_tmp,'assets/images/'.$image)) {
         echo 'Upload thành công';
     } else {
         echo 'Lỗi khi upload: ' . error_get_last()['message'];
