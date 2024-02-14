@@ -38,7 +38,7 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
             </div>
             <div class="col-md-6">
                 <button type="button" class="btn btn-danger float-end">Xóa khóa học này</button>
-                <button type="button" class="btn btn-primary float-end me-2">Thay đổi thuộc tính khóa học</button>
+                <a type="button" class="btn btn-primary float-end me-2" href="edit_course.php">Thay đổi thuộc tính khóa học</a>
             </div>
         </div>
     </div>

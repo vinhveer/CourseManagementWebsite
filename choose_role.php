@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sbm'])) {
         header("location: set_account.php");
         exit;
 }
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,5 +75,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sbm'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-rqI2waM7CtpVHmUnY9NXfQTKc3N8RBLtbl6TbY3b3NC6HjbF2wF81v11z5KnMK17" crossorigin="anonymous"></script>
 </body>
-
 </html>

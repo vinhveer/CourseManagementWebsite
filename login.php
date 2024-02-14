@@ -62,7 +62,7 @@ try {
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $a_check = ((isset($_POST['remember']) != 0) ? 1 : "");
+        $remember = (isset($_POST['remember']) && $_POST['remember'] == 1) ? true : false;
 
         if (empty($username) || empty($password)) {
             $login_error_message = "Thông tin chưa đầy đủ. Vui lòng nhập đầy đủ thông tin.";
@@ -76,7 +76,7 @@ try {
             if (!$result) {
                 throw new Exception("Lỗi câu truy vấn: " . mysqli_error($dbconnect));
             }
-
+            
             $row = mysqli_fetch_array($result);
 
             if ($row) {
@@ -98,14 +98,15 @@ try {
                 $row_user = mysqli_fetch_assoc($result_user);
 
                 $_SESSION['full_name'] = $row_user['full_name'];
+                $_SESSION['username'] = $username;
                 $_SESSION['user_id'] = $row_user['user_id'];
 
                 // Fetch user role
                 $sql_role = "SELECT r.role_name FROM user_account ua
-                            INNER JOIN user_role ur ON ua.user_id = ur.user_id
-                            INNER JOIN role r ON ur.role_id = r.role_id
-                            WHERE ua.username = ?";
-
+                                INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                                INNER JOIN role r ON ur.role_id = r.role_id
+                                WHERE ua.username = ?";
+              
                 $stmt_role = mysqli_prepare($dbconnect, $sql_role);
                 mysqli_stmt_bind_param($stmt_role, "s", $username);
                 mysqli_stmt_execute($stmt_role);
@@ -172,7 +173,6 @@ try {
 
 <body>
     <div class="container-fluid">
-
         <?php
         if (!empty($login_error_message)) {
             echo '<div class="alert alert-danger mt-3" role="alert">' . $login_error_message . '</div>';
@@ -199,7 +199,7 @@ try {
                                 </div>
 
                                 <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                    <input type="checkbox" class="form-check-input" id="remember" name="remember" value="1">
                                     <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                                 </div>
 

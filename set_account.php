@@ -16,7 +16,6 @@ include_once('layout.php');
         <h3>Thông tin tài khoản</h3>
         <p>Hoàn thành các thông tin sau:</p>
         <hr class="my-4">
-
         <form id="accountInfoForm" action="process.php" method="post" class="needs-validation" novalidate enctype="multipart/form-data" >
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -39,7 +38,6 @@ include_once('layout.php');
                     </div>
                 </div>
             </div>
-
             <hr class="my-4">
 
             <div class="text-end">
