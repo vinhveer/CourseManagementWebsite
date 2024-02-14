@@ -64,8 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="gender" class="form-label">Giới tính</label>
                     <select class="form-select" id="gender" name="gender" required>
                         <option value="" disabled selected>Chọn giới tính</option>
-                        <option value="Male">Nam</option>
-                        <option value="Female">Nữ</option>
+                        <option value="M">Nam</option>
+                        <option value="F">Nữ</option>
                     </select>
                 </div>
                 <div class="col-md-4">
