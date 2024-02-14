@@ -5,15 +5,13 @@ include_once('../config/connect.php');
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$course_id = $_GET['course_id'];
-if (isset($_GET['user_id'])) {
-    $user_id = $_GET['user_id'];
+
+if (isset($_SESSION['user_id']))
+{
+    $user_id = $_SESSION['user_id'];
+
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
-
-    if ($result) {
-        $row = mysqli_fetch_assoc($result);
-    }
 }
 else
 {
@@ -54,14 +52,12 @@ else
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <img src="../../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
+                <img src="../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
             </div>
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
-                <h5>Giáo viên</h5> <br>
-                <div class="col-md-15 text-right">
-                <a type="button" class="btn btn-secondary" href="course_show.php?id=<?php echo $course_id?>&teacher_id=<?php echo $user_id?>">Thoát</a>
-                </div>
+                <h5>Quản trị viên</h5> <br>
+                <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
             </div>
 
         </div>
@@ -97,24 +93,6 @@ else
                             <b>Mã số CCCD/CMND</b>
                             <br> <?php echo $row['citizen_id'];?>
                         </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Các khóa học đang tham gia -->
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>Các khóa học đang tham gia</h4>
-                        <hr class="info-divider">
-                        <?php
-                        $sql = "SELECT * FROM course WHERE teacher_id = $user_id";
-                        $result = mysqli_query($dbconnect, $sql);
-                        while ($row = mysqli_fetch_array($result)) {
-                            echo $row['course_code'] . " - " . $row['course_name'];
-                            echo "<br>";
-                        }
-                        ?>
                     </div>
                 </div>
             </div>

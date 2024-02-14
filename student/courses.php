@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-if (isset($_SESSION['full_name'])) 
+if (isset($_SESSION['full_name']))
 {
     $user_id = $_SESSION['user_id'];
 
@@ -14,8 +14,8 @@ if (isset($_SESSION['full_name']))
     INNER JOIN course_member cm ON co.course_id = cm.course_id
     WHERE student_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
-} 
-else 
+}
+else
 {
     $username_now = "User not logged in";
 }

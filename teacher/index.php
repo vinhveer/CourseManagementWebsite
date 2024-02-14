@@ -12,8 +12,8 @@ if (isset($_SESSION['user_id']))
 
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
-} 
-else 
+}
+else
 {
     $username_now = "User not logged in";
 }
@@ -64,7 +64,7 @@ else
         $sql = "SELECT * FROM course co
                 INNER JOIN course_schedule cs ON co.course_id = cs.course_id
                 WHERE day_of_week = $dayOfWeekNumber AND teacher_id = $user_id";
-        
+
         $result = mysqli_query($dbconnect, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows > 0) {

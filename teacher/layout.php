@@ -7,7 +7,7 @@ if (isset($_SESSION['full_name']))
 {
     $username_now = $_SESSION['full_name'];
 }
-else 
+else
 {
     $username_now = "User not logged in";
 }
@@ -60,7 +60,7 @@ else
                                     height="30">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" onclick="loadContent('my')">Trang cá nhân</a>
+                                <a class="dropdown-item" href="my.php">Trang cá nhân</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="../logout.php">Đăng xuất</a>
                             </div>

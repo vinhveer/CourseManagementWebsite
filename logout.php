@@ -22,14 +22,12 @@ setcookie("abc", "", time() - 3600);
 </head>
 
 <body>
-    <div class="container mt-5"> <!-- Add the mt-5 class for extra top margin -->
+    <div class="container mt-5">
         <div id="content">
             <h2>Bạn đã đăng xuất!</h2>
             <p>Vui lòng <a href="login.php">đăng nhập</a> để tiếp tục.</p>
         </div>
     </div>
-
-    <!-- Additional content can be added here -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

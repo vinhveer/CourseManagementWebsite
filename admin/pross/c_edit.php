@@ -1,7 +1,7 @@
 <?php
 include_once "../../config/connect.php";
 $id = $_GET['id'];
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
     $course_name = $_POST['course_name'];
     $course_code = $_POST['course_code'];
     $teacher_id = $_POST['teacher_id'];

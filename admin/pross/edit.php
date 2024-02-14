@@ -7,17 +7,12 @@
     where us.user_id=$id";
     $query_update = mysqLi_query($dbconnect, $sql_edit);
     $row_update = mysqli_fetch_assoc($query_update);
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
     $name = $_POST['full_name'];
     $image = $_FILES['image']['name'];
     $image_tmp = $_FILES['image']['tmp_name'];
     $birth = $_POST['date_of_birth'];
-    $gender = "";
-    if ($_POST['gender'] == "Nữ") {
-        $gender = "F";
-    } else {
-        $gender = "M";
-    }
+    $gender = $_POST['gender'];
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];

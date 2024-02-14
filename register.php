@@ -1,5 +1,25 @@
 <?php
 include_once('layout.php');
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $_SESSION['fullName'] = $_POST['fullName'];
+    $_SESSION['idCard'] = $_POST['idCard'];
+    $_SESSION['dob'] = $_POST['dob'];
+    $_SESSION['gender'] = $_POST['gender'];
+    $_SESSION['phoneNumber'] = $_POST['phoneNumber'];
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['address'] = $_POST['address'];
+    $_SESSION['portrait'] = $_FILES['portrait']['name'];
+    $image = $_SESSION['portrait'];
+    $image_tmp = $_FILES['portrait']['tmp_name'];
+    if (move_uploaded_file($image_tmp,'assets/images/'.$image)) {
+        echo 'Upload thành công';
+    } else {
+        echo 'Lỗi khi upload: ' . error_get_last()['message'];
+        exit;
+    }
+    header("location: choose_role.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +37,7 @@ include_once('layout.php');
         <h3>Tạo tài khoản mới</h3>
         <p>Hoàn thành các nội dung dưới đây</p>
 
-        <form id="accountForm" action="process.php" method="post" class="needs-validation" novalidate>
+        <form id="accountForm" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="fullName" class="form-label">Họ và tên</label>
@@ -44,8 +64,8 @@ include_once('layout.php');
                     <label for="gender" class="form-label">Giới tính</label>
                     <select class="form-select" id="gender" name="gender" required>
                         <option value="" disabled selected>Chọn giới tính</option>
-                        <option value="male">Nam</option>
-                        <option value="female">Nữ</option>
+                        <option value="M">Nam</option>
+                        <option value="F">Nữ</option>
                     </select>
                 </div>
                 <div class="col-md-4">
@@ -76,7 +96,7 @@ include_once('layout.php');
             </div>
 
             <div class="text-end">
-                <a type="submit" class="btn btn-primary" href="choose_role.php">Tạo tài khoản mới</a>
+                <button type="submit" class="btn btn-primary" name="sbm">Tạo tài khoản mới</button>
             </div>
         </form>
     </div>
@@ -100,5 +120,4 @@ include_once('layout.php');
         })();
     </script>
 </body>
-
 </html>

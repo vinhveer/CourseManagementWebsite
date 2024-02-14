@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
-if (isset($_SESSION['full_name'])) 
+if (isset($_SESSION['full_name']))
 {
     $user_id = $_SESSION['user_id'];
 
@@ -49,7 +49,7 @@ if (isset($_SESSION['full_name']))
 
 <body>
 
-  
+
   <header class="container mt-4">
       <div class="row">
         <div class="col-md-6">
@@ -84,7 +84,7 @@ if (isset($_SESSION['full_name']))
                           Mã khóa học: <?php echo $row['course_code'];?> <br>
                           Trạng thái: <?php echo ($row['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt";?>
                         </p>
-                        
+
                         <a class="btn btn-primary" href="details_course.php?course_id=<?php echo $row['course_id']; ?>">Chi tiết</a>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ if (isset($_SESSION['full_name']))
         }
         ?>
     </div>
-  </div>  
+  </div>
 </body>
 
 </html>

@@ -1,3 +1,6 @@
+<?php
+include_once('layout.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,21 +16,19 @@
         <h3>Thông tin tài khoản</h3>
         <p>Hoàn thành các thông tin sau:</p>
         <hr class="my-4">
-
-        <form id="accountInfoForm" action="process.php" method="post" class="needs-validation" novalidate>
+        <form id="accountInfoForm" action="process.php" method="post" class="needs-validation" novalidate enctype="multipart/form-data" >
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="username" class="form-label">Tên tài khoản</label>
                     <div class="input-group">
                         <span class="input-group-text">@</span>
                         <input type="text" class="form-control" id="username" name="username" pattern="[a-zA-Z0-9_]+" title="Tên tài khoản không hợp lệ. Chỉ chấp nhận chữ, số và gạch dưới." required>
-                    </div>
-                    <div class="invalid-feedback">
-                        Tên tài khoản không hợp lệ.
+                        <div class="invalid-feedback">
+                            Tên tài khoản không hợp lệ. Chỉ chấp nhận chữ, số và gạch dưới.
+                        </div>
                     </div>
                 </div>
             </div>
-
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="password" class="form-label">Mật khẩu</label>
@@ -37,12 +38,10 @@
                     </div>
                 </div>
             </div>
-
-
             <hr class="my-4">
 
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">Hoàn tất việc tạo tài khoản</button>
+                <button type="submit" class="btn btn-primary" name="sbm">Hoàn tất việc tạo tài khoản</button>
             </div>
         </form>
     </div>

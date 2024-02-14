@@ -11,7 +11,8 @@ CREATE TABLE user
     address VARCHAR(255) NOT NULL,
     phone VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    citizen_id VARCHAR(15) NOT NULL
+    citizen_id VARCHAR(15) NOT NULL,
+    image VARCHAR(255) NULL
 );
 
 CREATE TABLE user_role
@@ -115,4 +116,3 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE grade
 ADD CONSTRAINT fk_grade_column_id FOREIGN KEY (column_id) REFERENCES grade_column(column_id)
 ON DELETE CASCADE ON UPDATE CASCADE;
-

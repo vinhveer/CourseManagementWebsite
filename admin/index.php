@@ -10,6 +10,6 @@ include("layout.php");
     <title>Trang chủ</title>
 </head>
 <body>
-    
+
 </body>
 </html>

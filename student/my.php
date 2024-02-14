@@ -8,17 +8,12 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (isset($_SESSION['full_name'])) 
 {
-    $username = $_SESSION['username'];
-
-    $sql = "SELECT user_id FROM user_account WHERE username = '$username';";
-    $result = mysqli_query($dbconnect, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $user_id = $row['user_id'];
+    $user_id = $_SESSION['user_id'];
 
     $sql = "SELECT * FROM user WHERE user_id = $user_id";
     $result = mysqli_query($dbconnect, $sql);
-} 
-else 
+}
+else
 {
     $username_now = "User not logged in";
 }
@@ -64,7 +59,7 @@ else
                 <h5>Học sinh</h5> <br>
                 <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
             </div>
-            
+
         </div>
 
     </header>

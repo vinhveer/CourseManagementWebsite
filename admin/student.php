@@ -1,16 +1,29 @@
-<?php 
+<?php
 include("layout.php");
 include_once('../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-$sql_student_account = "SELECT * FROM user_account ua
-INNER JOIN user us ON ua.user_id = us.user_id
-INNER JOIN user_role ur ON us.user_id = ur.user_id
-WHERE ur.role_id = 1";
-$result_student_account = mysqli_query($dbconnect, $sql_student_account);
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
+    $tukhoa = $_GET['tukhoa'];
+    $keyword = strtolower(trim($tukhoa));
+    $keyword = str_replace('d','Đ',$tukhoa);
+    $sql_student_account =
+        "SELECT * FROM user_account ua
+        INNER JOIN user us ON ua.user_id = us.user_id
+        INNER JOIN user_role ur ON us.user_id = ur.user_id
+        WHERE ur.role_id = 1 AND
+        (LOWER(REPLACE(us.full_name, ' ', '')) LIKE '%$keyword%'  OR us.full_name LIKE '%$tukhoa%')";
+    $result_student_account = mysqli_query($dbconnect, $sql_student_account);
+}
+else{
+    $sql_student_account = "SELECT * FROM user_account ua
+    INNER JOIN user us ON ua.user_id = us.user_id
+    INNER JOIN user_role ur ON us.user_id = ur.user_id
+    WHERE ur.role_id = 1";
+    $result_student_account = mysqli_query($dbconnect, $sql_student_account);
+}
 mysqli_close($dbconnect);
 ?>
 <!DOCTYPE html>
@@ -30,16 +43,13 @@ mysqli_close($dbconnect);
                 <h3>Danh sách tài khoản (Học sinh)</h3>
             </div>
             <div class="col-md-4">
-
-            <form class="d-flex" action="acc_find.php" method="GET">
+            <form class="d-flex" action="student.php" method="GET">
                 <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
-                <input type="hidden" name="id" value="1">
-                <input type="hidden" name="role_name" value="student">
-            <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
+                <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
             </form>
             </div>
             <div class="col-md-2 text-right">
-              <a class="btn btn-primary" type="button" href="acc_add.php?role_id=1&role_name=student"> Tạo tài khoản mới </a>
+              <a class="btn btn-primary" type="button" href="account_add.php?role_id=1&role_name=student"> Tạo tài khoản mới </a>
             </div>
         </div>
 
@@ -69,11 +79,9 @@ mysqli_close($dbconnect);
                             <td><?php echo $row_student_account['username'] ?></td>
                             <td><?php echo $row_student_account['password'] ?></td>
                             <td>
-
-                                <a class="btn btn-info btn-sm" href="acc_edit.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1&role_name=student">Sửa</a>
+                                <a class="btn btn-info btn-sm" href="account_edit.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1&role_name=student">Sửa</a>
                                 <a class="btn btn-danger btn-sm" onclick="return Del('<?php echo $row_student_account['full_name']; ?>')" href="pross/delete.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1">Xóa</a>
-                                <a class="btn btn-info btn-sm" href="acc_view.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1&role_name=student">Thông tin</a>
-
+                                <a class="btn btn-info btn-sm" href="account_view.php?user_id=<?php echo $row_student_account['user_id'];?>&role_id=1&role_name=student">Thông tin</a>
                             </td>
                         </tr>
                         <?php
@@ -84,7 +92,6 @@ mysqli_close($dbconnect);
             </div>
         </div>
     </div>
-
     <script>
     function Del(name){
         return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name +  " ?");

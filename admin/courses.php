@@ -1,13 +1,21 @@
-<?php 
+<?php
 include("layout.php");
 include_once('../config/connect.php');
-
-$sql_course_n = "SELECT * FROM course
-INNER JOIN user ON course.teacher_id = user.user_id
-WHERE status = 'N'";
-$result_course_n = mysqli_query($dbconnect, $sql_course_n);
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
+    $tukhoa = $_GET['tukhoa'];
+    $keyword = strtolower(trim($tukhoa));
+    $sql_course_n = "SELECT * FROM course c
+    INNER JOIN user us ON c.teacher_id = us.user_id
+    WHERE c.status = 'N' AND (LOWER(REPLACE(c.course_name, ' ', ''))
+    LIKE '%$keyword%' OR c.course_name LIKE '%$tukhoa%')";
+    $result_course_n = mysqli_query($dbconnect, $sql_course_n);
+}else{
+    $sql_course_n = "SELECT * FROM course
+    INNER JOIN user ON course.teacher_id = user.user_id
+    WHERE status = 'N'";
+    $result_course_n = mysqli_query($dbconnect, $sql_course_n);
+}
 mysqli_close($dbconnect);
-
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +54,7 @@ mysqli_close($dbconnect);
                 <h3>Khóa học (Chưa duyệt)</h3>
             </div>
             <div class="col-md-5">
-               <form action="course_find.php" method="GET">
+               <form action="courses.php" method="GET">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Tìm kiếm..." name="tukhoa">
                         <button class="btn btn-secondary rounded-end" type="submit" name="timkiem" value="find">Tìm kiếm</button>
@@ -61,7 +69,7 @@ mysqli_close($dbconnect);
 
     <div class="container mt-5">
         <div class="row">
-        <?php 
+        <?php
         while ($row_course_n = mysqli_fetch_array($result_course_n))
         {
         ?>

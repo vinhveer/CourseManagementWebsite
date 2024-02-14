@@ -4,6 +4,61 @@ include_once('config/connect.php');
 include_once('layout.php');
 
 try {
+    //Chạy tính năng remember bằng cookie
+    if (isset($cookie_name)) {
+        if (isset($_COOKIE[$cookie_name]) == 1) {
+            $cookie_data = $_COOKIE[$cookie_name];
+            // tách cookie thành usr và hash
+            parse_str($cookie_data, $cookie_values);
+
+            if (isset($cookie_values['usr']) && isset($cookie_values['hash'])) {
+                $t_username = $cookie_values['usr'];
+                $t_password = $cookie_values['hash'];
+
+                $sql_us = "SELECT us.full_name, us.user_id FROM user us
+                INNER JOIN user_account ua ON us.user_id = ua.user_id
+                WHERE ua.username = '$t_username' ";
+
+                $result_us = mysqli_query($dbconnect, $sql_us);
+                $row_us = mysqli_fetch_assoc($result_us);
+                $_SESSION['full_name'] = $row_us['full_name'];
+                $_SESSION['user_id'] = $row_us['user_id'];
+
+                $sql = "SELECT * FROM user_account WHERE username='$t_username' AND password='$t_password'";
+                $result = mysqli_query($dbconnect, $sql);
+                if ($result) {
+                    if ($row = mysqli_fetch_array($result)) {
+                        $sql_role = "SELECT r.role_name FROM user_account ua
+                        INNER JOIN user_role ur ON ua.user_id = ur.user_id
+                        INNER JOIN role r ON ur.role_id = r.role_id
+                        WHERE ua.username = '$t_username'";
+
+                        $result_r = mysqli_query($dbconnect, $sql_role);
+                        if ($result_r) {
+                            if ($row_role = mysqli_fetch_assoc($result_r)) {
+                                switch ($row_role['role_name']) {
+                                    case "student":
+                                        header('location:student/index.php');
+                                        exit;
+                                    case "teacher":
+                                        header('location:teacher/index.php');
+                                        exit;
+                                    case "admin":
+                                        header('location:admin/index.php');
+                                        exit;
+                                    default:
+                                        exit;
+                                }
+                            }
+                        } else {
+                            echo "Lỗi câu truy vấn vai trò: " . mysqli_error($dbconnect);
+                            exit;
+                        }
+                    }
+                }
+            }
+        }
+    }
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -25,6 +80,11 @@ try {
             $row = mysqli_fetch_array($result);
 
             if ($row) {
+                $f_user = $row['username'];
+                $f_pass = $row['password'];
+                if ($a_check == 1) {
+                    setcookie($cookie_name, 'usr=' . $f_user . '&hash=' . $f_pass, time() + $cookie_time);
+                }
                 // Store user information in session
                 $sql_user = "SELECT us.full_name, us.user_id FROM user us
                               INNER JOIN user_account ua ON us.user_id = ua.user_id
@@ -46,7 +106,7 @@ try {
                                 INNER JOIN user_role ur ON ua.user_id = ur.user_id
                                 INNER JOIN role r ON ur.role_id = r.role_id
                                 WHERE ua.username = ?";
-
+              
                 $stmt_role = mysqli_prepare($dbconnect, $sql_role);
                 mysqli_stmt_bind_param($stmt_role, "s", $username);
                 mysqli_stmt_execute($stmt_role);
@@ -113,7 +173,6 @@ try {
 
 <body>
     <div class="container-fluid">
-        
         <?php
         if (!empty($login_error_message)) {
             echo '<div class="alert alert-danger mt-3" role="alert">' . $login_error_message . '</div>';

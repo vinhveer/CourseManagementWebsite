@@ -65,7 +65,7 @@ mysqli_close($dbconnect);
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
                 <h5><?php echo $role_fullName?></h5> <br>
-                <a class="btn btn-primary rounded-end rounded-start" type="button" href="acc_edit.php?user_id=<?php echo $row['user_id']; ?>&role_id=<?php echo $row['role_id'];?>&role_name=<?php echo $row['role_name'];?>">Thay đổi thông tin</a>
+                <a class="btn btn-primary rounded-end rounded-start" type="button" href="account_edit.php?user_id=<?php echo $row['user_id']; ?>&role_id=<?php echo $row['role_id'];?>&role_name=<?php echo $row['role_name'];?>">Thay đổi thông tin</a>
                 <div class="d-flex justify-content-end">
                     <a class="btn btn-primary" href="<?php echo $role_name;?>.php">Thoát</a>
                 </div>

@@ -3,11 +3,11 @@ include_once('../config/connect.php');
 
 session_start();
 
-if (isset($_SESSION['full_name'])) 
+if (isset($_SESSION['full_name']))
 {
     $username_now = $_SESSION['full_name'];
 }
-else 
+else
 {
     $username_now = "User not logged in";
 }
