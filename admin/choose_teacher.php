@@ -4,12 +4,31 @@ include_once("../config/connect.php");
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$sql_course = "SELECT * FROM user us
-INNER JOIN user_role ur ON us.user_id = ur.user_id where ur.role_id=2";
-$result = mysqLi_query($dbconnect, $sql_course);
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
+  $tukhoa = $_GET['tukhoa'];
+  $keyword = strtolower(trim($tukhoa));
+  $keyword = str_replace(' ', '', $keyword);
+  $sql_course = "SELECT * FROM user us
+      INNER JOIN user_role ur ON us.user_id = ur.user_id
+      WHERE ur.role_id = 2 AND
+      (LOWER(REPLACE(REPLACE(REPLACE(us.full_name, ' ', ''), 'Đ', 'D'), ' ', '')) LIKE '%$keyword%' OR us.full_name LIKE '%$tukhoa%')";
+  $result = mysqli_query($dbconnect, $sql_course);
+}
+else{
+  $sql_course = "SELECT * FROM user us
+  INNER JOIN user_role ur ON us.user_id = ur.user_id where ur.role_id=2";
+  $result = mysqLi_query($dbconnect, $sql_course);
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
+    $id = $_GET['id'];
+    $role = $_GET['role'];
     $_SESSION['teacher_course'] = $_POST['sbm'];
+    if($role == 'add'){
      header("location: schedule_add.php");
+    }else{
+      header("location: schedule_edit.php?id=$id");
+    }
      exit;
 }
 mysqli_close($dbconnect);
@@ -52,9 +71,9 @@ mysqli_close($dbconnect);
           <h2>Danh sách giáo viên</h2>
         </div>
         <div class="col-md-6">
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm">
-            <button class="btn btn-outline-primary" type="submit">Tìm</button>
+          <form class="d-flex" action="choose_teacher.php" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
+                <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
           </form>
         </div>
       </div>

@@ -65,11 +65,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_schedule"])) {
             $startTime = $startTimes[$i];
             $endTime = $endTimes[$i];
             $course_id = $_SESSION['course_id_add'];
+            unset($_SESSION['course_id_add']);
             $sql_schedule = "INSERT INTO course_schedule (course_id, day_of_week, start_time, end_time)
             VALUES ($course_id, '$dayOfWeek', '$startTime', '$endTime') ";
             mysqli_query($dbconnect, $sql_schedule);
         }
-        header("Location: ../success_create_course.php?course_id='$course_id'&teacher_id='$teacher_id'");
+        header("Location: ../success_course.php?course_id='$course_id'&teacher_id='$teacher_id'");
         exit();
     } else {
         echo "Không có dữ liệu được gửi từ form.";

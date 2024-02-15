@@ -18,7 +18,7 @@ include_once('layout.php');
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
                 <i class="bi bi-patch-check-fill fs-1"></i>
-                <h5>Tạo khóa học mới thành công</h5>
+                <h5>Công việc thành công</h5>
                 <hr>
                 <div class="row align-items-center">
                     <div class="col">

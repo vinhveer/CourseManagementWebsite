@@ -4,10 +4,11 @@ include_once('../config/connect.php');
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
     $tukhoa = $_GET['tukhoa'];
     $keyword = strtolower(trim($tukhoa));
+    $keyword = str_replace(' ', '', $keyword);
     $sql_course_n = "SELECT * FROM course c
     INNER JOIN user us ON c.teacher_id = us.user_id
-    WHERE c.status = 'N' AND (LOWER(REPLACE(c.course_name, ' ', ''))
-    LIKE '%$keyword%' OR c.course_name LIKE '%$tukhoa%')";
+    WHERE c.status = 'N' AND
+    (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(c.course_name, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR c.course_name LIKE '%$tukhoa%')";
     $result_course_n = mysqli_query($dbconnect, $sql_course_n);
 }else{
     $sql_course_n = "SELECT * FROM course

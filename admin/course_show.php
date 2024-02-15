@@ -46,7 +46,7 @@ if ($result_layout) {
             </div>
             <div class="col-md-6">
                 <a class="btn btn-danger float-end" onclick="return Del('<?php echo $row_layout['course_name']; ?>')" href="pross/c_not_approve.php?id=<?php echo $row_layout['course_id'];?>">Xóa khóa học này</a>
-                <a type="button" class="btn btn-primary float-end me-2" href="course_edit.php?id=<?php echo $course_id ?>">Thay đổi thuộc tính khóa học</a>
+                <a type="button" class="btn btn-primary float-end me-2" href="course_edit.php?id=<?php echo $course_id;?>">Thay đổi thuộc tính khóa học</a>
             </div>
         </div>
     </div>
@@ -109,7 +109,9 @@ if ($result_layout) {
                             while ($row_schedule = mysqli_fetch_array($result_schedule)) {
                             ?>
                                 <tr>
-                                    <td><?php echo "Thứ " . $row_schedule['day_of_week']; ?></td>
+                                    <td><?php if($row_schedule['day_of_week'] == 'C'){
+                                        echo "Chủ Nhật";
+                                    } else{ echo "Thứ " . $row_schedule['day_of_week'];} ?></td>
                                     <td><?php echo $row_schedule['start_time'] . " - " . $row_schedule['end_time']; ?></td>
                                 </tr>
                             <?php

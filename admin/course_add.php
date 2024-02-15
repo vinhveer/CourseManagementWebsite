@@ -13,13 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
     $_SESSION['course_image'] = $_FILES['course_image']['name'];
     $image = $_SESSION['course_image'];
     $image_tmp = $_FILES['course_image']['tmp_name'];
-    if (move_uploaded_file($image_tmp,'../assets/images/'.$image)) {
+    if (move_uploaded_file($image_tmp,'../assets/file/course_background/'.$image)) {
         echo 'Upload thành công';
     } else {
         echo 'Lỗi khi upload: ' . error_get_last()['message'];
         exit;
     }
-    header("location: choose_teacher.php");
+    header("location: choose_teacher.php?role=add");
 }
 mysqli_close($dbconnect);
 ?>

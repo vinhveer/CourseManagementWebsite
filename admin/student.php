@@ -8,13 +8,13 @@ if (session_status() == PHP_SESSION_NONE) {
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
     $tukhoa = $_GET['tukhoa'];
     $keyword = strtolower(trim($tukhoa));
-    $keyword = str_replace('d','Đ',$tukhoa);
+    $keyword = str_replace(' ', '', $keyword);
     $sql_student_account =
         "SELECT * FROM user_account ua
         INNER JOIN user us ON ua.user_id = us.user_id
         INNER JOIN user_role ur ON us.user_id = ur.user_id
         WHERE ur.role_id = 1 AND
-        (LOWER(REPLACE(us.full_name, ' ', '')) LIKE '%$keyword%'  OR us.full_name LIKE '%$tukhoa%')";
+        (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(us.full_name, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR us.full_name LIKE '%$tukhoa%')";
     $result_student_account = mysqli_query($dbconnect, $sql_student_account);
 }
 else{
