@@ -6,11 +6,11 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 $role_id = $_GET['role_id']; $role_name = $_GET['role_name'];
 if($role_id == 1){
-    $role_fullName = "Học Sinh";
+    $role_fullName = "học sinh";
 }else if($role_id == 2){
-    $role_fullName = "Giáo Viên";
+    $role_fullName = "giáo viên";
 }else if($role_id == 3){
-    $role_fullName = "Quản Trị Viên";
+    $role_fullName = "quản trị viên";
 }
 $id = $_GET['user_id'];
 $sql_edit = "SELECT * FROM user where user_id=$id";

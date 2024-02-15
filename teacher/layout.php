@@ -11,6 +11,11 @@ else
 {
     $username_now = "User not logged in";
 }
+
+$teacher_id = $_SESSION['user_id'];
+$sql_profile = "SELECT image FROM user WHERE user_id = $teacher_id";
+$result_profile = mysqli_query($dbconnect, $sql_profile);
+$row_profile = mysqli_fetch_assoc($result_profile);
 ?>
 
 <!DOCTYPE html>
@@ -56,8 +61,7 @@ else
                                 <span>
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30"
-                                    height="30">
+                                <img src="<?php echo $row_profile['image']?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="my.php">Trang cá nhân</a>

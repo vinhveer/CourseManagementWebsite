@@ -37,11 +37,32 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
                 </div>
             </div>
             <div class="col-md-6">
-                <button type="button" class="btn btn-danger float-end">Xóa khóa học này</button>
+                <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteCourseModal">Xóa khóa học này</button>
                 <a type="button" class="btn btn-primary float-end me-2" href="edit_course.php">Thay đổi thuộc tính khóa học</a>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa khóa học này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form action="process.php" method="post">
+                        <button type="submit" class="btn btn-danger" name="delete_course">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Body Section -->
     <div class="container mt-4">
         <div class="row">

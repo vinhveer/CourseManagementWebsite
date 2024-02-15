@@ -59,7 +59,7 @@ else
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
                 <h5>Giáo viên</h5> <br>
-                <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
+                <a class="btn btn-primary" type="button" href="../edit_teacher_profile.php">Thay đổi thông tin</a>
             </div>
             
         </div>

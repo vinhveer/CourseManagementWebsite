@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['sbm'])) {
         header("location: set_account.php");
         exit;
 }
+?>
 <!DOCTYPE html>
 <html lang="en">
 

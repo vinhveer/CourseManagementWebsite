@@ -81,9 +81,7 @@ if (isset($_SESSION['course_id'])) {
                                     <td>
                                         <div class="d-flex justify-content-between">
                                             <a role="button" class="btn btn-primary" href="my_student.php?user_id=<?php echo $student_id ?>">Xem chi tiết thông tin</a>
-                                            <form action="process.php" method="post" class="">
-                                                <button type="submit" class="btn btn-danger ml-auto">Loại khỏi khóa học</button>
-                                            </form>
+                                            <button type="submit" class="btn btn-danger ml-auto" data-bs-toggle="modal" data-bs-target="#deleteMemberModal">Loại khỏi khóa học</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -95,6 +93,26 @@ if (isset($_SESSION['course_id'])) {
                         ?>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteMemberModal" tabindex="-1" aria-labelledby="deleteMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteMemberModalLabel">Xác nhận</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn loại thành viên này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form action="process.php" method="post">
+                        <button type="submit" class="btn btn-danger" name="delete_course">Loại thành viên</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
