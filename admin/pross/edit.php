@@ -9,7 +9,7 @@
     $row_update = mysqli_fetch_assoc($query_update);
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
     $name = $_POST['full_name'];
-    $image = $_FILES['image']['name'];
+    $image_name = $_FILES['image']['name'];
     $image_tmp = $_FILES['image']['tmp_name'];
     $birth = $_POST['date_of_birth'];
     $gender = $_POST['gender'];
@@ -50,6 +50,7 @@
     }else{
         $username = $Tname;
     }
+    $image = $username.'_'.$image_name;
     $sql = "UPDATE user SET full_name='$name', date_of_birth = '$birth',gender ='$gender',
     address = '$address',phone = '$phone',email='$email',citizen_id = '$citizen_id',image='$image' WHERE user_id='$id';";
     $query = mysqli_query($dbconnect, $sql);
