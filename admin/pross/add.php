@@ -2,7 +2,7 @@
 include_once "../../config/connect.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
     $name = $_POST['full_name'];
-    $image = $_FILES['image']['name'];
+    $image_name = $_FILES['image']['name'];
     $image_tmp = $_FILES['image']['tmp_name'];
     $birth = $_POST['date_of_birth'];
     $gender = $_POST['gender'];
@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
     $this_id = $_GET['id'];
     $Tname = createUsername($name,$dbconnect);
     $username = checkusername($Tname,$dbconnect);
+    $image = $username.'_'.$image_name;
     $sql = "INSERT INTO user (full_name, date_of_birth,gender,address,phone,email,citizen_id,image) VALUES ('$name','$birth','$gender','$address','$phone','$email','$citizen_id','$image')";
     $query = mysqli_query($dbconnect, $sql);
     if (!$query) {
