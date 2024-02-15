@@ -57,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
         unset($_SESSION['idCard']);
         unset($_SESSION['username']);
         unset($_SESSION['password']);
+        header("location: sign_up.php");
     }
 }
 mysqli_close($dbconnect);
