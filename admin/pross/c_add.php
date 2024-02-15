@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_schedule"])) {
     unset($_SESSION['teacher_course']);
     unset($_SESSION['course_image']);
     $sql_create_course = "INSERT INTO course (course_background, course_code, course_name,teacher_id ,course_description, start_date, end_date, status)
-    VALUES ('$fileName', '$course_code', '$course_name', '$teacher_id', '$course_description', '$start_date', '$end_date', 'N')";
+    VALUES ('$fileName', '$course_code', '$course_name', '$teacher_id', '$course_description', '$start_date', '$end_date', 'A')";
     if (mysqli_query($dbconnect, $sql_create_course)) {
         $sql_course_id = "SELECT course_id FROM course WHERE course_code = '$course_code'";
         $result_course_id = mysqli_query($dbconnect, $sql_course_id);
