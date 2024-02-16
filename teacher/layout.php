@@ -56,12 +56,12 @@ $row_profile = mysqli_fetch_assoc($result_profile);
                     </li>
                     <li class="nav-item dropdown">
                         <?php if (isset($username_now)) : ?>
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span>
+                                <span class="text-white">
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="<?php echo $row_profile['image']?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                <img src="<?php echo "../" . $row_profile['image']?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="my.php">Trang cá nhân</a>

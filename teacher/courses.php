@@ -61,9 +61,7 @@ else
                 </div>
             </div>
             <div class="col-md-2 text-right">
-
                 <a href="create_course.php" class="btn btn-primary rounded-end rounded-start" type="button">Thêm khóa học mới</a>
-
             </div>
         </div>
     </header>

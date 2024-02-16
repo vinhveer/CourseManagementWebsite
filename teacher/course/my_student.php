@@ -32,8 +32,8 @@ else
     <style>
         .profile-image {
             border-radius: 50%;
-            width: 100px;
-            height: 100px;
+            width: 150px;
+            height: 150px;
         }
         .info-divider {
             border: 0;

@@ -29,19 +29,6 @@ else
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang cá nhân</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .profile-image {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-        }
-        .info-divider {
-            border: 0;
-            height: 1px;
-            background-color: #ccc; /* Màu của đường kẻ */
-            margin: 10px 0; /* Khoảng cách trên và dưới đường kẻ */
-        }
-    </style>
 </head>
 
 <body>
@@ -54,7 +41,7 @@ else
     <header class="container mt-4">
         <div class="row">
             <div class="col-md-2">
-                <img src="../../assets/images/course1.jpg" alt="Profile Image" class="profile-image">
+                <img src="<?php echo "../" . $row['image'] ?>" alt="Profile Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
             </div>
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>

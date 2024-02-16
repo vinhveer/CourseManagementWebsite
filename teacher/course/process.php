@@ -1,5 +1,5 @@
 <?php
-include_once('../../config/connect.php');
+    include_once('../../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -45,4 +45,48 @@ if (isset($_POST['edit_course'])) {
     header("Location: index.php");
     exit();
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["delete_member_course"])) {
+        if (isset($_POST["delete_student_id"])) {
+            $student_id = $_POST["delete_student_id"];
+
+            $course_id = $_SESSION['course_id'];
+
+            echo $course_id;
+            echo $student_id . " - m";
+
+            $delete_query = "DELETE FROM course_member WHERE course_id = $course_id AND student_id = $student_id";
+            $delete_result = mysqli_query($dbconnect, $delete_query);
+
+            if ($delete_result) {
+                header("Location: member.php");
+                exit();
+            } else {
+                die('Deletion failed: ' . mysqli_error($dbconnect));
+            }
+        } else {
+            echo "Error: delete_student_id not set";
+        }
+    }
+} else {
+    echo "Invalid request method";
+}
+
+// Check if the form is submitted
+if (isset($_POST['create_post'])) {
+    // Retrieve user_id and course_id from the session
+    $user_id = $_SESSION["user_id"];
+    $course_id = $_SESSION['course_id'];
+    $title = $_POST["postTitle"];
+    $content = $_POST["postContent"];
+
+    $sql = "INSERT INTO post (user_id, course_id, title, content, created_at) VALUES ($user_id, $course_id, '$title', '$content', DEFAULT)";
+    
+    mysqli_query($dbconnect, $sql);
+
+    header("Location: post.php");
+    exit();
+}
 ?>
+

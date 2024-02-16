@@ -112,28 +112,33 @@ if (isset($_POST['edit_teacher'])) {
         $target_dir = "../assets/images/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+        // Cập nhật thông tin người dùng trong cơ sở dữ liệu
+        $update_user_query = "UPDATE user SET 
+        full_name = '$full_name',
+        citizen_id = '$citizen_id',
+        date_of_birth = '$date_of_birth',
+        gender = '$gender',
+        phone = '$phone',
+        email = '$email',
+        address = '$address',
+        image = '$target_file'
+        WHERE user_id = $teacher_id";
+        mysqli_query($dbconnect, $update_user_query);
     } else {
-        // Nếu không có ảnh mới được tải lên, sử dụng ảnh hiện tại
-        $target_file = $row_update['image'];
+        $update_user_query = "UPDATE user SET 
+        full_name = '$full_name',
+        citizen_id = '$citizen_id',
+        date_of_birth = '$date_of_birth',
+        gender = '$gender',
+        phone = '$phone',
+        email = '$email',
+        address = '$address'
+        WHERE user_id = $teacher_id";
+        mysqli_query($dbconnect, $update_user_query);
     }
-
-    // Cập nhật thông tin người dùng trong cơ sở dữ liệu
-    $update_user_query = "UPDATE user SET 
-                        full_name = '$full_name',
-                        citizen_id = '$citizen_id',
-                        date_of_birth = '$date_of_birth',
-                        gender = '$gender',
-                        phone = '$phone',
-                        email = '$email',
-                        address = '$address',
-                        image = '$target_file'
-                        WHERE user_id = $teacher_id";
-
-    mysqli_query($dbconnect, $update_user_query);
 
     // Chuyển hướng về trang danh sách người dùng hoặc thực hiện hành động khác tùy thuộc vào logic của bạn.
     header("Location: index.php");
     exit();
-} else {
-    echo "Giá trị button không được nhận";
 }
+?>
