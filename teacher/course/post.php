@@ -1,6 +1,7 @@
 <?php
 include("layout.php");
 include_once('../../config/connect.php');
+
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
@@ -48,6 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
             </div>
           </div>
         <?php } ?>
+      </div>
+      <div class="col-md-2">
+        <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
       </div>
       <div class="col-md-2">
         <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>

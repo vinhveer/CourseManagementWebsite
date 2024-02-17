@@ -141,7 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_schedule"])) {
     }
 }
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["delete_member_course"])) {
         if (isset($_POST["delete_student_id"])) {
@@ -185,6 +184,7 @@ if (isset($_POST['create_post'])) {
     exit();
 }
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['edit_post'])) {
         $post_id = $_GET['post_id'];
@@ -207,3 +207,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_post'])) {
         }
 }
 ?>
+
