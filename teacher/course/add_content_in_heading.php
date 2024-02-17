@@ -23,7 +23,7 @@ $nav_id = isset($_GET['nav_id']) ? $_GET['nav_id'] : 1;
             $tabs = ['Tải lên video', 'Nhúng video', 'Tập tin', 'Nội dung văn bản'];
             for ($i = 1; $i <= count($tabs); $i++) {
                 echo '<li class="nav-item">
-                        <a class="nav-link ' . ($nav_id == $i ? "active" : "") . '" href="add_content_in_heading.php?nav_id=' . $i . '">' . $tabs[$i - 1] . '</a>
+                        <a class="nav-link ' . ($nav_id == $i ? "active" : "") . '" href="z.php?nav_id=' . $i . '">' . $tabs[$i - 1] . '</a>
                     </li>';
             }
             ?>
@@ -122,6 +122,7 @@ $nav_id = isset($_GET['nav_id']) ? $_GET['nav_id'] : 1;
         }
         ?>
     </div>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

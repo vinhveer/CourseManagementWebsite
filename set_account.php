@@ -64,6 +64,7 @@ include_once('layout.php');
             }, false);
         })();
     </script>
+    <?php include("footer.php"); ?>
 </body>
 
 </html>

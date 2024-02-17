@@ -85,6 +85,7 @@ if (isset($_GET['post_id'])) {
             document.getElementById('postContent').value = content;
         });
     </script>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

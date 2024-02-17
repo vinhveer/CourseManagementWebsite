@@ -104,6 +104,7 @@ include("layout.php");
             additionalTimesContainer.removeChild(rowToRemove);
         }
     </script>
+    <?php include("../footer.php"); ?>
 </body>
 
 </html>

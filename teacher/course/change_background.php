@@ -69,5 +69,6 @@ $row_course = mysqli_fetch_array($result);
             }
         });
     </script>
+    <?php include("../../footer.php"); ?>
 </body>
 </html>

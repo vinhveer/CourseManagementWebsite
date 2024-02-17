@@ -124,6 +124,7 @@ mysqli_close($dbconnect);
             additionalTimesContainer.removeChild(rowToRemove);
         }
     </script>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

@@ -113,6 +113,7 @@ $row_update = mysqli_fetch_assoc($query_update);
             }, false);
         })();
     </script>
+    <?php include("../footer.php"); ?>
 </body>
 
 </html>

@@ -101,7 +101,7 @@ include("layout.php");
             });
     })();
     </script>
-
+    <?php include("../footer.php"); ?>
 </body>
 
 </html>

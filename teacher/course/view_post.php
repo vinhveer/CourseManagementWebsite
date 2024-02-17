@@ -44,6 +44,7 @@ if (isset($_GET['post_id'])) {
     <div class="container mt-4">
         <?php echo $row_view['content']?>
     </div>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>
