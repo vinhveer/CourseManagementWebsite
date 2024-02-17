@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
-    $tukhoa = $_GET['tukhoa'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
+    $tukhoa = $_POST['tukhoa'];
     $keyword = strtolower(trim($tukhoa));
     $keyword = str_replace(' ', '', $keyword);
     $sql_admin_account =
@@ -17,8 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
         WHERE ur.role_id = 3 AND
         (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(us.full_name, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR us.full_name LIKE '%$tukhoa%')";
     $result_admin_account = mysqli_query($dbconnect, $sql_admin_account);
-}
-else{
+} else {
     $sql_admin_account = "SELECT * FROM user_account ua
     INNER JOIN user us ON ua.user_id = us.user_id
     INNER JOIN user_role ur ON us.user_id = ur.user_id
@@ -45,10 +44,20 @@ mysqli_close($dbconnect);
                 <h3>Danh sách tài khoản (Quản trị hệ thống)</h3>
             </div>
             <div class="col-md-4">
-            <form class="d-flex" action="admin.php" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
-                <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
-            </form>
+                <form class="d-flex" action="admin.php" method="POST">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa" value="">
+                    <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
+                </form>
+                <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php
+                            $tukhoa = $_POST['tukhoa'];
+                            echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>";
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
             <div class="col-md-2 text-right">
                 <a class="btn btn-primary" type="button" href="account_add.php?role_id=3&role_name=admin"> Tạo tài khoản mới </a>
@@ -83,7 +92,7 @@ mysqli_close($dbconnect);
                                 <td>
                                     <a class="btn btn-info btn-sm" href="account_edit.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3&role_name=admin">Sửa</a>
                                     <a class="btn btn-danger btn-sm" onclick="return Del('<?php echo $row_admin_account['full_name']; ?>')" href="pross/delete.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3">Xóa</a>
-                                    <a class="btn btn-info btn-sm" href="account_view.php?user_id=<?php echo $row_admin_account['user_id'];?>&role_id=3&role_name=admin">Thông tin</a>
+                                    <a class="btn btn-info btn-sm" href="account_view.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3&role_name=admin">Thông tin</a>
                                 </td>
                             </tr>
                         <?php
@@ -95,9 +104,9 @@ mysqli_close($dbconnect);
         </div>
     </div>
     <script>
-    function Del(name){
-        return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name +  " ?");
-    }
+        function Del(name) {
+            return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name + " ?");
+        }
     </script>
 </body>
 

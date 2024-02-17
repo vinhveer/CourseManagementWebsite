@@ -6,8 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$teacher_id = $_SESSION['user_id'];
-$sql_edit = "SELECT * FROM user WHERE user_id = $teacher_id";
+$student_id = $_SESSION['user_id'];
+$sql_edit = "SELECT * FROM user WHERE user_id = $student_id";
 $query_update = mysqLi_query($dbconnect, $sql_edit);
 $row_update = mysqli_fetch_assoc($query_update);
 ?>
@@ -90,8 +90,8 @@ $row_update = mysqli_fetch_assoc($query_update);
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary" name="edit_teacher">Lưu</button>
-                <a type="button" class="btn btn-secondary" href="<?php echo $role_name; ?>.php">Thoát</a>
+                <button type="submit" class="btn btn-primary" name="edit_student">Lưu</button>
+                <a type="button" class="btn btn-secondary" href="my.php?user_id=<?php echo $student_id;?>">Thoát</a>
             </div>
         </form>
     </div>

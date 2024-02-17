@@ -11,14 +11,30 @@ $result = null;
 
 if (isset($_SESSION['course_id'])) {
     $course_id = $_SESSION['course_id'];
-    $sql = "SELECT * FROM user us
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
+        $tukhoa = $_POST['tukhoa'];
+        $keyword = strtolower(trim($tukhoa));
+        $keyword = str_replace(' ', '', $keyword);
+        $sql = "SELECT * FROM user us
+        INNER JOIN course_member cm ON us.user_id = cm.student_id
+        WHERE course_id = $course_id AND
+        (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(full_name, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR full_name LIKE '%$tukhoa%')";
+        $result = mysqli_query($dbconnect, $sql);
+        if (!$result) {
+            // Query execution failed
+            die('Query failed: ' . mysqli_error($dbconnect));
+        }
+    } else {
+        $sql = "SELECT * FROM user us
     INNER JOIN course_member cm ON us.user_id = cm.student_id
     WHERE course_id = $course_id";
-    $result = mysqli_query($dbconnect, $sql);
+        $result = mysqli_query($dbconnect, $sql);
 
-    if (!$result) {
-        // Query execution failed
-        die('Query failed: ' . mysqli_error($dbconnect));
+        if (!$result) {
+            // Query execution failed
+            die('Query failed: ' . mysqli_error($dbconnect));
+        }
     }
 }
 ?>
@@ -40,10 +56,22 @@ if (isset($_SESSION['course_id'])) {
                 <h3>Danh sách thành viên</h3>
             </div>
             <div class="col-md-6">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm">
-                    <button class="btn btn-outline-primary" type="submit">Tìm</button>
+                <form class="d-flex" action="member.php" method="POST">
+                    <div class="input-group">
+                        <input type="search" class="form-control me-2" placeholder="Tìm kiếm" name="tukhoa" aria-label="Tìm kiếm">
+                        <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
+                    </div>
                 </form>
+                <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php
+                            $tukhoa = $_POST['tukhoa'];
+                            echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>";
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </header>
@@ -65,20 +93,21 @@ if (isset($_SESSION['course_id'])) {
                     <tbody>
                         <?php
                         if ($result && mysqli_num_rows($result) > 0) {
-                            
+
                             mysqli_data_seek($result, 0);
                             $index = 0;
                             while ($row = mysqli_fetch_array($result)) {
                                 $student_id = $row['student_id'];
                         ?>
-                        <tr>
-                            <td><?php $index++; echo $index;?></td>
-                            <td><?php echo $row['full_name'];?></td>
-                            <td><?php echo date('d/m/Y', strtotime($row['date_of_birth'])); ?></td>
-                            <td><?php echo ($row['gender'] == "M" ? "Nam" : "Nữ");?></td>
-                            <td><?php echo $row['email'];?></td>
-                            <td><a type="button" class="btn btn-primary" href="my_student.php?user_id=<?php echo $student_id?>">Xem chi tiết thông tin</td>
-                        </tr>
+                                <tr>
+                                    <td><?php $index++;
+                                        echo $index; ?></td>
+                                    <td><?php echo $row['full_name']; ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($row['date_of_birth'])); ?></td>
+                                    <td><?php echo ($row['gender'] == "M" ? "Nam" : "Nữ"); ?></td>
+                                    <td><?php echo $row['email']; ?></td>
+                                    <td><a type="button" class="btn btn-primary" href="my_student.php?user_id=<?php echo $student_id ?>">Xem chi tiết thông tin</td>
+                                </tr>
                         <?php
                             }
                         } else {

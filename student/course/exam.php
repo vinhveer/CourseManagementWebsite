@@ -20,11 +20,21 @@ include_once('layout.php');
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm nội dung"
-                        aria-describedby="search-icon">
-                    <button class="btn btn-primary rounded-end" type="button"><i class="fas fa-search"></i></button>
-                </div>
+                <form class="d-flex" action="exam.php" method="POST">
+                    <div class="input-group mb-3">
+                        <input type="search" class="form-control" placeholder="Tìm kiếm" name="tukhoa" aria-label="Tìm kiếm" aria-describedby="search-icon">
+                        <button class="btn btn-primary rounded-end" type="submit" name="timkiem" value="find"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php
+                            $tukhoa = $_POST['tukhoa'];
+                            echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>"; ?>
+                        </div>
+                    </div>
+                <?php } ?>
                 <div class="text-right">
                     <button class="btn btn-primary" type="button" onclick="loadContent('st_create_acc')">+ Tạo bài kiểm tra mới</button>
                 </div>

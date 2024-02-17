@@ -14,8 +14,8 @@ if (isset($_SESSION['user_id'])) {
     if ($result) {
         $row = mysqli_fetch_assoc($result);
     }
-} 
-else 
+}
+else
 {
     $username_now = "User not logged in";
 }
@@ -48,7 +48,7 @@ else
                 <h5>Giáo viên</h5> <br>
                 <a class="btn btn-primary" type="button" href="../edit_teacher_profile.php">Thay đổi thông tin</a>
             </div>
-            
+
         </div>
 
     </header>
@@ -102,6 +102,11 @@ else
                         ?>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex justify-content-end">
+                <br><a type="button" class="btn btn-secondary" href="index.php?id=2">Thoát</a>
             </div>
         </div>
     </div>

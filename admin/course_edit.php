@@ -76,7 +76,7 @@ mysqli_close($dbconnect);
             <div class="mb-3 row">
                 <label for="course_image" class="col-sm-2 col-form-label">Ảnh bìa khóa học</label>
                 <span style="padding-left: 10px;"><img src="/assets/file/course_background/<?php echo $result['course_background']; ?>" width="60px"></span>
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <input type="file" class="form-control" id="course_image" name="course_image" >
                 </div>
             </div>

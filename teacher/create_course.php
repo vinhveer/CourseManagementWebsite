@@ -72,7 +72,7 @@ include("layout.php");
             <div class="mb-3 row">
                 <div class="col-sm-12 text-end">
                     <button type="submit" class="btn btn-primary" name="add_course">Tạo khóa học</button>
-                    <button type="button" class="btn btn-secondary">Thoát</button>
+                    <a type="button" class="btn btn-secondary" href="courses.php">Thoát</a>
                 </div>
             </div>
         </form>

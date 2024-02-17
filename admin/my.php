@@ -57,7 +57,7 @@ else
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
                 <h5>Quản trị viên</h5> <br>
-                <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
+                <a class="btn btn-primary rounded-end rounded-start" type="button" href="account_edit.php?user_id=<?php echo $user_id;?>&role_id=3&role_name=admin">Thay đổi thông tin</a>
             </div>
 
         </div>

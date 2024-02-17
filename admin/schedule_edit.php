@@ -2,7 +2,9 @@
 include("layout.php");
 include_once("../config/connect.php");
 $course_id = isset($_GET['id']) ? $_GET['id'] : '';
-$sql_schedule = "SELECT * FROM course_schedule WHERE course_id = '$course_id'";
+$sql_schedule = "SELECT * FROM course_schedule cs
+INNER JOIN course c ON cs.course_id = c.course_id
+WHERE cs.course_id = '$course_id'";
 $result = mysqli_query($dbconnect, $sql_schedule);
 $data = array();
 if (mysqli_num_rows($result) > 0) {
@@ -38,6 +40,7 @@ mysqli_close($dbconnect);
             <div id="additionalTimes" class="mb-3 row">
                 <?php foreach ($data as $row): ?>
                     <div class="mb-3 row">
+                    <input type="hidden" name="schedule_id[]" value="<?php echo isset($row['course_schedule_id']) ? $row['course_schedule_id'] : ''; ?>">
                         <label for="dayOfWeek" class="col-sm-2 col-form-label">Ngày trong tuần</label>
                         <div class="col-sm-2">
                             <select class="form-select" name="dayOfWeek[]" required>
@@ -68,9 +71,10 @@ mysqli_close($dbconnect);
 
             <div class="mb-3 row">
                 <div class="col-sm-12">
+                <?php  mysqli_data_seek($result, 0); $row = mysqli_fetch_assoc($result)?>
                     <button type="button" class="btn btn-primary" onclick="addTimeRow()">Thêm thời gian</button>
                     <button type="submit" class="btn btn-primary" name="update_schedule">Cập nhật thời khóa biểu</button>
-                    <a href="success_create_course.php" type="button" class="btn btn-secondary">Quay lại</a>
+                    <a href="course_show.php?id=<?php echo $course_id;?>&teacher_id=<?php echo $row['teacher_id'];?>" type="button" class="btn btn-secondary">Quay lại</a>
                 </div>
             </div>
         </form>

@@ -62,7 +62,7 @@ try {
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $remember = (isset($_POST['remember']) && $_POST['remember'] == 1) ? true : false;
+        $remember = ((isset($_POST['remember']) != 0) ? 1 : "");
 
         if (empty($username) || empty($password)) {
             $login_error_message = "Thông tin chưa đầy đủ. Vui lòng nhập đầy đủ thông tin.";
@@ -76,13 +76,13 @@ try {
             if (!$result) {
                 throw new Exception("Lỗi câu truy vấn: " . mysqli_error($dbconnect));
             }
-            
+
             $row = mysqli_fetch_array($result);
 
             if ($row) {
                 $f_user = $row['username'];
                 $f_pass = $row['password'];
-                if ($a_check == 1) {
+                if ($remember == 1) {
                     setcookie($cookie_name, 'usr=' . $f_user . '&hash=' . $f_pass, time() + $cookie_time);
                 }
                 // Store user information in session
@@ -106,7 +106,7 @@ try {
                                 INNER JOIN user_role ur ON ua.user_id = ur.user_id
                                 INNER JOIN role r ON ur.role_id = r.role_id
                                 WHERE ua.username = ?";
-              
+
                 $stmt_role = mysqli_prepare($dbconnect, $sql_role);
                 mysqli_stmt_bind_param($stmt_role, "s", $username);
                 mysqli_stmt_execute($stmt_role);

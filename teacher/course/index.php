@@ -127,7 +127,7 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
                             ?>
 
                         </table>
-                        <button type="button" class="btn btn-primary">Sửa thời khóa biểu</button>
+                        <a type="button" class="btn btn-primary" href="edit_schedule.php">Sửa thời khóa biểu</a>
                     </div>
                 </div>
             </div>

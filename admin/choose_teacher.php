@@ -1,12 +1,12 @@
 <?php
-include("layout.php");
-include_once("../config/connect.php");
+include "layout.php";
+include_once "../config/connect.php";
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
-  $tukhoa = $_GET['tukhoa'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
+  $tukhoa = $_POST['tukhoa'];
   $keyword = strtolower(trim($tukhoa));
   $keyword = str_replace(' ', '', $keyword);
   $sql_course = "SELECT * FROM user us
@@ -14,22 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['timkiem'])) {
       WHERE ur.role_id = 2 AND
       (LOWER(REPLACE(REPLACE(REPLACE(us.full_name, ' ', ''), 'Đ', 'D'), ' ', '')) LIKE '%$keyword%' OR us.full_name LIKE '%$tukhoa%')";
   $result = mysqli_query($dbconnect, $sql_course);
-}
-else{
+} else {
   $sql_course = "SELECT * FROM user us
   INNER JOIN user_role ur ON us.user_id = ur.user_id where ur.role_id=2";
   $result = mysqLi_query($dbconnect, $sql_course);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sbm"])) {
-    $id = $_GET['id'];
-    $role = $_GET['role'];
-    $_SESSION['teacher_course'] = $_POST['sbm'];
-    if($role == 'add'){
-     header("location: schedule_add.php");
-    }else{
-      header("location: schedule_edit.php?id=$id");
-    }
-     exit;
+  $id = $_GET['id'];
+  $role = $_GET['role'];
+  $_SESSION['teacher_course'] = $_POST['sbm'];
+  if ($role == 'add') {
+    header("location: schedule_add.php");
+  } else {
+    header("location: schedule_edit.php?id=$id");
+  }
+  exit;
 }
 mysqli_close($dbconnect);
 ?>
@@ -66,43 +65,51 @@ mysqli_close($dbconnect);
 
 
   <header class="container mt-4">
-      <div class="row">
-        <div class="col-md-6">
-          <h2>Danh sách giáo viên</h2>
-        </div>
-        <div class="col-md-6">
-          <form class="d-flex" action="choose_teacher.php" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa"value="">
-                <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
-          </form>
-        </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Danh sách giáo viên</h2>
       </div>
+      <div class="col-md-6">
+        <form class="d-flex" action="choose_teacher.php" method="POST">
+          <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="tukhoa" value="">
+          <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm</button>
+        </form>
+        <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+          <div class="row mt-3">
+            <div class="col">
+              <?php $tukhoa = $_POST['tukhoa'];
+              echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>"; ?>
+            </div>
+          </div>
+        <?php } ?>
+      </div>
+    </div>
   </header>
 
   <div class="container mt-5">
     <!-- Course Cards -->
     <form method="post">
-        <div class="row">
-            <?php
-            // Đặt con trỏ kết quả về đầu để có thể duyệt lại từ đầu
-            mysqli_data_seek($result, 0);
-            while ($row = mysqli_fetch_array($result)) {
-            ?>
-                <div class="col-md-3 mb-2">
-                    <div class="card">
-                        <div class="custom-card">
-                            <img src=<?php echo "../assets/images/" . $row['image']?> class="card-img-top" alt="Course 1 Image">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo $row['full_name'];?></h5>
-                            <button class="btn btn-primary" type="submit" name="sbm" value="<?php echo $row['user_id']?>">Chọn</button>
-                        </div>
-                    </div>
-                </div>
-            <?php
-            }
-            ?>
-        </div>
+      <div class="row">
+        <?php
+        // Đặt con trỏ kết quả về đầu để có thể duyệt lại từ đầu
+        mysqli_data_seek($result, 0);
+        while ($row = mysqli_fetch_array($result)) {
+        ?>
+          <div class="col-md-3 mb-2">
+            <div class="card">
+              <div class="custom-card">
+                <img src=<?php echo "../assets/images/" . $row['image'] ?> class="card-img-top" alt="Course 1 Image">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title"><?php echo $row['full_name']; ?></h5>
+                <button class="btn btn-primary" type="submit" name="sbm" value="<?php echo $row['user_id'] ?>">Chọn</button>
+              </div>
+            </div>
+          </div>
+        <?php
+        }
+        ?>
+      </div>
     </form>
   </div>
 </body>

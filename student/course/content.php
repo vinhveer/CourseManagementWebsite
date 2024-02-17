@@ -19,11 +19,25 @@ include_once('layout.php');
                 <h3>Nội dung khóa học</h3>
             </div>
             <div class="col-md-6 d-flex justify-content-end align-items-center">
-                <div class="input-group">
-                    <input type="text" class="form-control rounded-start" placeholder="Tìm kiếm học liệu ...">
-                    <button class="btn btn-secondary rounded-end" type="button">Tìm kiếm</button>
-                    <button class="btn btn-success ml-2 rounded-end rounded-start">Tạo chủ đề mới</button>
-                </div>
+               <form class="d-flex" action="content.php" method="POST" >
+                    <div class="input-group">
+                        <input type="search" class="form-control rounded-start" placeholder="Tìm kiếm học liệu ..." name="tukhoa">
+                        <button class="btn btn-secondary rounded-end" type="submit" name="timkiem">Tìm kiếm</button>
+                        <button class="btn btn-success ml-2 rounded-end rounded-start">Tạo chủ đề mới</button>
+                    </div>
+               </form>
+            </div>
+            <div class="col-md-12 d-flex justify-content-end align-items-center">
+            <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php
+                            $tukhoa = $_POST['tukhoa'];
+                            echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>";
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </header>

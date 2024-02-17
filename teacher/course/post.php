@@ -2,10 +2,22 @@
 include("layout.php");
 include_once('../../config/connect.php');
 
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 $course_id = $_SESSION['course_id'];
 
-$sql_post = "SELECT * FROM post WHERE course_id = $course_id;";
-$result_post = mysqli_query($dbconnect, $sql_post);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
+  $tukhoa = $_POST['tukhoa'];
+  $keyword = strtolower(trim($tukhoa));
+  $keyword = str_replace(' ', '', $keyword);
+  $sql_post = "SELECT * FROM post WHERE course_id = $course_id AND
+  (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(title, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR title LIKE '%$tukhoa%')";
+  $result_post = mysqli_query($dbconnect, $sql_post);
+} else {
+  $sql_post = "SELECT * FROM post WHERE course_id = $course_id";
+  $result_post = mysqli_query($dbconnect, $sql_post);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,10 +35,23 @@ $result_post = mysqli_query($dbconnect, $sql_post);
         <h3>Bài đăng</h3>
       </div>
       <div class="col-md-4">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Tìm kiếm ..." aria-label="Recipient's username" aria-describedby="button-addon2">
-          <button class="btn btn-dark" type="button" id="button-addon2">Tìm</button>
-        </div>
+        <form class="d-flex" action="post.php" method="POST">
+          <div class="input-group mb-3">
+            <input type="search" class="form-control" placeholder="Tìm kiếm ..." aria-label="Recipient's username" aria-describedby="button-addon2" name="tukhoa">
+            <button class="btn btn-dark" type="submit" id="button-addon2" type="submit" name="timkiem">Tìm</button>
+          </div>
+        </form>
+        <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+          <div class="row mt-3">
+            <div class="col">
+              <?php $tukhoa = $_POST['tukhoa'];
+              echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>"; ?>
+            </div>
+          </div>
+        <?php } ?>
+      </div>
+      <div class="col-md-2">
+        <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
       </div>
       <div class="col-md-2">
         <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
@@ -38,7 +63,7 @@ $result_post = mysqli_query($dbconnect, $sql_post);
       <thead>
         <th>Tên bài viết</th>
         <th>Tác giả</th>
-        <th>Ngày tạo</th>
+        <th>Ngày đăng</th>
         <th></th>
       </thead>
       <tbody>
@@ -59,15 +84,45 @@ $result_post = mysqli_query($dbconnect, $sql_post);
             </td>
             <td><?php echo $row_post['created_at']; ?></td>
             <td>
-              <a href="view_post.php?post_id=<?php echo $row_post['post_id'] ?>">Truy cập</a>
+              <a style="text-decoration: none;" href="view_post.php?post_id=<?php echo $row_post['post_id'] ?>">Truy cập&nbsp;</a>
+              <a style="text-decoration: none;" href="edit_post.php?post_id=<?php echo $row_post['post_id'] ?>">Sửa&nbsp;</a>
+              <a href="" style="text-decoration: none;" class="delete-post-btn" data-postid="<?php echo $row_post['post_id'] ?>" data-bs-toggle="modal" data-bs-target="#deleteCourseModal">Xóa </a>
             </td>
           </tr>
-        <?php
-        }
-        ?>
+        <?php } ?>
       </tbody>
     </table>
   </div>
+  <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa bình luận này này?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
+          <form id="deletePostForm" method="post" action="">
+            <button type="submit" class="btn btn-danger" name="delete_post">Xóa</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-post-btn');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const postId = this.getAttribute('data-postid');
+        const form = document.querySelector('#deletePostForm');
+        form.action = `process.php?post_id=${postId}`;
+      });
+    });
+  });
+</script>
 </body>
-
 </html>

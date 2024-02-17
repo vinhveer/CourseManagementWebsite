@@ -72,8 +72,8 @@ mysqli_close($dbconnect);
                     <label for="gender" class="form-label">Giới tính</label>
                     <select class="form-select" id="gender" name="gender" required>
                         <option value="" disabled selected>Chọn giới tính</option>
-                        <option value="M">Nam</option>
-                        <option value="F">Nữ</option>
+                        <option value="M" <?php echo ($row_update['gender'] == 'M') ? 'selected' : ''; ?>>Nam</option>
+                        <option value="F" <?php echo ($row_update['gender'] == 'F') ? 'selected' : ''; ?>>Nữ</option>
                     </select>
                 </div>
                 <div class="col-md-4">

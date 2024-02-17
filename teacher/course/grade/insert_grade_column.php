@@ -26,14 +26,28 @@ if (isset($_GET['id'])) {
 if (isset($_SESSION['course_id'])) {
     $course_id = $_SESSION['course_id'];
 
-    $sql = "SELECT user.full_name, user.date_of_birth, user.gender, grade.score, course_member.member_id
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
+        $tukhoa = $_POST['tukhoa'];
+        $keyword = strtolower(trim($tukhoa));
+        $keyword = str_replace(' ', '', $keyword);
+        $sql = "SELECT user.full_name, user.date_of_birth, user.gender, grade.score, course_member.member_id
+        FROM course_member
+        INNER JOIN user ON course_member.student_id = user.user_id
+        INNER JOIN grade ON course_member.member_id = grade.member_id
+        INNER JOIN grade_column ON grade.column_id = grade_column.column_id
+        WHERE grade_column.course_id = $course_id AND grade_column.column_id = $column_id AND
+        (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(full_name, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR full_name LIKE '%$tukhoa%')";
+        $result = mysqli_query($dbconnect, $sql);
+    } else {
+        $sql = "SELECT user.full_name, user.date_of_birth, user.gender, grade.score, course_member.member_id
             FROM course_member
             INNER JOIN user ON course_member.student_id = user.user_id
             INNER JOIN grade ON course_member.member_id = grade.member_id
             INNER JOIN grade_column ON grade.column_id = grade_column.column_id
             WHERE grade_column.course_id = $course_id AND grade_column.column_id = $column_id";
 
-    $result = mysqli_query($dbconnect, $sql);
+        $result = mysqli_query($dbconnect, $sql);
+    }
 }
 ?>
 
@@ -54,10 +68,24 @@ if (isset($_SESSION['course_id'])) {
                 <h3>Điểm số</h3>
             </div>
             <div class="col-md-4 d-flex align-items-center justify-content-end">
-                <form class="d-flex">
-                    <input class="form-control me-2 float-end" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm">
-                    <button class="btn btn-outline-primary float-end" type="submit">Tìm</button>
+                <form class="d-flex" action="insert_grade_column.php" method="POST">
+                    <div class="input-group">
+                        <input type="search" class="form-control me-2 float-end" placeholder="Tìm kiếm theo tên" name="tukhoa" aria-label="Tìm kiếm">
+                        <button class="btn btn-outline-primary float-end" type="submit" name="timkiem" value="find">Tìm kiếm</button>
+                    </div>
                 </form>
+            </div>
+            <div class="col-md-12 d-flex align-items-center justify-content-end ">
+                <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php
+                            $tukhoa = $_POST['tukhoa'];
+                            echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>";
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </header>

@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (isset($_SESSION['full_name'])) 
+if (isset($_SESSION['full_name']))
 {
     $user_id = $_SESSION['user_id'];
 
@@ -57,7 +57,7 @@ else
             <div class="col-md-10">
                 <h2><?php echo $row['full_name'];?></h2>
                 <h5>Học sinh</h5> <br>
-                <button class="btn btn-primary rounded-end rounded-start" type="button" onclick="loadContent('st_create_acc')">Thay đổi thông tin</button>
+                <a class="btn btn-primary rounded-end rounded-start" type="button" href="edit_student_profile.php">Thay đổi thông tin</a>
             </div>
 
         </div>
@@ -115,6 +115,11 @@ else
                         ?>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex justify-content-end">
+                <br><a type="button" class="btn btn-secondary" href="index.php?id=2">Thoát</a>
             </div>
         </div>
     </div>

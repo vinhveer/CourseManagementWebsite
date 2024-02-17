@@ -26,7 +26,7 @@ while ($row_course = mysqli_fetch_array($result)) {
                     <h3>Chỉnh sửa thuộc tính khóa học</h3>
                 </div>
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-primary float-end">Thay đổi ảnh bìa</button>
+                    <a type="button" class="btn btn-primary float-end" href="change_background.php">Thay đổi ảnh bìa</a>
                 </div>
             </div>
         </header>
@@ -74,7 +74,7 @@ while ($row_course = mysqli_fetch_array($result)) {
             <div class="mb-3 row">
                 <div class="col-sm-12 text-end">
                     <button type="submit" class="btn btn-primary" name="edit_course">Lưu</button>
-                    <button type="button" class="btn btn-secondary">Thoát</button>  
+                    <a type="button" class="btn btn-secondary" href="index.php?id=2">Thoát</a>
                 </div>
             </div>
             </form>

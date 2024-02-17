@@ -8,11 +8,24 @@ if (session_status() == PHP_SESSION_NONE) {
 
 if (isset($_SESSION['course_id'])) {
     $course_id = $_SESSION['course_id'];
-    $sql = "SELECT * FROM grade_column WHERE course_id = $course_id";
-    $result = mysqli_query($dbconnect, $sql);
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
+        $tukhoa = $_POST['tukhoa'];
+        $keyword = strtolower(trim($tukhoa));
+        $keyword = str_replace(' ', '', $keyword);
+        $sql = "SELECT * FROM grade_column WHERE course_id = $course_id AND
+        (LOWER(REPLACE(REPLACE(REPLACE(REPLACE(grade_column_name, ' ', ''), 'Đ', 'D'),'đ','d'), ' ', '')) LIKE '%$keyword%' OR grade_column_name LIKE '%$tukhoa%')";
+        $result = mysqli_query($dbconnect, $sql);
+        if (!$result) {
+            // Query execution failed
+            die('Query failed: ' . mysqli_error($dbconnect));
+        }
+    } else {
+        $sql = "SELECT * FROM grade_column WHERE course_id = $course_id";
+        $result = mysqli_query($dbconnect, $sql);
 
-    if (!$result) {
-        die('Query failed: ' . mysqli_error($dbconnect));
+        if (!$result) {
+            die('Query failed: ' . mysqli_error($dbconnect));
+        }
     }
 }
 ?>
@@ -36,10 +49,22 @@ if (isset($_SESSION['course_id'])) {
                 <h3>Danh sách các cột điểm</h3>
             </div>
             <div class="col-md-4">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm theo tên ..." aria-label="Tìm kiếm">
-                    <button class="btn btn-outline-primary" type="submit">Tìm</button>
+                <form class="d-flex" action="grade_column.php" method="POST">
+                    <div class="input-group">
+                        <input type="search" class="form-control me-2" placeholder="Tìm kiếm theo tên..." name="tukhoa" aria-label="Tìm kiếm">
+                        <button class="btn btn-outline-primary" type="submit" name="timkiem" value="find">Tìm kiếm</button>
+                    </div>
                 </form>
+                <?php if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) { ?>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php
+                            $tukhoa = $_POST['tukhoa'];
+                            echo "<p>Tìm kiếm với từ khóa: '<strong>$tukhoa</strong>'</p>";
+                            ?>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
             <div class="col-md-2">
                 <button type="button" class="btn btn-primary float-end" onclick="createGradeColumn()">Tạo cột điểm mới</button>
