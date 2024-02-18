@@ -18,16 +18,16 @@
                 <?php
                 if (isset($username_now)) {
                     echo '<ul class="list-unstyled text-small">
-                <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Tư cách đăng nhập: <?php echo $username_now; ?></a></li>
-                <li class="mb-1"><a class="link-secondary text-decoration-none" href="../my.php">Trang cá nhân</a></li>
-                <li class="mb-1"><a class="link-secondary text-decoration-none" href="../../logout.php">Đăng xuất</a></li>
-                </ul>';
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Tư cách đăng nhập: '. $username_now . '</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="../my.php">Trang cá nhân</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="../../logout.php">Đăng xuất</a></li>
+                    </ul>';
                 } else {
                     echo '<ul class="list-unstyled text-small">
-                <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Bạn chưa đăng nhập</a></li>
-                <li class="mb-1"><a class="link-secondary text-decoration-none" href="../my.php">Trang cá nhân</a></li>
-                <li class="mb-1"><a class="link-secondary text-decoration-none" href="../../logout.php">Đăng xuất</a></li>
-                </ul>';
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Bạn chưa đăng nhập</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="../my.php">Trang cá nhân</a></li>
+                    <li class="mb-1"><a class="link-secondary text-decoration-none" href="../../logout.php">Đăng xuất</a></li>
+                    </ul>';
                 }
                 ?>
             </div>

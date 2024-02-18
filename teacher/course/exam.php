@@ -41,8 +41,8 @@ $nav_id = isset($_GET['nav_id']) ? $_GET['nav_id'] : 1;
                 </ul>
             </div>
             <div class="col-md-4">
-                <a class="btn btn-primary float-end" href="add_content_heading.php">+ Tạo bài kiểm tra</a>
-                <a class="btn btn-primary float-end me-2" href="add_content_heading.php">+ Tạo bài tập</a>
+                <a class="btn btn-primary float-end" href="create_exam.php">+ Tạo bài kiểm tra</a>
+                <a class="btn btn-primary float-end me-2" href="create_practice.php">+ Tạo bài tập</a>
             </div>
         </div>
     </div>

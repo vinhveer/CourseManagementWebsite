@@ -41,8 +41,8 @@
     </nav>
     <div class="container mt-3"> <!-- Add the mt-5 class for extra top margin -->
         <div id="content">
-            <h2>Đăng kí thành công!</h2>
-            <p>Vui lòng <a href="login.php">đăng nhập</a> để tiếp tục.</p>
+            <h2>Đăng ký thành công!</h2>
+            <p>Truy cập vào <a href="login.php">đây</a> để đăng nhập.</p>
         </div>
     </div>
 

@@ -52,10 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
       </div>
       <div class="col-md-2">
         <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
-      </div>
-      <div class="col-md-2">
-        <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
-      </div>
+        </div>
     </div>
   </header>
   <div class="container mt-4">
