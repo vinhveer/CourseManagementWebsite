@@ -230,10 +230,6 @@ try {
                                     <input type="checkbox" class="form-check-input" id="remember" name="remember" value="1" <?php if (!empty($remembered_username) && !empty($remembered_password)) echo 'checked'; ?>>
                                     <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember_auto" name="remember_auto" value="1">
-                                    <label class="form-check-label" for="remember_auto">Tự động đăng nhập</label>
-                                </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary" name="submit">Đăng nhập</button>
                                 </div>
