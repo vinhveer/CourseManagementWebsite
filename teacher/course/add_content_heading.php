@@ -19,7 +19,10 @@ include("layout.php");
         <header class="container mt-4">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Tạo chủ đề mới</h3>
+                    <h3>
+                        <a href="content.php"><i class="bi bi-arrow-left-circle"></i></a>
+                        Tạo chủ đề mới
+                    </h3>
                 </div>
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary float-end" name="create_post">Lưu nội dung</button>

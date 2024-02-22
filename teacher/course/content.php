@@ -42,11 +42,27 @@ include_once('layout.php');
                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 <table class="table">
                     <tbody>
-                        <td>Phần 1: Giới thiệu về C++ và C#</td>
+                        <td>Giới thiệu về C++ và C#</td>
                         <td>Bài giảng video</td>
                         <td>Thời gian: 9 phút</td>
                         <td>
-                            <a class="float-end">Truy cập nội dung</a>
+                            <a class="float-end" href="view_content_video.php">Truy cập nội dung</a>
+                        </td>
+                    </tbody>
+                    <tbody>
+                        <td>Luyện tập</td>
+                        <td>Nội dung dạng text</td>
+                        <td>Thời gian: 9 phút</td>
+                        <td>
+                            <a class="float-end" href="view_content_text.php">Truy cập nội dung</a>
+                        </td>
+                    </tbody>
+                    <tbody>
+                        <td>Tài liệu tham khảo</td>
+                        <td>File nội dung</td>
+                        <td>Thời gian: 9 phút</td>
+                        <td>
+                            <a class="float-end" href="view_content_file.php">Truy cập nội dung</a>
                         </td>
                     </tbody>
                 </table>

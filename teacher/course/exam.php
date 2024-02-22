@@ -1,6 +1,8 @@
 <?php
-include_once('layout.php');
+include("layout.php");
 $nav_id = isset($_GET['nav_id']) ? $_GET['nav_id'] : 1;
+
+$course_id = $_SESSION['course_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,20 +59,24 @@ $nav_id = isset($_GET['nav_id']) ? $_GET['nav_id'] : 1;
                     <th>Thời gian mở</th>
                     <th>Thời gian đóng</th>
                     <th></th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Practice: Write code slove problem</td>
-                        <td>01/01/2024</td>
-                        <td>31/12/2024</td>
+                </thead>';
+                $sql_practice = "SELECT * FROM practice WHERE course_id = $course_id";
+                $result_practice = mysqli_query($dbconnect, $sql_practice);
+
+                // Loop through practice results and generate table rows
+                while ($row = mysqli_fetch_array($result_practice)) {
+                    echo '<tr>
+                        <td>' . $row['description'] . '</td>
+                        <td>' . date('d/m/Y', strtotime($row['open_time'])) . '</td>
+                        <td>' . date('d/m/Y', strtotime($row['close_time'])) . '</td>
                         <td>
                             <a class="me-2" style="text-decoration: none;" href="#">Truy cập</a>
                             <a class="me-2" style="text-decoration: none;" href="#">Sửa</a>
                             <a style="text-decoration: none;" href="#">Xóa</a>
                         </td>
-                    </tr>
-                </tbody>
-            </table>';
+                        </tr>';
+                }
+                echo '</tbody></table>';
                 break;
 
             case 2:

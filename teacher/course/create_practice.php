@@ -12,41 +12,61 @@ include("layout.php");
 </head>
 
 <body>
-    <header class="container mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Tạo bài tập mới</h3>
+    <form class="form-group" action="process.php" method="post" enctype="multipart/form-data">
+        <header class="container mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>
+                        <a href="exam.php"><i class="bi bi-arrow-left-circle"></i></a>
+                        Tạo bài tập mới
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary float-end" type="submit" name="create_practice">Lưu nội dung</button>
+                </div>
             </div>
-            <div class="col-md-6">
-                <a class="btn btn-primary float-end me-2" href="add_content_heading.php">Lưu nội dung</a>
-            </div>
-        </div>
-    </header>
+        </header>
 
-    <div class="container mt-4">
-        <form class="form-group" action="" method="post">
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Tiêu đề bài tập</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1">
+        <div class="container mt-4">
+            <div class="mb-3">  
+                <label for="title_practice" class="form-label">Tiêu đề bài tập</label>
+                <input type="text" class="form-control" id="title_practice" name="title_practice">
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nội dung bài tập</label>
-                <textarea class="form-control" id="exampleFormControlInput1"></textarea>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="open_date" class="form-label">Ngày mở bài tập</label>
+                            <input type="date" class="form-control" id="open_date" name="open_date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="close_date" class="form-label">Ngày đóng bài tập</label>
+                            <input type="date" class="form-control" id="close_date" name="close_date">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Tải lên file (Nếu có)</label>
-                <input type="file" class="form-control" id="exampleFormControlInput1">
+                <label for="content_practice" class="form-label">Nội dung bài tập</label>
+                <textarea class="form-control" id="content_practice" name="content_practice"></textarea>
             </div>
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Hình thức nộp bài</label>
-                <select class="form-select" aria-label="Default select example">
+                <label for="upload_file" class="form-label">Tải lên file (Nếu có)</label>
+                <input type="file" class="form-control" id="upload_file" name="upload_file">
+            </div>
+            <div class="mb-3">
+                <label for="type_submit" class="form-label">Hình thức nộp bài</label>
+                <select class="form-select" aria-label="type_submit" name="type_submit">
                     <option selected>Không nộp nội dung</option>
                     <option value="1">Tải file lên hệ thống</option>
                     <option value="2">Nhập vào dạng text</option>
                 </select>
             </div>
-        </form>
-    </div>
+        </div>
+
+    </form>
 
     <?php include("../../footer.php"); ?>
 </body>

@@ -206,3 +206,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_post'])) {
         echo "Không thể xóa. Lỗi: " . mysqli_error($dbconnect);
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create_practice"])) {
+    $title_practice = $_POST["title_practice"];
+    $open_date = $_POST["open_date"];
+    $close_date = $_POST["close_date"];
+    $content_practice = $_POST["content_practice"];
+    $type_submit = $_POST["type_submit"];
+
+    // Check if a file was uploaded
+    if (isset($_FILES["upload_file"]) && $_FILES["upload_file"]["error"] == 0) {
+        $file_name = $_FILES["upload_file"]["name"];
+        $file_tmp = $_FILES["upload_file"]["tmp_name"];
+        $file_destination = "../../assets/file/content/" . $file_name;
+
+        if (move_uploaded_file($file_tmp, $file_destination)) {
+            echo "File uploaded successfully.";
+        } else {
+            echo "Error uploading file.";
+        }
+    } else {
+        echo "No file uploaded.";
+        $file_destination = null; // Set to null if no file is uploaded
+    }
+
+    $sql = "INSERT INTO practice (course_id, open_time, close_time, description, file_content, type_question, text_content)
+            VALUES (NULL, '$open_date', '$close_date', '$title_practice', '$file_destination', '$type_submit', '$content_practice')";
+
+    if ($dbconnect->query($sql) === TRUE) {
+        header("Location: exam.php");
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . $dbconnect->error;
+    }
+}

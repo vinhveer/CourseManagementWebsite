@@ -15,7 +15,10 @@ $nav_id = isset($_GET['nav_id']) ? $_GET['nav_id'] : 1;
 
 <body>
     <header class="container mt-4">
-        <h3>Tạo nội dung mới</h3>
+        <h3>
+            <a href="content.php"><i class="bi bi-arrow-left-circle"></i></a>
+            Tạo chủ đề mới
+        </h3>
     </header>
     <div class="container mt-4">
         <ul class="nav nav-tabs">
