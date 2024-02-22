@@ -115,11 +115,6 @@ if (isset($_SESSION['user_id'])) {
                 </div>
             </div>
         </div>
-        <div class="mb-3">
-            <div class="d-flex justify-content-end">
-                <br><a type="button" class="btn btn-secondary" href="index.php">Thoát</a>
-            </div>
-        </div>
     </div>
     <?php include("../footer.php"); ?>
 </body>

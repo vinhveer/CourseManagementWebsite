@@ -94,11 +94,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+          <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa nội dung</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa bình luận này này?</p>
+          <p>Bạn có chắc chắn muốn xóa bài đăng này?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>

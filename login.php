@@ -58,7 +58,7 @@ try {
                 }
             }
         }
-    }// Ghi nho dang nhap
+    }
     if (isset($_COOKIE['remember_credentials'])) {
         $remembered_credentials = $_COOKIE['remember_credentials'];
         parse_str($remembered_credentials, $credentials);
@@ -218,11 +218,11 @@ try {
                         <div class="card-body">
                             <form action="login.php" method="post">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="username" value="<?php echo htmlspecialchars($remembered_username); ?>">
+                                    <input type="text" class="form-control shadow-sm" id="username" name="username" placeholder="username" value="<?php echo htmlspecialchars($remembered_username); ?>">
                                     <label for="username">Tên đăng nhập</label>
                                 </div>
                                 <div class="form-floating mb-3 password-container">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="password" value="<?php echo htmlspecialchars($remembered_password); ?>">
+                                    <input type="password" class="form-control shadow-sm" id="password" name="password" placeholder="password" value="<?php echo htmlspecialchars($remembered_password); ?>">
                                     <label for="password">Mật khẩu</label>
                                     <span class="password-toggle" onclick="togglePasswordVisibility()"><i class="fa-regular fa-eye"></i></span>
                                 </div>

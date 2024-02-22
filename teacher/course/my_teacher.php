@@ -104,11 +104,6 @@ else
                 </div>
             </div>
         </div>
-        <div class="mb-3">
-            <div class="d-flex justify-content-end">
-                <br><a type="button" class="btn btn-secondary" href="index.php?id=2">Thoát</a>
-            </div>
-        </div>
     </div>
     <?php include("../../footer.php"); ?>
 </body>

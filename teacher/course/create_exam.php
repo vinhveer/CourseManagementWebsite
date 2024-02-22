@@ -24,16 +24,302 @@ include("layout.php");
     </header>
     <div class="container mt-4">
         <div class="row">
-            <div class="col-md-6">
-                <a class="btn btn-primary me-2" href="add_content_heading.php">+ Thêm câu hỏi trắc nghiệm</a>
-                <a class="btn btn-primary me-2" href="add_content_heading.php">+ Thêm câu hỏi tự luận</a>
+            <div class="col-md-9">
+                <li class="btn btn-primary me-2 dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Thêm câu hỏi trắc nghiệm
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#one_answer" href="#">Câu hỏi có một đáp án đúng</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#more_answer">Câu hỏi có nhiều đáp án đúng</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#short_answer">Câu hỏi trả lời ngắn</a></li>
+                    </ul>
+                </li>
+                <a class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#assignment">+ Thêm câu hỏi tự luận</a>
+                <a class="btn btn-primary me-2" href="bank_question.php">+ Thêm từ ngân hàng câu hỏi</a>
             </div>
-            <div class="col-md-6">
-                <a class="btn btn-primary me-2 float-end" href="add_content_heading.php">Thay đổi số điểm tối đa</a>
-                <a class="btn btn-primary me-2 float-end" href="add_content_heading.php">Tự động chia điểm</a>
+            <div class="col-md-3">
+                <a class="btn btn-primary me-2 float-end" data-bs-toggle="modal" data-bs-target="#setup_score">Cài đặt</a>
             </div>
         </div>
     </div>
+    <div class="modal fade modal-xl" id="one_answer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Tạo câu hỏi có một đáp án đúng</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label for="question_title" class="form-label">Nội dung câu hỏi</label>
+                                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="question_title" class="form-label">Số điểm</label>
+                                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <button type="button" class="btn btn-primary" onclick="addAnswerRow()">+ Thêm đáp án</button>
+                        <button type="button" class="btn btn-primary me-2" data-bs-dismiss="modal" aria-label="Close">Lưu câu hỏi</button>
+                    </div>
+                    <div class="container mt-3">
+                        <form action="process.php" method="post">
+                            <div id="additionalAnswersContainer"></div>
+                        </form>
+                    </div>
+
+                    <script>
+                        // Function to add dynamic answer rows
+                        function addAnswerRow() {
+                            var additionalAnswersContainer = document.getElementById('additionalAnswersContainer');
+
+                            var newRow = document.createElement('div');
+                            newRow.className = 'row mb-3';
+
+                            newRow.innerHTML = `
+                                <div class="col-md-9">
+                                    <label for="dynamic_answer" class="form-label">Đáp án</label>
+                                    <input type="text" class="form-control" name="dynamic_answer[]" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-check form-check-inline mt-4">
+                                        <input class="form-check-input" type="checkbox" value="" name="dynamic_correct_answer[]">
+                                        <label class="form-check-label" for="dynamic_correct_answer">
+                                            Đáp án đúng
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-danger float-end" onclick="removeAnswerRow(this)"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            `;
+
+                            additionalAnswersContainer.appendChild(newRow);
+                        }
+
+                        // Function to remove dynamic answer rows
+                        function removeAnswerRow(button) {
+                            var additionalAnswersContainer = document.getElementById('additionalAnswersContainer');
+                            var rowToRemove = button.closest('.row');
+                            additionalAnswersContainer.removeChild(rowToRemove);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-xl" id="more_answer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="moreAnswerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="moreAnswerLabel">Tạo câu hỏi có nhiều đáp án đúng</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="question_title" class="form-label">Nội dung câu hỏi</label>
+                                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <button type="button" class="btn btn-primary" onclick="addMoreAnswerRow()">+ Thêm đáp án</button>
+                    </div>
+                    <div class="container mt-3">
+                        <form action="process.php" method="post">
+                            <div id="additionalMoreAnswersContainer"></div>
+                        </form>
+                    </div>
+                    <script>
+                        // Function to add dynamic answer rows
+                        function addMoreAnswerRow() {
+                            var additionalMoreAnswersContainer = document.getElementById('additionalMoreAnswersContainer');
+
+                            var newRow = document.createElement('div');
+                            newRow.className = 'row mb-3';
+
+                            newRow.innerHTML = `
+                                <div class="col-md-8">
+                                    <label for="dynamic_answer" class="form-label">Đáp án</label>
+                                    <input type="text" class="form-control" name="dynamic_answer[]" required>
+                                </div>
+                                <div class="col-md-1" id="scoreInput">
+                                    <label for="dynamic_score" class="form-label">Số điểm</label>
+                                    <input type="number" class="form-control" name="dynamic_score[]" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-check form-check-inline mt-4">
+                                        <input class="form-check-input" type="checkbox" value="" name="dynamic_correct_answer[]">
+                                        <label class="form-check-label" for="dynamic_correct_answer">
+                                            Đáp án đúng
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-danger float-end" onclick="removeMoreAnswerRow(this)"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            `;
+
+                            additionalMoreAnswersContainer.appendChild(newRow);
+                        }
+
+                        // Function to remove dynamic answer rows
+                        function removeMoreAnswerRow(button) {
+                            var additionalMoreAnswersContainer = document.getElementById('additionalMoreAnswersContainer');
+                            var rowToRemove = button.parentNode.parentNode;
+                            additionalMoreAnswersContainer.removeChild(rowToRemove);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-xl" id="short_answer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="moreAnswerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="moreAnswerLabel">Tạo câu hỏi trả lời ngắn</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="question_title" class="form-label">Nội dung câu hỏi</label>
+                                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <button type="button" class="btn btn-primary" onclick="addShortAnswerRow()">+ Thêm đáp án</button>
+                    </div>
+                    <div class="container mt-3">
+                        <form action="process.php" method="post">
+                            <div id="additionalShortAnswersContainer"></div>
+                        </form>
+                    </div>
+                    <script>
+                        // Function to add dynamic answer rows
+                        // Function to add dynamic answer rows
+                        function addShortAnswerRow() {
+                            var additionalShortAnswersContainer = document.getElementById('additionalShortAnswersContainer');
+
+                            var newRow = document.createElement('div');
+                            newRow.className = 'row mb-3';
+
+                            newRow.innerHTML = `
+                                <div class="col-md-8">
+                                    <label for="dynamic_answer" class="form-label">Đáp án</label>
+                                    <input type="text" class="form-control" name="dynamic_answer[]" required>
+                                </div>
+                                <div class="col-md-2" id="scoreInput">
+                                    <label for="dynamic_score" class="form-label">Số điểm</label>
+                                    <input type="number" class="form-control" name="dynamic_score[]" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger float-end" onclick="removeShortAnswerRow(this)"><i class="bi bi-trash3"></i></button>
+                                </div>
+                            `;
+
+                            additionalShortAnswersContainer.appendChild(newRow);
+                        }
+
+                        // Function to remove dynamic answer rows
+                        function removeShortAnswerRow(button) {
+                            var additionalShortAnswersContainer = document.getElementById('additionalShortAnswersContainer');
+                            var rowToRemove = button.parentNode.parentNode;
+                            additionalShortAnswersContainer.removeChild(rowToRemove);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-xl" id="assignment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignmentLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="assignmentLabel">Tạo câu hỏi tự luận</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="question_title" class="form-label">Nội dung câu hỏi</label>
+                                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Dạng câu trả lời</option>
+                            <option value="1">Tải file lên hệ thống</option>
+                            <option value="2">Dạng text</option>
+                        </select>
+                    </div>
+                    <div class="container mt-4">
+                        <button type="button" class="btn btn-primary">Lưu câu hỏi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="setup_score" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="setupScoreLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="setupScoreLabel">Cài đặt điểm số</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="question_title" class="form-label">Số điểm tối đa</label>
+                                <input type="text" class="form-control" id="question_title" name="question_title" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" disabled>
+                            <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox input</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" checked disabled>
+                            <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch checkbox input</label>
+                        </div>
+                    </div>
+                    <div class="container mt-4">
+                        <button type="button" class="btn btn-primary">Lưu câu hỏi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8">

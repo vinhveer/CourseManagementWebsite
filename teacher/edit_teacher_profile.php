@@ -91,7 +91,7 @@ $row_update = mysqli_fetch_assoc($query_update);
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary" name="edit_teacher">Lưu</button>
-                <a type="button" class="btn btn-secondary" href="<?php echo $role_name; ?>.php">Thoát</a>
+                <a type="button" class="btn btn-secondary" href="my.php">Thoát</a>
             </div>
         </form>
     </div>

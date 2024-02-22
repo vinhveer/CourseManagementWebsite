@@ -28,7 +28,7 @@ mysqli_close($dbconnect);
 
 <body>
     <header class="container mt-5">
-        <h3>Sửa thời khóa biểu</h3>
+        <h3>Cập nhật thời khóa biểu</h3>
         <p>Cập nhật thông tin thời khóa biểu dưới đây</p>
     </header>
     <div class="container mt-5">

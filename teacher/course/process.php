@@ -1,5 +1,5 @@
 <?php
-    include_once('../../config/connect.php');
+include_once('../../config/connect.php');
 
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_schedule"])) {
                     break;
             }
 
-            if(isset($_POST['schedule_id'][$i])) {
+            if (isset($_POST['schedule_id'][$i])) {
                 $schedule_id = $_POST['schedule_id'][$i];
                 $scheduleIdsToKeep[] = $schedule_id;
                 // Nếu có, thực hiện cập nhật thông tin thời khóa biểu
@@ -173,8 +173,8 @@ if (isset($_POST['create_post'])) {
     // Retrieve user_id and course_id from the session
     $user_id = $_SESSION["user_id"];
     $course_id = $_SESSION['course_id'];
-    $title = $_POST["postTitle"];
-    $content = $_POST["postContent"];
+    $title = mysqli_real_escape_string($dbconnect, $_POST["postTitle"]);
+    $content = mysqli_real_escape_string($dbconnect, $_POST["postContent"]);
 
     $sql = "INSERT INTO post (user_id, course_id, title, content, created_at) VALUES ($user_id, $course_id, '$title', '$content', DEFAULT)";
 
@@ -197,14 +197,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_post'])) {
-        $post_id = $_GET['post_id'];
-        $sql_delete = "DELETE FROM post WHERE post_id = $post_id";
-        $result_delete = mysqli_query($dbconnect, $sql_delete);
-        if ($result_delete) {
-            header("location: post.php");
-        } else {
-            echo "Không thể xóa. Lỗi: " . mysqli_error($dbconnect);
-        }
+    $post_id = $_GET['post_id'];
+    $sql_delete = "DELETE FROM post WHERE post_id = $post_id";
+    $result_delete = mysqli_query($dbconnect, $sql_delete);
+    if ($result_delete) {
+        header("location: post.php");
+    } else {
+        echo "Không thể xóa. Lỗi: " . mysqli_error($dbconnect);
+    }
 }
-?>
-
