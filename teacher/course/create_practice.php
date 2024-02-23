@@ -28,7 +28,7 @@ include("layout.php");
         </header>
 
         <div class="container mt-4">
-            <div class="mb-3">  
+            <div class="mb-3">
                 <label for="title_practice" class="form-label">Tiêu đề bài tập</label>
                 <input type="text" class="form-control" id="title_practice" name="title_practice">
             </div>
@@ -36,18 +36,19 @@ include("layout.php");
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="open_date" class="form-label">Ngày mở bài tập</label>
-                            <input type="date" class="form-control" id="open_date" name="open_date">
+                            <label for="open_datetime" class="form-label">Thời gian mở bài tập</label>
+                            <input type="datetime-local" class="form-control" id="open_date" name="open_date">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="close_date" class="form-label">Ngày đóng bài tập</label>
-                            <input type="date" class="form-control" id="close_date" name="close_date">
+                            <label for="close_date" class="form-label">Thời gian đóng bài tập</label>
+                            <input type="datetime-local" class="form-control" id="close_date" name="close_date">
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="mb-3">
                 <label for="content_practice" class="form-label">Nội dung bài tập</label>
                 <textarea class="form-control" id="content_practice" name="content_practice"></textarea>

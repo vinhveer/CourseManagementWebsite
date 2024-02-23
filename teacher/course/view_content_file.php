@@ -13,10 +13,10 @@ include('layout.php');
 </head>
 
 <body>
-    <div class="container mt-4">
+    <header class="container mt-4">
         <h3><a href="content.php"><i class="bi bi-arrow-left-circle"></i></a>
             Tài liệu tham khảo</h3>
-    </div>
+    </header>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-6">
