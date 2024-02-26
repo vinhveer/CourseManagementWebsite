@@ -119,13 +119,9 @@ mysqli_close($dbconnect);
                     </div>
                 </div>
             </div>
-            <div class="mb-3">
-                <br>
-                <a type="button" class="btn btn-secondary" href="<?php echo $role_name;?>.php">Thoát</a>
-            </div>
         </div>
     </div>
-    <?php include("../footer.php"); ?>
+    <?php include("footer.php"); ?>
 </body>
 
 </html>

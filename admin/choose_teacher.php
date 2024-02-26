@@ -112,7 +112,7 @@ mysqli_close($dbconnect);
       </div>
     </form>
   </div>
-  <?php include("../footer.php"); ?>
+  <?php include("footer.php"); ?>
 </body>
 
 </html>

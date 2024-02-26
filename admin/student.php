@@ -130,7 +130,7 @@ mysqli_close($dbconnect);
             });
         });
     </script>
-        <?php include("../footer.php"); ?>
+        <?php include("footer.php"); ?>
 </body>
 
 </html>

@@ -104,7 +104,7 @@ if (session_status() == PHP_SESSION_NONE) {
             additionalTimesContainer.removeChild(rowToRemove);
         }
     </script>
-        <?php include("../footer.php"); ?>
+        <?php include("footer.php"); ?>
 </body>
 
 </html>

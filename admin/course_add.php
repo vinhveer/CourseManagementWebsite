@@ -116,7 +116,7 @@ mysqli_close($dbconnect);
             }, false);
         })();
     </script>
-        <?php include("../footer.php"); ?>
+        <?php include("footer.php"); ?>
 </body>
 
 </html>
