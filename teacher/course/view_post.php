@@ -36,7 +36,7 @@ if (isset($_GET['post_id'])) {
     ?>
     <div class="container mt-4">
         <p>
-            <b>Tạo bởi: </b> <img src="<?php echo "../" . $image ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+            <b>Tạo bởi: </b> <img src="<?php echo "../../assets/images/" . $image ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
             <span><?php echo $full_name; ?></span>
             <b> - Ngày tạo: </b><?php echo $row_view['created_at']; ?>
         </p>
@@ -44,6 +44,7 @@ if (isset($_GET['post_id'])) {
     <div class="container mt-4">
         <?php echo $row_view['content']?>
     </div>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

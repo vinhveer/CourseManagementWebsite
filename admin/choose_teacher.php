@@ -4,7 +4,9 @@ include_once "../config/connect.php";
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
-
+if (isset($_GET['role'])) {
+  $role = $_GET['role'];
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
   $tukhoa = $_POST['tukhoa'];
   $keyword = strtolower(trim($tukhoa));
@@ -38,14 +40,14 @@ mysqli_close($dbconnect);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <title>Các khóa học khác</title>
   <style>
     .custom-card {
       width: 100%;
       height: 0;
       padding-top: 50%;
-      /* 4:5 aspect ratio (5/4 * 100) */
       position: relative;
     }
 
@@ -56,15 +58,13 @@ mysqli_close($dbconnect);
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Đảm bảo ảnh không bị biến dạng */
     }
   </style>
 </head>
 
 <body>
-
-
   <header class="container mt-4">
+    <h3><a href="<?php echo ($role == 'add') ? "course_add" : "course_edit" ?>.php"><i class="bi bi-arrow-left-circle"></i></a></h3>
     <div class="row">
       <div class="col-md-6">
         <h2>Danh sách giáo viên</h2>
@@ -112,6 +112,7 @@ mysqli_close($dbconnect);
       </div>
     </form>
   </div>
+  <?php include("../footer.php"); ?>
 </body>
 
 </html>

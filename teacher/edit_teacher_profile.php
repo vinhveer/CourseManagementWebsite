@@ -84,14 +84,14 @@ $row_update = mysqli_fetch_assoc($query_update);
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="portrait" class="form-label">Ảnh chân dung</label>
-                    <span style="padding-left: 10px;"><img src="<?php echo $row_update['image']; ?>" width="60px"></span> <br><br>
+                    <span style="padding-left: 10px;"><img src="../assets/images/<?php echo $row_update['image']; ?>" width="60px"></span> <br><br>
                     <input type="file" class="form-control" id="portrait" name="image">
                 </div>
             </div>
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary" name="edit_teacher">Lưu</button>
-                <a type="button" class="btn btn-secondary" href="<?php echo $role_name; ?>.php">Thoát</a>
+                <a type="button" class="btn btn-secondary" href="my.php">Thoát</a>
             </div>
         </form>
     </div>
@@ -113,6 +113,7 @@ $row_update = mysqli_fetch_assoc($query_update);
             }, false);
         })();
     </script>
+    <?php include("../footer.php"); ?>
 </body>
 
 </html>

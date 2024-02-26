@@ -41,7 +41,7 @@ mysqli_close($dbconnect);
         </div>
 
         <!-- Body - Registration Form -->
-        <form action="pross/add.php?id=<?php echo $role_id; ?>" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate id="accountForm">
+        <form action="process.php?id=<?php echo $role_id; ?>" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate id="accountForm">
         <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="fullName" class="form-label">Họ và tên</label>
@@ -100,7 +100,7 @@ mysqli_close($dbconnect);
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary" name="sbm">Tạo Tài Khoản</button>
+                <button type="submit" class="btn btn-primary" name="sbm_add">Tạo Tài Khoản</button>
                 <a type="button" class="btn btn-secondary" href="<?php echo $role_name;?>.php">Thoát</a>
             </div>
         </form>
@@ -123,7 +123,7 @@ mysqli_close($dbconnect);
             }, false);
         })();
     </script>
-
+        <?php include("../footer.php"); ?>
 </body>
 
 </html>

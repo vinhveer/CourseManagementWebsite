@@ -216,7 +216,7 @@ if (isset($_SESSION['course_id'])) {
             $('#deleteGradeColumnModal').modal('show');
         }
     </script>
-
+    <?php include("../../../footer.php"); ?>
 </body>
 
 </html>

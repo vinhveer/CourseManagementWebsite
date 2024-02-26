@@ -110,10 +110,11 @@ if (isset($_POST['edit_teacher'])) {
     if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
         // Xử lý tải lên ảnh mới
         $target_dir = "../assets/images/";
+        $image_name = $_FILES["image"]["name"];
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
         // Cập nhật thông tin người dùng trong cơ sở dữ liệu
-        $update_user_query = "UPDATE user SET 
+        $update_user_query = "UPDATE user SET
         full_name = '$full_name',
         citizen_id = '$citizen_id',
         date_of_birth = '$date_of_birth',
@@ -121,11 +122,11 @@ if (isset($_POST['edit_teacher'])) {
         phone = '$phone',
         email = '$email',
         address = '$address',
-        image = '$target_file'
+        image = '$image_name'
         WHERE user_id = $teacher_id";
         mysqli_query($dbconnect, $update_user_query);
     } else {
-        $update_user_query = "UPDATE user SET 
+        $update_user_query = "UPDATE user SET
         full_name = '$full_name',
         citizen_id = '$citizen_id',
         date_of_birth = '$date_of_birth',

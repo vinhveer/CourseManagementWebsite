@@ -75,6 +75,7 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
             </div>
         </div>
     </div>
+    <?php include("../footer.php"); ?>
 </body>
 
 </html>

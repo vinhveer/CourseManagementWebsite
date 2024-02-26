@@ -86,7 +86,7 @@ mysqli_close($dbconnect);
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="custom-card">
-                            <img src="../assets/images/course1.jpg" class="card-img-top" alt="Course 1 Image">
+                            <img src="../assets/file/course_background/<?php echo $row_course_n['course_background'] ?>" class="card-img-top" alt="Course 1 Image">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><?php echo $row_course_n['course_name'] ?></h5>
@@ -94,8 +94,8 @@ mysqli_close($dbconnect);
                                 Mã khóa học: <?php echo $row_course_n['course_code']; ?> <br>
                                 Trạng thái: <?php echo ($row_course_n['status'] == "A") ? "Đã duyệt" : "Đang chờ duyệt"; ?>
                             </p>
-                            <a class="btn btn-info btn-sm" onclick="return Apo('<?php echo $row_course_n['course_name']; ?>')" href="pross/c_approve.php?id=<?php echo $row_course_n['course_id']; ?>">Duyệt</a>
-                            <a class="btn btn-danger btn-sm" onclick="return Del('<?php echo $row_course_n['course_name']; ?>')" href="pross/c_not_approve.php?id=<?php echo $row_course_n['course_id']; ?>">Không duyệt</a>
+                            <button type="button" class="btn btn-info btn-sm" data-postid="<?php echo $row_course_n['course_id']; ?>" data-bs-toggle="modal" data-bs-target="#approveCourseModal">Duyệt</button>
+                            <button type="button" class="btn btn-danger btn-sm" data-postid="<?php echo $row_course_n['course_id']; ?>" data-bs-toggle="modal" data-bs-target="#deleteCourseModal">Không duyệt</button>
                             <a class="btn btn-info btn-sm" href="course_show.php?id=<?php echo $row_course_n['course_id']; ?>&teacher_id=<?php echo $row_course_n['teacher_id']; ?>">Chi tiết</a>
                         </div>
                     </div>
@@ -105,16 +105,65 @@ mysqli_close($dbconnect);
             ?>
         </div>
     </div>
+    <div class="modal fade" id="approveCourseModal" tabindex="-1" aria-labelledby="approveCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approveCourseModalLabel">Xác nhận duyệt khóa học</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn duyệt khóa học này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form id="approvePostForm" action="" method="post">
+                        <button type="submit" class="btn btn-danger" name="approve_course">Xác nhận</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa khóa học này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form id="deletePostForm" action="" method="post">
+                        <button type="submit" class="btn btn-danger" name="delete_course">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        function Del(name) {
-            return confirm("Bạn có chắc chắn muốn từ bỏ khóa học: " + name + " ?");
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const approveButtons = document.querySelectorAll('.btn.btn-info.btn-sm');
+            approveButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const courseId = this.getAttribute('data-postid');
+                    const form = document.querySelector('#approvePostForm');
+                    form.action = `process.php?course_id=${courseId}&action=approve`;
+                });
+            });
+            const deleteButtons = document.querySelectorAll('.btn.btn-danger.btn-sm');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const courseId = this.getAttribute('data-postid');
+                    const form = document.querySelector('#deletePostForm');
+                    form.action = `process.php?course_id=${courseId}&action=delete`;
+                });
+            });
+        });
     </script>
-    <script>
-        function Apo(name) {
-            return confirm("Bạn có chắc chắn muốn duyệt khóa học: " + name + " ?");
-        }
-    </script>
+        <?php include("../footer.php"); ?>
 </body>
 
 </html>

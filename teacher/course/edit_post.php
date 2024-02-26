@@ -41,7 +41,7 @@ if (isset($_GET['post_id'])) {
         <div class="container mt-3">
             <div class="form-group">
                 <label for="postTitle">Tiêu đề bài đăng</label>
-                <input type="text" class="form-control" id="postTitle" name="postTitle" required value="<?php echo $row_edit['title'];?>" placeholder="Tiêu đề">
+                <input type="text" class="form-control" id="postTitle" name="postTitle" required value="<?php echo $row_edit['title']; ?>" placeholder="Tiêu đề">
             </div>
             <div class="form-group">
                 <label for="postContent">Nội dung bài đăng</label>
@@ -61,23 +61,51 @@ if (isset($_GET['post_id'])) {
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{'header': [1, 2, false]}],
+                    [{
+                        'header': [1, 2, false]
+                    }],
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
-                    [{'script': 'sub'}, {'script': 'super'}],
-                    [{'indent': '-1'}, {'indent': '+1'}],
-                    [{'direction': 'rtl'}],
-                    [{'size': ['small', false, 'large', 'huge']}],
-                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                    [{'color': []}, {'background': []}],
-                    [{'font': []}],
-                    [{'align': []}],
+                    [{
+                        'list': 'ordered'
+                    }, {
+                        'list': 'bullet'
+                    }],
+                    [{
+                        'script': 'sub'
+                    }, {
+                        'script': 'super'
+                    }],
+                    [{
+                        'indent': '-1'
+                    }, {
+                        'indent': '+1'
+                    }],
+                    [{
+                        'direction': 'rtl'
+                    }],
+                    [{
+                        'size': ['small', false, 'large', 'huge']
+                    }],
+                    [{
+                        'header': [1, 2, 3, 4, 5, 6, false]
+                    }],
+                    [{
+                        'color': []
+                    }, {
+                        'background': []
+                    }],
+                    [{
+                        'font': []
+                    }],
+                    [{
+                        'align': []
+                    }],
                     ['clean']
                 ],
             },
         });
-        <?php if(isset($row_edit['content'])): ?>
+        <?php if (isset($row_edit['content'])) : ?>
             quill.root.innerHTML = '<?php echo addslashes($row_edit['content']); ?>';
         <?php endif; ?>
         quill.on('text-change', function() {
@@ -85,6 +113,7 @@ if (isset($_GET['post_id'])) {
             document.getElementById('postContent').value = content;
         });
     </script>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

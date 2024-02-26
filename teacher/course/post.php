@@ -52,10 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
       </div>
       <div class="col-md-2">
         <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
-      </div>
-      <div class="col-md-2">
-        <a class="btn btn-primary float-end" href="create_post.php">+ Tạo bài đăng mới</a>
-      </div>
+        </div>
     </div>
   </header>
   <div class="container mt-4">
@@ -80,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
             <td><?php echo $row_post['title']; ?></td>
             <td>
               <span><?php echo $full_name; ?></span>
-              <img src="<?php echo "../" . $image ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+              <img src="<?php echo "../../assets/images/".$image ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
             </td>
             <td><?php echo $row_post['created_at']; ?></td>
             <td>
@@ -97,11 +94,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+          <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa nội dung</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Bạn có chắc chắn muốn xóa bình luận này này?</p>
+          <p>Bạn có chắc chắn muốn xóa bài đăng này?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Hủy</button>
@@ -124,5 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['timkiem'])) {
     });
   });
 </script>
+<?php include("../../footer.php"); ?>
 </body>
 </html>

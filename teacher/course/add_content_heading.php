@@ -19,23 +19,24 @@ include("layout.php");
         <header class="container mt-4">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Tạo chủ đề mới</h3>
+                    <h3><a href="content.php"><i class="bi bi-arrow-left-circle"></i></a>
+                    Tạo bài đăng mới</h3>
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary float-end" name="create_post">Lưu nội dung</button>
+                    <button type="submit" class="btn btn-primary float-end" name="create_topic">Đăng bài</button>
                 </div>
             </div>
             </div>
         </header>
         <div class="container mt-3">
             <div class="form-group">
-                <label for="postTitle">Tên chủ đề</label>
-                <input type="text" class="form-control" id="postTitle" name="postTitle" required>
+                <label for="postTitle">Tiêu đề bài đăng</label>
+                <input type="text" class="form-control" id="postTitle" name="topicTitle" required>
             </div>
             <div class="form-group">
-                <label for="postContent">Mô tả chủ đề</label>
+                <label for="postContent">Nội dung bài đăng</label>
                 <div id="editor-container"></div>
-                <textarea class="form-control" id="postContent" name="postContent" style="display: none;" rows="8" required></textarea>
+                <textarea class="form-control" id="postContent" name="topicdescription" style="display: none;" rows="8" required></textarea>
             </div>
         </div>
     </form>
@@ -101,6 +102,7 @@ include("layout.php");
             document.getElementById('postContent').value = content;
         });
     </script>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

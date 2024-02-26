@@ -17,6 +17,9 @@ if ($result_user) {
 $sql_count_member = "SELECT COUNT(*) AS member_count FROM course_member WHERE course_id = $course_id";
 $result_count_member = mysqli_query($dbconnect, $sql_count_member);
 $row_count_member = mysqli_fetch_assoc($result_count_member);
+
+$sql_post = "SELECT * FROM post WHERE course_id = $course_id AND user_id = $teacher_id LIMIT 5";
+$result_post = mysqli_query($dbconnect, $sql_post);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,7 +130,7 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
                             ?>
 
                         </table>
-                        <a type="button" class="btn btn-primary" href="edit_schedule.php">Sửa thời khóa biểu</a>
+                        <a type="button" class="btn btn-primary" href="edit_schedule.php">Cập nhật thời khóa biểu</a>
                     </div>
                 </div>
             </div>
@@ -135,17 +138,32 @@ $row_count_member = mysqli_fetch_assoc($result_count_member);
             <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5>Thông báo</h5>
+                        <h5>Bài đăng mới</h5>
                         <hr class="info-divider">
-                        <h6>Thông báo mới</h6>
-                        <p>Không có thông báo!</p>
-                        <h6>Tin nhắn mới</h6>
-                        <p>Không có tin nhắn chưa đọc!</p>
+                        <table class="table">
+                            <?php
+                            if (mysqli_num_rows($result_post) == 0) {
+                                echo "Không có bài đăng";
+                            } else {
+                                while ($row_post = mysqli_fetch_array($result_post)) {
+                            ?>
+                                    <tr>
+                                        <td><?php echo $row_post['title']; ?></td>
+                                        <td>
+                                            <a style="text-decoration: none;" href="view_post.php?post_id=<?php echo $row_post['post_id'] ?>">Truy cập&nbsp;</a>
+                                        </td>
+                                    </tr>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <?php include("../../footer.php"); ?>
 </body>
 
 </html>

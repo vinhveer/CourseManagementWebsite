@@ -49,6 +49,7 @@ if (isset($_SESSION['course_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             padding-top: 70px;
@@ -63,7 +64,7 @@ if (isset($_SESSION['course_id'])) {
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="index.php">Trang chủ</a>
@@ -86,7 +87,7 @@ if (isset($_SESSION['course_id'])) {
                                 <span>
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="<?php echo "../" . $row_profile['image'] ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                <img src="<?php echo "../../assets/images/" . $row_profile['image'] ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                             </a>
                         <?php endif; ?>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -100,6 +101,7 @@ if (isset($_SESSION['course_id'])) {
             </div>
         </div>
     </nav>
+
 
     <!-- Bootstrap JavaScript dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

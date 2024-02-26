@@ -32,11 +32,14 @@ if ($result_layout) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Trang chủ khóa học</title>
 </head>
 
 <body>
     <div class="container mt-4">
+        <h3> <a href="courses.php"><i class="bi bi-arrow-left-circle"></i></a></h3>
         <div class="row">
             <div class="col-md-6 align-items-center">
                 <div>
@@ -45,8 +48,27 @@ if ($result_layout) {
                 </div>
             </div>
             <div class="col-md-6">
-                <a class="btn btn-danger float-end" onclick="return Del('<?php echo $row_layout['course_name']; ?>')" href="pross/c_not_approve.php?id=<?php echo $row_layout['course_id'];?>">Xóa khóa học này</a>
-                <a type="button" class="btn btn-primary float-end me-2" href="course_edit.php?id=<?php echo $course_id;?>">Thay đổi thuộc tính khóa học</a>
+                <button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#deleteCourseModal">Xóa khóa học này</button>
+                <a type="button" class="btn btn-primary float-end me-2" href="course_edit.php?id=<?php echo $course_id; ?>&teacher_id=<?php echo $teacher_id ?>">Thay đổi thuộc tính khóa học</a>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa khóa học này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form action="process.php?course_id=<?php echo $row_layout['course_id']; ?>" method="post">
+                        <button type="submit" class="btn btn-danger" name="delete_course">Xóa</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -86,9 +108,6 @@ if ($result_layout) {
                         </table>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <br><a type="button" class="btn btn-secondary" href="courses.php">Thoát</a>
-                </div>
             </div>
             <!-- Các khóa học đang tham gia -->
             <div class="col-md-6">
@@ -109,9 +128,11 @@ if ($result_layout) {
                             while ($row_schedule = mysqli_fetch_array($result_schedule)) {
                             ?>
                                 <tr>
-                                    <td><?php if($row_schedule['day_of_week'] == 'C'){
-                                        echo "Chủ Nhật";
-                                    } else{ echo "Thứ " . $row_schedule['day_of_week'];} ?></td>
+                                    <td><?php if ($row_schedule['day_of_week'] == 'C') {
+                                            echo "Chủ Nhật";
+                                        } else {
+                                            echo "Thứ " . $row_schedule['day_of_week'];
+                                        } ?></td>
                                     <td><?php echo $row_schedule['start_time'] . " - " . $row_schedule['end_time']; ?></td>
                                 </tr>
                             <?php
@@ -126,10 +147,11 @@ if ($result_layout) {
     </div>
     </div>
     <script>
-    function Del(name){
-        return confirm("Bạn có chắc chắn muốn từ bỏ khóa học: " + name +  " ?");
-    }
+        function Del(name) {
+            return confirm("Bạn có chắc chắn muốn từ bỏ khóa học: " + name + " ?");
+        }
     </script>
+        <?php include("../footer.php"); ?>
 </body>
 
 </html>
