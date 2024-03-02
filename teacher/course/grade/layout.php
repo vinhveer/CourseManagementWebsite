@@ -13,7 +13,9 @@ if (isset($_SESSION['user_id'])) {
 
 if (isset($_SESSION['course_id'])) {
     $course_id = $_SESSION['course_id'];
-    $sql_layout = "SELECT * FROM course WHERE course_id = $course_id";
+    $sql_layout = "SELECT * FROM course
+    INNER JOIN user ON course.teacher_id = user.user_id
+    WHERE course_id = $course_id";
     $result_layout = mysqli_query($dbconnect, $sql_layout);
 
     if ($result_layout) {
@@ -25,7 +27,9 @@ if (isset($_SESSION['course_id'])) {
 } else {
     $course_id = $_GET['id'];
     $_SESSION['course_id'] = $course_id;
-    $sql_layout = "SELECT * FROM course WHERE course_id = $course_id";
+    $sql_layout = "SELECT * FROM course
+    INNER JOIN user ON course.teacher_id = user.user_id
+    WHERE course_id = $course_id";
     $result_layout = mysqli_query($dbconnect, $sql_layout);
 
     if ($result_layout) {
@@ -72,7 +76,7 @@ if (isset($_SESSION['course_id'])) {
                                 <span>
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="../../../assets/images/course1.jpg" alt="Avatar" class="rounded-circle" width="30" height="30">
+                                <img src="../../../assets/images/<?php echo $row_layout['image']?>" alt="Avatar" class="rounded-circle" width="30" height="30">
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="../../my.php">Trang cá nhân</a>

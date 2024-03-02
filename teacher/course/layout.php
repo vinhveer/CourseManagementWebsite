@@ -87,7 +87,7 @@ if (isset($_SESSION['course_id'])) {
                                 <span>
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="<?php echo "../" . $row_profile['image'] ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                <img src="<?php echo "../../assets/images/" . $row_profile['image'] ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                             </a>
                         <?php endif; ?>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

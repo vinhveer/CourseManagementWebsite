@@ -92,7 +92,58 @@ CREATE TABLE post
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+CREATE TABLE topics (
+    topic_id INT AUTO_INCREMENT PRIMARY KEY,
+    title_topic VARCHAR(255) NOT NULL,
+    course_id INT,
+    description TEXT,
+    created_by INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
+CREATE TABLE course_contents (
+    contents_id INT AUTO_INCREMENT PRIMARY KEY,
+    topic_id INT NOT NULL,
+    title_content VARCHAR(255) NOT NULL,
+    content_type VARCHAR(100) NOT NULL,
+    description_content TEXT,
+    created_by INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (topic_id) REFERENCES topics(topic_id) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+CREATE TABLE video_contents (
+    video_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_content_id INT,
+    video_url VARCHAR(255) NOT NULL,
+    video_size DECIMAL,
+    FOREIGN KEY (course_content_id) REFERENCES course_contents(contents_id) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+CREATE TABLE embedded_contents (
+    embedded_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_content_id INT,
+    embed_code TEXT NOT NULL,
+    FOREIGN KEY (course_content_id) REFERENCES course_contents(contents_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE file_contents (
+    file_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_content_id INT,
+    file_name VARCHAR(255) NOT NULL,
+    file_size DECIMAL,
+    FOREIGN KEY (course_content_id) REFERENCES course_contents(contents_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE text_contents (
+    text_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_content_id INT,
+    text_content TEXT NOT NULL,
+    FOREIGN KEY (course_content_id) REFERENCES course_contents(contents_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 ALTER TABLE user_account
 ADD CONSTRAINT fk_user_account_user_id FOREIGN KEY (user_id) REFERENCES user(user_id)
 ON DELETE CASCADE ON UPDATE CASCADE;

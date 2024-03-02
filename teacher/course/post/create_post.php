@@ -101,7 +101,7 @@ include("../layout.php");
             document.getElementById('postContent').value = content;
         });
     </script>
-    <?php include("../../../footer.php"); ?>
+    <?php include("../../../footer.php"); ?> 
 </body>
 
 </html>

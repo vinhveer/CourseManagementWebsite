@@ -8,10 +8,8 @@ include("layout.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <title>Thêm thời khóa biểu</title>
 </head>
@@ -37,22 +35,33 @@ include("layout.php");
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-rqI2waM7CtpVHmUnY9NXfQTKc3N8RBLtbl6TbY3b3NC6HjbF2wF81v11z5KnMK17" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-rqI2waM7CtpVHmUnY9NXfQTKc3N8RBLtbl6TbY3b3NC6HjbF2wF81v11z5KnMK17" crossorigin="anonymous">
     </script>
     <script>
         // Enable Bootstrap form validation
-        (function () {
+        (function() {
             'use strict';
 
             var forms = document.querySelectorAll('.needs-validation');
 
             Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        // Kiểm tra form có hợp lệ không
                         if (!form.checkValidity()) {
                             event.preventDefault();
                             event.stopPropagation();
+                        } else {
+                            // Kiểm tra xem đã thêm ít nhất một thời gian chưa
+                            var additionalTimesContainer = document.getElementById('additionalTimes');
+                            var timeRows = additionalTimesContainer.querySelectorAll('.row');
+
+                            if (timeRows.length === 0) {
+                                // Nếu không có thời gian được thêm, ngăn chặn submit và hiển thị thông báo
+                                event.preventDefault();
+                                event.stopPropagation();
+                                alert("Vui lòng thêm ít nhất một thời gian.");
+                            }
                         }
 
                         form.classList.add('was-validated');
@@ -68,31 +77,31 @@ include("layout.php");
             newRow.className = 'mb-3 row';
 
             newRow.innerHTML = `
-                <label for="dayOfWeek" class="col-sm-2 col-form-label">Ngày trong tuần</label>
-                <div class="col-sm-2">
-                    <select class="form-select" name="dayOfWeek[]" required>
-                        <option value="" disabled selected>Chọn ngày</option>
-                        <option value="monday">Thứ hai</option>
-                        <option value="tuesday">Thứ ba</option>
-                        <option value="wednesday">Thứ tư</option>
-                        <option value="thursday">Thứ năm</option>
-                        <option value="friday">Thứ sáu</option>
-                        <option value="saturday">Thứ bảy</option>
-                        <option value="sunday">Chủ nhật</option>
-                    </select>
-                </div>
-                <label for="startTime" class="col-sm-1 col-form-label">Bắt đầu</label>
-                <div class="col-sm-2">
-                    <input type="time" class="form-control" name="startTime[]" required>
-                </div>
-                <label for="endTime" class="col-sm-1 col-form-label">Kết thúc</label>
-                <div class="col-sm-2">
-                    <input type="time" class="form-control" name="endTime[]" required>
-                </div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-danger" onclick="removeTimeRow(this)"> Xóa hàng </button>
-                </div>
-            `;
+            <label for="dayOfWeek" class="col-sm-2 col-form-label">Ngày trong tuần</label>
+            <div class="col-sm-2">
+                <select class="form-select" name="dayOfWeek[]" required>
+                    <option value="" disabled selected>Chọn ngày</option>
+                    <option value="monday">Thứ hai</option>
+                    <option value="tuesday">Thứ ba</option>
+                    <option value="wednesday">Thứ tư</option>
+                    <option value="thursday">Thứ năm</option>
+                    <option value="friday">Thứ sáu</option>
+                    <option value="saturday">Thứ bảy</option>
+                    <option value="sunday">Chủ nhật</option>
+                </select>
+            </div>
+            <label for="startTime" class="col-sm-1 col-form-label">Bắt đầu</label>
+            <div class="col-sm-2">
+                <input type="time" class="form-control" name="startTime[]" required>
+            </div>
+            <label for="endTime" class="col-sm-1 col-form-label">Kết thúc</label>
+            <div class="col-sm-2">
+                <input type="time" class="form-control" name="endTime[]" required>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-danger" onclick="removeTimeRow(this)"> Xóa hàng </button>
+            </div>
+        `;
 
             additionalTimesContainer.appendChild(newRow);
         }

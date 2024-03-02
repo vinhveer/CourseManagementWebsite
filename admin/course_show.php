@@ -151,7 +151,6 @@ if ($result_layout) {
             return confirm("Bạn có chắc chắn muốn từ bỏ khóa học: " + name + " ?");
         }
     </script>
-        <?php include("../footer.php"); ?>
 </body>
 
 </html>

@@ -21,6 +21,7 @@ if (isset($_POST['edit_student'])) {
     if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
         // Xử lý tải lên ảnh mới
         $target_dir = "../assets/images/";
+        $image_name=$_FILES["image"]["name"];
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
         // Cập nhật thông tin người dùng trong cơ sở dữ liệu
@@ -32,7 +33,7 @@ if (isset($_POST['edit_student'])) {
         phone = '$phone',
         email = '$email',
         address = '$address',
-        image = '$target_file'
+        image = '$image_name'
         WHERE user_id = $teacher_id";
         mysqli_query($dbconnect, $update_user_query);
     } else {

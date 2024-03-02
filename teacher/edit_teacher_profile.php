@@ -84,7 +84,7 @@ $row_update = mysqli_fetch_assoc($query_update);
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="portrait" class="form-label">Ảnh chân dung</label>
-                    <span style="padding-left: 10px;"><img src="<?php echo $row_update['image']; ?>" width="60px"></span> <br><br>
+                    <span style="padding-left: 10px;"><img src="../assets/images/<?php echo $row_update['image']; ?>" width="60px"></span> <br><br>
                     <input type="file" class="form-control" id="portrait" name="image">
                 </div>
             </div>

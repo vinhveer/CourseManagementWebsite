@@ -26,7 +26,6 @@ include("layout.php");
                 </div>
             </div>
         </header>
-
         <div class="container mt-4">
             <div class="mb-3">
                 <label for="title_practice" class="form-label">Tiêu đề bài tập</label>
@@ -48,7 +47,6 @@ include("layout.php");
                     </div>
                 </div>
             </div>
-
             <div class="mb-3">
                 <label for="content_practice" class="form-label">Nội dung bài tập</label>
                 <textarea class="form-control" id="content_practice" name="content_practice"></textarea>
