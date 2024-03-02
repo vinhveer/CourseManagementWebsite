@@ -90,9 +90,9 @@ mysqli_close($dbconnect);
                                 <td><?php echo $row_admin_account['username'] ?></td>
                                 <td><?php echo $row_admin_account['password'] ?></td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="account_edit.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3&role_name=admin">Sửa</a>
-                                    <a class="btn btn-danger btn-sm" onclick="return Del('<?php echo $row_admin_account['full_name']; ?>')" href="pross/delete.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3">Xóa</a>
-                                    <a class="btn btn-info btn-sm" href="account_view.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3&role_name=admin">Thông tin</a>
+                                    <button type="button" class="btn btn-danger float-end me-2" data-postid="<?php echo $row_admin_account['user_id']; ?>" data-bs-toggle="modal" data-bs-target="#deleteCourseModal">Xóa</button>
+                                    <a class="btn btn-info float-end me-2" href="account_edit.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3&role_name=admin">Sửa</a>
+                                    <a class="btn btn-info float-end me-2" href="account_view.php?user_id=<?php echo $row_admin_account['user_id']; ?>&role_id=3&role_name=admin">Thông tin</a>
                                 </td>
                             </tr>
                         <?php
@@ -103,11 +103,38 @@ mysqli_close($dbconnect);
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCourseModalLabel">Xác nhận xóa khóa học</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa khóa học này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <form id="deletePostForm" action="" method="post">
+                        <button type="submit" class="btn btn-danger" name="delete_admin">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        function Del(name) {
-            return confirm("Bạn có chắc chắn muốn xóa tài khoản: " + name + " ?");
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn.btn-danger.float-end.me-2');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.getAttribute('data-postid');
+                    const form = document.querySelector('#deletePostForm');
+                    form.action = `process.php?user_id=${userId}`;
+                });
+            });
+        });
     </script>
+        <?php include("../footer.php"); ?>
 </body>
 
 </html>

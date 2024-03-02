@@ -22,7 +22,7 @@ include_once('layout.php');
                 <hr>
                 <div class="row align-items-center">
                     <div class="col">
-                        <a href="index.php" type="button" class="btn btn-dark">Về trang chủ</a>
+                        <a href="courses.php" type="button" class="btn btn-dark">Về trang chủ</a>
                     </div>
                     <div class="col">
                         <a href="course_show.php?id=<?php echo $_GET['course_id'];?>&teacher_id=<?php echo $_GET['teacher_id'];?>" type="button" class="btn btn-dark">Xem nội dung khóa học</a>

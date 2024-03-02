@@ -1,6 +1,9 @@
 <?php
 include("layout.php");
 include_once("../config/connect.php");
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $course_id = isset($_GET['id']) ? $_GET['id'] : '';
 $sql_schedule = "SELECT * FROM course_schedule cs
 INNER JOIN course c ON cs.course_id = c.course_id
@@ -35,7 +38,7 @@ mysqli_close($dbconnect);
         <p>Cập nhật thông tin thời khóa biểu dưới đây</p>
     </header>
     <div class="container mt-5">
-        <form id="scheduleForm" action="pross/c_edit.php" method="post" class="needs-validation" novalidate>
+        <form id="scheduleForm" action="process.php" method="post" class="needs-validation" novalidate>
             <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
             <div id="additionalTimes" class="mb-3 row">
                 <?php foreach ($data as $row): ?>
@@ -128,6 +131,7 @@ mysqli_close($dbconnect);
             additionalTimesContainer.removeChild(rowToRemove);
         }
     </script>
+        <?php include("../footer.php"); ?>
 </body>
 
 </html>
