@@ -1,5 +1,13 @@
 <?php
-include("layout.php");
+include("../layout.php");
+include_once('../../../config/connect.php');
+
+if (isset($_GET['post_id'])) {
+    $post_id = $_GET['post_id'];
+    $sql_edit = "SELECT * FROM post WHERE post_id = $post_id";
+    $result_edit = mysqli_query($dbconnect, $sql_edit);
+    $row_edit = mysqli_fetch_assoc($result_edit);
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,14 +23,17 @@ include("layout.php");
 </head>
 
 <body>
-    <form action="process.php" method="post">
+    <div class="container mt-4">
+        <a href="post.php">&lt; Trở về trang bài đăng </a>
+    </div>
+    <form action="process.php?post_id=<?php echo $row_edit['post_id'] ?>" method="post">
         <header class="container mt-4">
             <div class="row">
                 <div class="col-md-6">
-                    <h3>Tạo bài đăng mới</h3>
+                    <h3>Sửa thông tin</h3>
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary float-end" name="create_post">Đăng bài</button>
+                    <button type="submit" class="btn btn-primary float-end" name="edit_post">Đăng bài</button>
                 </div>
             </div>
             </div>
@@ -30,7 +41,7 @@ include("layout.php");
         <div class="container mt-3">
             <div class="form-group">
                 <label for="postTitle">Tiêu đề bài đăng</label>
-                <input type="text" class="form-control" id="postTitle" name="postTitle" required>
+                <input type="text" class="form-control" id="postTitle" name="postTitle" required value="<?php echo $row_edit['title'];?>" placeholder="Tiêu đề">
             </div>
             <div class="form-group">
                 <label for="postContent">Nội dung bài đăng</label>
@@ -50,58 +61,31 @@ include("layout.php");
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{
-                        'header': [1, 2, false]
-                    }],
-                    ['bold', 'italic', 'underline', 'strike'], // in đậm, in nghiêng, gạch ngang, gạch chân
+                    [{'header': [1, 2, false]}],
+                    ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
-                    [{
-                        'list': 'ordered'
-                    }, {
-                        'list': 'bullet'
-                    }],
-                    [{
-                        'script': 'sub'
-                    }, {
-                        'script': 'super'
-                    }], // chú thích dưới, chú thích trên
-                    [{
-                        'indent': '-1'
-                    }, {
-                        'indent': '+1'
-                    }], // thu nhỏ đoạn, mở rộng đoạn
-                    [{
-                        'direction': 'rtl'
-                    }], // chuyển hướng viết từ phải sang trái
-                    [{
-                        'size': ['small', false, 'large', 'huge']
-                    }], // kích thước chữ
-                    [{
-                        'header': [1, 2, 3, 4, 5, 6, false]
-                    }],
-                    [{
-                        'color': []
-                    }, {
-                        'background': []
-                    }], // chọn màu chữ, chọn màu nền
-                    [{
-                        'font': []
-                    }],
-                    [{
-                        'align': []
-                    }],
-                    ['clean'] // xóa định dạng
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{'script': 'sub'}, {'script': 'super'}],
+                    [{'indent': '-1'}, {'indent': '+1'}],
+                    [{'direction': 'rtl'}],
+                    [{'size': ['small', false, 'large', 'huge']}],
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                    [{'color': []}, {'background': []}],
+                    [{'font': []}],
+                    [{'align': []}],
+                    ['clean']
                 ],
             },
         });
-
-        // Update hidden textarea on editor change
+        <?php if(isset($row_edit['content'])): ?>
+            quill.root.innerHTML = '<?php echo addslashes($row_edit['content']); ?>';
+        <?php endif; ?>
         quill.on('text-change', function() {
             const content = quill.root.innerHTML;
             document.getElementById('postContent').value = content;
         });
     </script>
-    <?php include("../../footer.php"); ?>
+    <?php include("../../../footer.php"); ?>
 </body>
 
 </html>

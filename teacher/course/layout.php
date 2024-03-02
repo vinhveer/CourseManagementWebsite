@@ -58,7 +58,7 @@ if (isset($_SESSION['course_id'])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><?php echo $row_layout['course_code'] . " - " . $row_layout['course_name'] ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@ if (isset($_SESSION['course_id'])) {
                         <a class="nav-link" href="index.php">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="post.php">Bài đăng</a>
+                        <a class="nav-link" href="post/post.php">Bài đăng</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="content.php">Nội dung</a>

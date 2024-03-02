@@ -66,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="" disabled selected>Chọn giới tính</option>
                         <option value="M">Nam</option>
                         <option value="F">Nữ</option>
+                        <option value="O">Khác</option>
                     </select>
                 </div>
                 <div class="col-md-4">

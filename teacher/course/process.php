@@ -240,3 +240,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["create_practice"])) {
         echo "Error: " . $sql . "<br>" . $dbconnect->error;
     }
 }
+
+if (isset($_POST['create_practice']))
+{
+    $title_practice = $_POST['title_practice'];
+    $open_date = $_POST['open_date'];
+    $close_date = $_POST['close_date'];
+    $content_practice = $_POST['content_practice'];
+    $type_submit = $_POST['type_submit'];  
+}
+
+?>
