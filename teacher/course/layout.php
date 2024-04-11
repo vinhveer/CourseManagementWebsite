@@ -52,7 +52,10 @@ if (isset($_SESSION['course_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
-            padding-top: 70px;
+            padding-top: 60px;
+        }
+        .navbar {
+            padding: 5px;
         }
     </style>
 </head>
@@ -65,9 +68,9 @@ if (isset($_SESSION['course_id'])) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Trang chủ</a>
+                        <a class="nav-link active" href="index.php">Trang chủ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="post/post.php">Bài đăng</a>
@@ -81,13 +84,15 @@ if (isset($_SESSION['course_id'])) {
                     <li class="nav-item">
                         <a class="nav-link" href="./grade/grade_column.php">Điểm số</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <?php if (isset($username_now)) : ?>
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span>
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="<?php echo "../../assets/images/" . $row_profile['image'] ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                <img src="<?php echo "../../" . $row_profile['image'] ?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                             </a>
                         <?php endif; ?>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

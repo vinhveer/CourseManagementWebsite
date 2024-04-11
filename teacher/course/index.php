@@ -150,7 +150,7 @@ $result_post = mysqli_query($dbconnect, $sql_post);
                                     <tr>
                                         <td><?php echo $row_post['title']; ?></td>
                                         <td>
-                                            <a style="text-decoration: none;" href="view_post.php?post_id=<?php echo $row_post['post_id'] ?>">Truy cập&nbsp;</a>
+                                            <a style="text-decoration: none;" href="post/view_post.php?post_id=<?php echo $row_post['post_id'] ?>">Truy cập&nbsp;</a>
                                         </td>
                                     </tr>
                             <?php

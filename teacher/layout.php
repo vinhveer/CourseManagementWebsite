@@ -61,7 +61,7 @@ $row_profile = mysqli_fetch_assoc($result_profile);
                                 <span class="text-white">
                                     <?php echo $username_now; ?>
                                 </span>
-                                <img src="<?php echo "../assets/images/" . $row_profile['image']?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
+                                <img src="<?php echo "../" . $row_profile['image']?>" alt="Avatar" class="img-fluid rounded-circle" style="width: 30px; height: 30px; object-fit: cover;">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="my.php">Trang cá nhân</a>

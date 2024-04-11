@@ -52,7 +52,10 @@ if (isset($_SESSION['course_id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
-            padding-top: 70px;
+            padding-top: 60px;
+        }
+        .navbar {
+            padding: 3px;
         }
     </style>
 </head>
@@ -65,22 +68,24 @@ if (isset($_SESSION['course_id'])) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.php">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="post/post.php">Bài đăng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../content.php">Nội dung</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../exam.php">Bài tập và kiểm tra</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../../grade/grade_column.php">Điểm số</a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="post/post.php">Bài đăng</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="content.php">Nội dung</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="exam.php">Bài tập và kiểm tra</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./grade/grade_column.php">Điểm số</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <?php if (isset($username_now)) : ?>
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,10 +96,10 @@ if (isset($_SESSION['course_id'])) {
                             </a>
                         <?php endif; ?>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="../../my.php">Trang cá nhân</a>
-                            <a class="dropdown-item" href="../../index.php">Trang chủ</a>
+                            <a class="dropdown-item" href="../my.php">Trang cá nhân</a>
+                            <a class="dropdown-item" href="../index.php">Trang chủ</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="../../../logout.php">Đăng xuất</a>
+                            <a class="dropdown-item" href="../../logout.php">Đăng xuất</a>
                         </div>
                     </li>
                 </ul>
